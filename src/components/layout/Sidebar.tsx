@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 interface DropdownItem {
   title: string;
@@ -21,6 +21,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ open }) => {
   const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({});
+  const location = useLocation();
 
   const toggleDropdown = (title: string) => {
     setExpandedItems(prev => ({
@@ -60,7 +61,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'ค้นหาข้อมูลบำรุงรักษาหม้อแปลง', link: '#' },
         { title: 'Visual Inspection', link: '#' },
         { title: 'ผลทดสอบน้ำมัน', link: '#' },
-        { title: 'ผลทดสอบทางไฟฟ้า', link: '#' },
+        { title: 'ผลทดสอบทางไฟฟ้า', link: '/electrical-test-results' },
+        { title: 'Core Insulation Resistance', link: '/core-insulation-resistance' },
         { title: 'บำรุงรักษา OLTC', link: '#' },
         { title: 'ดูข้อมูลผลการทดสอบทั้งหมด', link: '#' },
         { title: 'ตรวจสอบสภาพหม้อแปลงไฟฟ้า', link: '#' }
@@ -153,6 +155,14 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
     }
   ];
 
+  const isActiveLink = (link: string) => {
+    return location.pathname === link;
+  };
+
+  const isActiveDropdown = (items: DropdownItem[]) => {
+    return items.some(item => isActiveLink(item.link));
+  };
+
   return (
     <aside 
       className={`bg-sidebar h-screen overflow-y-auto transition-all duration-300 ${
@@ -177,7 +187,9 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
               {item.dropdown ? (
                 <div>
                   <div 
-                    className="sidebar-nav-item"
+                    className={`sidebar-nav-item ${
+                      isActiveDropdown(item.dropdown) ? 'bg-white/10' : ''
+                    }`}
                     onClick={() => toggleDropdown(item.title)}
                   >
                     {item.icon}
@@ -195,21 +207,28 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
                   {open && expandedItems[item.title] && (
                     <div className="sidebar-nav-dropdown">
                       {item.dropdown.map((dropdownItem, dropdownIndex) => (
-                        <Link to={dropdownItem.link} key={dropdownIndex}>
-                          <div className="dropdown-item">
-                            {dropdownItem.title}
-                          </div>
+                        <Link 
+                          to={dropdownItem.link} 
+                          key={dropdownIndex}
+                          className={`dropdown-item ${
+                            isActiveLink(dropdownItem.link) ? 'bg-white/10 text-white' : ''
+                          }`}
+                        >
+                          {dropdownItem.title}
                         </Link>
                       ))}
                     </div>
                   )}
                 </div>
               ) : (
-                <Link to={item.link || '#'}>
-                  <div className="sidebar-nav-item">
-                    {item.icon}
-                    {open && <span>{item.title}</span>}
-                  </div>
+                <Link 
+                  to={item.link || '#'} 
+                  className={`sidebar-nav-item ${
+                    isActiveLink(item.link || '') ? 'bg-white/10' : ''
+                  }`}
+                >
+                  {item.icon}
+                  {open && <span>{item.title}</span>}
                 </Link>
               )}
             </div>
@@ -220,11 +239,15 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       <div className="mt-auto py-2 border-t border-sidebar-border/30">
         <div className="space-y-1 px-3">
           {bottomNavItems.map((item, index) => (
-            <Link to={item.link || '#'} key={index}>
-              <div className="sidebar-nav-item">
-                {item.icon}
-                {open && <span>{item.title}</span>}
-              </div>
+            <Link 
+              to={item.link || '#'} 
+              key={index}
+              className={`sidebar-nav-item ${
+                isActiveLink(item.link || '') ? 'bg-white/10' : ''
+              }`}
+            >
+              {item.icon}
+              {open && <span>{item.title}</span>}
             </Link>
           ))}
         </div>
