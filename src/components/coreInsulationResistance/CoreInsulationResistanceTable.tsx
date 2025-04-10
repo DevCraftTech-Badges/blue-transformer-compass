@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Plus, Search, Eye, Edit, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +11,14 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import CoreInsulationResistanceForm from './CoreInsulationResistanceForm';
 
 // Sample data
@@ -68,12 +75,15 @@ const mockData = [
   },
 ];
 
+const ITEMS_PER_PAGE = 5;
+
 const CoreInsulationResistanceTable: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [editRecord, setEditRecord] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [records, setRecords] = useState(mockData);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredRecords = records.filter((record) => 
     record.transformer.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -83,14 +93,53 @@ const CoreInsulationResistanceTable: React.FC = () => {
     record.work_order.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const totalPages = Math.ceil(filteredRecords.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedRecords = filteredRecords.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 3;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= maxVisiblePages - 1) {
+        for (let i = 1; i <= maxVisiblePages; i++) {
+          pages.push(i);
+        }
+        if (totalPages > maxVisiblePages) {
+          pages.push(null);
+          pages.push(totalPages);
+        }
+      } else if (currentPage >= totalPages - (maxVisiblePages - 2)) {
+        pages.push(1);
+        pages.push(null);
+        for (let i = totalPages - (maxVisiblePages - 1); i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push(null);
+        pages.push(currentPage - 1);
+        pages.push(currentPage);
+        pages.push(currentPage + 1);
+        pages.push(null);
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
+  };
+
   const handleCreateOrUpdate = (formData: any) => {
     if (editRecord) {
-      // Update existing record
       setRecords(records.map(record => 
         record.id === editRecord.id ? { ...record, ...formData } : record
       ));
     } else {
-      // Create new record
       const newRecord = {
         id: records.length + 1,
         ...formData
@@ -112,9 +161,12 @@ const CoreInsulationResistanceTable: React.FC = () => {
   };
 
   const handleView = (record: any) => {
-    // View only mode
     setEditRecord({ ...record, viewOnly: true });
     setOpenModal(true);
+  };
+
+  const handleChangePage = (page: number) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -158,16 +210,16 @@ const CoreInsulationResistanceTable: React.FC = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredRecords.length === 0 ? (
+              {paginatedRecords.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={8} className="h-24 text-center">
                     ไม่พบข้อมูล
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredRecords.map((record, index) => (
+                paginatedRecords.map((record, index) => (
                   <TableRow key={record.id} className="hover:bg-muted/50">
-                    <TableCell className="text-center font-medium">{index + 1}</TableCell>
+                    <TableCell className="text-center font-medium">{startIndex + index + 1}</TableCell>
                     <TableCell>{record.transformer}</TableCell>
                     <TableCell>{record.egat_sn}</TableCell>
                     <TableCell>{record.test_type}</TableCell>
@@ -195,7 +247,55 @@ const CoreInsulationResistanceTable: React.FC = () => {
         </div>
       </div>
 
-      {/* Create/Edit Modal */}
+      {filteredRecords.length > 0 && (
+        <Pagination className="mt-4">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage > 1) handleChangePage(currentPage - 1);
+                }}
+                className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+              />
+            </PaginationItem>
+            
+            {getPageNumbers().map((page, index) => (
+              page === null ? (
+                <PaginationItem key={`ellipsis-${index}`}>
+                  <span className="flex h-9 w-9 items-center justify-center">...</span>
+                </PaginationItem>
+              ) : (
+                <PaginationItem key={`page-${page}`}>
+                  <PaginationLink 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleChangePage(page as number);
+                    }}
+                    isActive={currentPage === page}
+                  >
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              )
+            ))}
+            
+            <PaginationItem>
+              <PaginationNext 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage < totalPages) handleChangePage(currentPage + 1);
+                }}
+                className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
+
       <Dialog open={openModal} onOpenChange={setOpenModal}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
@@ -221,7 +321,6 @@ const CoreInsulationResistanceTable: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Modal */}
       <Dialog open={confirmDelete !== null} onOpenChange={() => setConfirmDelete(null)}>
         <DialogContent className="max-w-md">
           <DialogHeader>
