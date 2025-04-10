@@ -1,11 +1,22 @@
 
 import React from 'react';
-import { Activity, Transformer, AlertCircle, Zap, Wrench, BarChart2 } from 'lucide-react';
+import { Activity, AlertCircle, Zap, Wrench, BarChart2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 // Custom Transformer icon since it doesn't exist in lucide
-const Transformer = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+const TransformerIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width="24" 
+    height="24" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+    {...props}
+  >
     <rect x="6" y="4" width="12" height="16" rx="2" />
     <line x1="12" y1="4" x2="12" y2="20" />
     <line x1="6" y1="12" x2="4" y2="12" />
@@ -29,7 +40,7 @@ const HomePage: React.FC = () => {
         <Card className="border-l-4 border-l-transformer-primary shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg flex items-center">
-              <Transformer className="mr-2 text-transformer-primary" />
+              <TransformerIcon className="mr-2 text-transformer-primary" />
               หม้อแปลงทั้งหมด
             </CardTitle>
           </CardHeader>
