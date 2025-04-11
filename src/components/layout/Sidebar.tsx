@@ -72,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       title: 'ค่าประเมินอายุ',
       icon: <Timer size={20} />,
       dropdown: [
-        { title: 'DP-Limit', link: '#' }
+        { title: 'DP-Limit', link: '/dp-limit' }
       ]
     },
     {
