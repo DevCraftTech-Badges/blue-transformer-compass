@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -121,7 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       title: 'การจัดการ',
       icon: <Settings size={20} />,
       dropdown: [
-        { title: 'เปลี่ยนรหัสผ่าน', link: '#' },
+        { title: 'เปลี่ยนรหัสผ่าน', link: '/change-password' },
         { title: 'การจัดการผู้ใช้งาน', link: '#' },
         { title: 'กำหนดข้อมูลพื้นฐานหม้อแปลง', link: '#' },
         { title: 'กำหนดข้อมูลความสำคัญหม้อแปลง', link: '#' },

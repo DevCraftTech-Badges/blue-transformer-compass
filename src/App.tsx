@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import CoreInsulationResistancePage from "./pages/CoreInsulationResistance";
 import ElectricalTestResultsPage from "./pages/ElectricalTestResults";
 import DPLimitPage from "./pages/DPLimit";
+import ChangePasswordPage from "./pages/ChangePassword";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/electrical-test-results" element={<ElectricalTestResultsPage />} />
           <Route path="/core-insulation-resistance" element={<CoreInsulationResistancePage />} />
           <Route path="/dp-limit" element={<DPLimitPage />} />
+          <Route path="/change-password" element={<ChangePasswordPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
