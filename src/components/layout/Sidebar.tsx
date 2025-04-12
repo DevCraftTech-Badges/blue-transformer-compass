@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -41,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <BarChart size={20} />,
       dropdown: [
         { title: 'รายงานมาตรฐาน', link: '/standard-reports' },
-        { title: 'รายงานข้อมูลหม้อแปลงไฟฟ้า', link: '#' },
+        { title: 'รายงานข้อมูลหม้อแปลงไฟฟ้า', link: '/transformer-reports' },
         { title: 'รายงานข้อมูลความเสียหาย', link: '#' }
       ]
     },
