@@ -1,24 +1,63 @@
 
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Form, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { BarChart, PieChart, Pie, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, ResponsiveContainer } from 'recharts';
+import { Info } from 'lucide-react';
 
 const TransformerReportsPage = () => {
-  const [selectedArea, setSelectedArea] = useState<string>('');
-  const [selectedStation, setSelectedStation] = useState<string>('');
-  const [selectedManufacturer, setSelectedManufacturer] = useState<string>('');
-  const [selectedTransformer, setSelectedTransformer] = useState<string>('');
+  // States for filter options
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [ageStart, setAgeStart] = useState<string>('');
+  const [ageEnd, setAgeEnd] = useState<string>('');
+  const [selectedDropdownValue, setSelectedDropdownValue] = useState<string>('');
   const [groupBy, setGroupBy] = useState<string>('area');
   const [showChart, setShowChart] = useState(false);
   
-  // Dummy data for selects
-  const areas = ['เขต 1', 'เขต 2', 'เขต 3', 'เขต 4'];
-  const stations = ['สถานี A', 'สถานี B', 'สถานี C', 'สถานี D'];
-  const manufacturers = ['บริษัท X', 'บริษัท Y', 'บริษัท Z'];
-  const transformers = ['หม้อแปลง 1', 'หม้อแปลง 2', 'หม้อแปลง 3'];
+  // Dropdown options data
+  const filterOptions = [
+    'อายุ',
+    'เขต',
+    'สถานีไฟฟ้า',
+    'ชื่อบริษัทผู้ผลิต',
+    'หม้อแปลงไฟฟ้า',
+    'สภาพแวดล้อม',
+    'สภาวะการใช้งานขณะพบความผิดปกติ',
+    'รายละเอียดความผิดปกติหรือเสียหาย',
+    'กลุ่มอุปกรณ์',
+    'ชิ้นส่วนที่เสียหายหรือผิดปกติ',
+    'ระดับความเสียหาย',
+    'สาเหตุที่แท้จริง',
+    'การจัดการ'
+  ];
+  
+  // Dummy data for dropdowns
+  const dropdownOptions = {
+    'เขต': ['เขต 1', 'เขต 2', 'เขต 3', 'เขต 4'],
+    'สถานีไฟฟ้า': ['สถานี A', 'สถานี B', 'สถานี C'],
+    'ชื่อบริษัทผู้ผลิต': ['บริษัท X', 'บริษัท Y', 'บริษัท Z'],
+    'หม้อแปลงไฟฟ้า': ['หม้อแปลง 1', 'หม้อแปลง 2', 'หม้อแปลง 3'],
+    'สภาพแวดล้อม': ['ในร่ม', 'กลางแจ้ง', 'ชายทะเล'],
+    'สภาวะการใช้งานขณะพบความผิดปกติ': ['กำลังใช้งาน', 'ไม่ได้ใช้งาน', 'อยู่ระหว่างการซ่อมบำรุง'],
+    'รายละเอียดความผิดปกติหรือเสียหาย': ['น้ำมันรั่ว', 'ความร้อนสูง', 'เสียงผิดปกติ'],
+    'กลุ่มอุปกรณ์': ['แกนเหล็ก', 'ขดลวด', 'หม้อแปลงกระแส'],
+    'ชิ้นส่วนที่เสียหายหรือผิดปกติ': ['ฉนวน', 'ขั้วต่อ', 'วาล์ว'],
+    'ระดับความเสียหาย': ['ต่ำ', 'ปานกลาง', 'สูง'],
+    'สาเหตุที่แท้จริง': ['เสื่อมสภาพ', 'การติดตั้งไม่ถูกต้อง', 'การใช้งานผิดประเภท'],
+    'การจัดการ': ['ซ่อมแซม', 'เปลี่ยนใหม่', 'ปรับปรุง']
+  };
+  
+  // Grouping options
+  const groupingOptions = [
+    'เขต',
+    'สถานีไฟฟ้า',
+    'ชื่อบริษัทผู้ผลิต',
+    'อายุการใช้งาน'
+  ];
   
   // Dummy data for chart
   const chartData = [
@@ -30,10 +69,37 @@ const TransformerReportsPage = () => {
   
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
   
+  // Handle filter selection
+  const handleFilterSelect = (filter: string) => {
+    setSelectedFilter(filter);
+    setSelectedDropdownValue('');
+    if (filter !== 'อายุ') {
+      setAgeStart('');
+      setAgeEnd('');
+    }
+  };
+  
+  // Handle dropdown value selection
+  const handleDropdownValueSelect = (value: string) => {
+    setSelectedDropdownValue(value);
+  };
+  
+  // Handle form submission
   const handleConfirm = () => {
-    console.log('Filters:', { selectedArea, selectedStation, selectedManufacturer, selectedTransformer, groupBy });
+    console.log('Filter:', selectedFilter);
+    
+    if (selectedFilter === 'อายุ') {
+      console.log('Age Range:', { start: ageStart, end: ageEnd });
+    } else {
+      console.log('Selected Value:', selectedDropdownValue);
+    }
+    
+    console.log('Group By:', groupBy);
     setShowChart(true);
   };
+  
+  // Chart type state
+  const [chartType, setChartType] = useState<'bar' | 'pie'>('bar');
   
   return (
     <Layout>
@@ -48,63 +114,69 @@ const TransformerReportsPage = () => {
           <Card>
             <CardHeader>
               <CardTitle>เลือกเงื่อนไขในการสร้างกราฟ</CardTitle>
+              <CardDescription className="flex items-center gap-1 text-amber-600">
+                <Info size={16} />
+                เลือกเงื่อนไขเพียงหนึ่งเงื่อนไขเท่านั้นสำหรับการสร้างกราฟ
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="area-select">เขต</label>
-                <Select value={selectedArea} onValueChange={setSelectedArea}>
-                  <SelectTrigger id="area-select">
-                    <SelectValue placeholder="เลือกเขต" />
+                <FormLabel>เลือกประเภทเงื่อนไข</FormLabel>
+                <Select value={selectedFilter || ''} onValueChange={handleFilterSelect}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="เลือกประเภทเงื่อนไข" />
                   </SelectTrigger>
                   <SelectContent>
-                    {areas.map((area) => (
-                      <SelectItem key={area} value={area}>{area}</SelectItem>
+                    {filterOptions.map((option) => (
+                      <SelectItem key={option} value={option}>{option}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               
-              <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="station-select">สถานีไฟฟ้า</label>
-                <Select value={selectedStation} onValueChange={setSelectedStation}>
-                  <SelectTrigger id="station-select">
-                    <SelectValue placeholder="เลือกสถานีไฟฟ้า" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {stations.map((station) => (
-                      <SelectItem key={station} value={station}>{station}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              {selectedFilter === 'อายุ' && (
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <FormLabel htmlFor="age-start">อายุ (เริ่มต้น)</FormLabel>
+                    <Input
+                      id="age-start"
+                      type="number"
+                      value={ageStart}
+                      onChange={(e) => setAgeStart(e.target.value)}
+                      placeholder="ระบุอายุเริ่มต้น"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <FormLabel htmlFor="age-end">อายุ (สิ้นสุด)</FormLabel>
+                    <Input
+                      id="age-end"
+                      type="number"
+                      value={ageEnd}
+                      onChange={(e) => setAgeEnd(e.target.value)}
+                      placeholder="ระบุอายุสิ้นสุด"
+                    />
+                  </div>
+                </div>
+              )}
               
-              <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="manufacturer-select">ชื่อบริษัทผู้ผลิต</label>
-                <Select value={selectedManufacturer} onValueChange={setSelectedManufacturer}>
-                  <SelectTrigger id="manufacturer-select">
-                    <SelectValue placeholder="เลือกบริษัทผู้ผลิต" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {manufacturers.map((manufacturer) => (
-                      <SelectItem key={manufacturer} value={manufacturer}>{manufacturer}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="transformer-select">หม้อแปลงไฟฟ้า</label>
-                <Select value={selectedTransformer} onValueChange={setSelectedTransformer}>
-                  <SelectTrigger id="transformer-select">
-                    <SelectValue placeholder="เลือกหม้อแปลงไฟฟ้า" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {transformers.map((transformer) => (
-                      <SelectItem key={transformer} value={transformer}>{transformer}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              {selectedFilter && selectedFilter !== 'อายุ' && dropdownOptions[selectedFilter as keyof typeof dropdownOptions] && (
+                <div className="space-y-2">
+                  <FormLabel htmlFor="dropdown-value">{selectedFilter}</FormLabel>
+                  <Select 
+                    value={selectedDropdownValue} 
+                    onValueChange={handleDropdownValueSelect}
+                  >
+                    <SelectTrigger id="dropdown-value">
+                      <SelectValue placeholder={`เลือก${selectedFilter}`} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {dropdownOptions[selectedFilter as keyof typeof dropdownOptions].map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
             </CardContent>
           </Card>
           
@@ -115,15 +187,15 @@ const TransformerReportsPage = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="group-by-select">แบ่งตาม</label>
+                <FormLabel htmlFor="group-by-select">แบ่งตาม</FormLabel>
                 <Select value={groupBy} onValueChange={setGroupBy}>
                   <SelectTrigger id="group-by-select">
                     <SelectValue placeholder="เลือกการแบ่งกลุ่ม" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="area">เขต</SelectItem>
-                    <SelectItem value="station">สถานีไฟฟ้า</SelectItem>
-                    <SelectItem value="manufacturer">บริษัทผู้ผลิต</SelectItem>
+                    {groupingOptions.map((option) => (
+                      <SelectItem key={option} value={option}>{option}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -132,6 +204,7 @@ const TransformerReportsPage = () => {
                 <Button 
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
                   onClick={handleConfirm}
+                  disabled={!selectedFilter || (selectedFilter === 'อายุ' && (!ageStart || !ageEnd)) || (selectedFilter !== 'อายุ' && !selectedDropdownValue)}
                 >
                   ยืนยัน
                 </Button>
@@ -149,53 +222,60 @@ const TransformerReportsPage = () => {
             <CardContent className="flex justify-center">
               <div className="w-full max-w-3xl">
                 <div className="flex justify-center space-x-4 mb-4">
-                  <Button variant="outline" className="bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100">
+                  <Button 
+                    variant={chartType === 'bar' ? 'default' : 'outline'} 
+                    className={chartType === 'bar' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100'}
+                    onClick={() => setChartType('bar')}
+                  >
                     กราฟแท่ง
                   </Button>
-                  <Button variant="outline" className="bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100">
+                  <Button 
+                    variant={chartType === 'pie' ? 'default' : 'outline'} 
+                    className={chartType === 'pie' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100'}
+                    onClick={() => setChartType('pie')}
+                  >
                     กราฟวงกลม
                   </Button>
                 </div>
                 
                 <div className="h-[400px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="value" fill="#3B82F6">
-                        {chartData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-                
-                {/* Alternative Pie Chart for visualization (hidden by default) */}
-                <div className="hidden h-[400px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={chartData}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={true}
-                        label={({name, percent}) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={150}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {chartData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend />
-                    </PieChart>
-                  </ResponsiveContainer>
+                  {chartType === 'bar' ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="value" fill="#3B82F6">
+                          {chartData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={chartData}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={true}
+                          label={({name, percent}) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                          outerRadius={150}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {chartData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  )}
                 </div>
               </div>
             </CardContent>
