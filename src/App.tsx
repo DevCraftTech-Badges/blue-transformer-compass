@@ -11,6 +11,7 @@ import ElectricalTestResultsPage from "./pages/ElectricalTestResults";
 import DPLimitPage from "./pages/DPLimit";
 import ChangePasswordPage from "./pages/ChangePassword";
 import UserManagementPage from "./pages/UserManagement";
+import StandardReportsPage from "./pages/StandardReports";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/dp-limit" element={<DPLimitPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/user-management" element={<UserManagementPage />} />
+          <Route path="/standard-reports" element={<StandardReportsPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
