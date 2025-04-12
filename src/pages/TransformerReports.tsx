@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Form, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import { BarChart, PieChart, Pie, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, ResponsiveContainer } from 'recharts';
 import { Info } from 'lucide-react';
 
@@ -121,9 +121,9 @@ const TransformerReportsPage = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <FormLabel>เลือกประเภทเงื่อนไข</FormLabel>
+                <Label htmlFor="filter-select">เลือกประเภทเงื่อนไข</Label>
                 <Select value={selectedFilter || ''} onValueChange={handleFilterSelect}>
-                  <SelectTrigger>
+                  <SelectTrigger id="filter-select">
                     <SelectValue placeholder="เลือกประเภทเงื่อนไข" />
                   </SelectTrigger>
                   <SelectContent>
@@ -137,7 +137,7 @@ const TransformerReportsPage = () => {
               {selectedFilter === 'อายุ' && (
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <FormLabel htmlFor="age-start">อายุ (เริ่มต้น)</FormLabel>
+                    <Label htmlFor="age-start">อายุ (เริ่มต้น)</Label>
                     <Input
                       id="age-start"
                       type="number"
@@ -147,7 +147,7 @@ const TransformerReportsPage = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <FormLabel htmlFor="age-end">อายุ (สิ้นสุด)</FormLabel>
+                    <Label htmlFor="age-end">อายุ (สิ้นสุด)</Label>
                     <Input
                       id="age-end"
                       type="number"
@@ -161,7 +161,7 @@ const TransformerReportsPage = () => {
               
               {selectedFilter && selectedFilter !== 'อายุ' && dropdownOptions[selectedFilter as keyof typeof dropdownOptions] && (
                 <div className="space-y-2">
-                  <FormLabel htmlFor="dropdown-value">{selectedFilter}</FormLabel>
+                  <Label htmlFor="dropdown-value">{selectedFilter}</Label>
                   <Select 
                     value={selectedDropdownValue} 
                     onValueChange={handleDropdownValueSelect}
@@ -187,7 +187,7 @@ const TransformerReportsPage = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <FormLabel htmlFor="group-by-select">แบ่งตาม</FormLabel>
+                <Label htmlFor="group-by-select">แบ่งตาม</Label>
                 <Select value={groupBy} onValueChange={setGroupBy}>
                   <SelectTrigger id="group-by-select">
                     <SelectValue placeholder="เลือกการแบ่งกลุ่ม" />
