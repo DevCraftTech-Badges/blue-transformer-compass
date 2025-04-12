@@ -4,52 +4,24 @@ import Layout from '@/components/layout/Layout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { BarChart, PieChart, Pie, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, ResponsiveContainer } from 'recharts';
-import { Info } from 'lucide-react';
 
 const TransformerReportsPage = () => {
   // States for filter options
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const [ageStart, setAgeStart] = useState<string>('');
-  const [ageEnd, setAgeEnd] = useState<string>('');
-  const [selectedDropdownValue, setSelectedDropdownValue] = useState<string>('');
-  const [groupBy, setGroupBy] = useState<string>('area');
+  const [area, setArea] = useState<string>('');
+  const [station, setStation] = useState<string>('');
+  const [manufacturer, setManufacturer] = useState<string>('');
+  const [transformer, setTransformer] = useState<string>('');
+  const [groupBy, setGroupBy] = useState<string>('เขต');
   const [showChart, setShowChart] = useState(false);
-  
-  // Dropdown options data
-  const filterOptions = [
-    'อายุ',
-    'เขต',
-    'สถานีไฟฟ้า',
-    'ชื่อบริษัทผู้ผลิต',
-    'หม้อแปลงไฟฟ้า',
-    'สภาพแวดล้อม',
-    'สภาวะการใช้งานขณะพบความผิดปกติ',
-    'รายละเอียดความผิดปกติหรือเสียหาย',
-    'กลุ่มอุปกรณ์',
-    'ชิ้นส่วนที่เสียหายหรือผิดปกติ',
-    'ระดับความเสียหาย',
-    'สาเหตุที่แท้จริง',
-    'การจัดการ'
-  ];
+  const [chartType, setChartType] = useState<'bar' | 'pie'>('bar');
   
   // Dummy data for dropdowns
-  const dropdownOptions = {
-    'เขต': ['เขต 1', 'เขต 2', 'เขต 3', 'เขต 4'],
-    'สถานีไฟฟ้า': ['สถานี A', 'สถานี B', 'สถานี C'],
-    'ชื่อบริษัทผู้ผลิต': ['บริษัท X', 'บริษัท Y', 'บริษัท Z'],
-    'หม้อแปลงไฟฟ้า': ['หม้อแปลง 1', 'หม้อแปลง 2', 'หม้อแปลง 3'],
-    'สภาพแวดล้อม': ['ในร่ม', 'กลางแจ้ง', 'ชายทะเล'],
-    'สภาวะการใช้งานขณะพบความผิดปกติ': ['กำลังใช้งาน', 'ไม่ได้ใช้งาน', 'อยู่ระหว่างการซ่อมบำรุง'],
-    'รายละเอียดความผิดปกติหรือเสียหาย': ['น้ำมันรั่ว', 'ความร้อนสูง', 'เสียงผิดปกติ'],
-    'กลุ่มอุปกรณ์': ['แกนเหล็ก', 'ขดลวด', 'หม้อแปลงกระแส'],
-    'ชิ้นส่วนที่เสียหายหรือผิดปกติ': ['ฉนวน', 'ขั้วต่อ', 'วาล์ว'],
-    'ระดับความเสียหาย': ['ต่ำ', 'ปานกลาง', 'สูง'],
-    'สาเหตุที่แท้จริง': ['เสื่อมสภาพ', 'การติดตั้งไม่ถูกต้อง', 'การใช้งานผิดประเภท'],
-    'การจัดการ': ['ซ่อมแซม', 'เปลี่ยนใหม่', 'ปรับปรุง']
-  };
+  const areaOptions = ['เขต 1', 'เขต 2', 'เขต 3', 'เขต 4'];
+  const stationOptions = ['สถานี A', 'สถานี B', 'สถานี C'];
+  const manufacturerOptions = ['บริษัท X', 'บริษัท Y', 'บริษัท Z'];
+  const transformerOptions = ['หม้อแปลง 1', 'หม้อแปลง 2', 'หม้อแปลง 3'];
   
   // Grouping options
   const groupingOptions = [
@@ -69,37 +41,12 @@ const TransformerReportsPage = () => {
   
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
   
-  // Handle filter selection
-  const handleFilterSelect = (filter: string) => {
-    setSelectedFilter(filter);
-    setSelectedDropdownValue('');
-    if (filter !== 'อายุ') {
-      setAgeStart('');
-      setAgeEnd('');
-    }
-  };
-  
-  // Handle dropdown value selection
-  const handleDropdownValueSelect = (value: string) => {
-    setSelectedDropdownValue(value);
-  };
-  
   // Handle form submission
   const handleConfirm = () => {
-    console.log('Filter:', selectedFilter);
-    
-    if (selectedFilter === 'อายุ') {
-      console.log('Age Range:', { start: ageStart, end: ageEnd });
-    } else {
-      console.log('Selected Value:', selectedDropdownValue);
-    }
-    
+    console.log('Filters:', { area, station, manufacturer, transformer });
     console.log('Group By:', groupBy);
     setShowChart(true);
   };
-  
-  // Chart type state
-  const [chartType, setChartType] = useState<'bar' | 'pie'>('bar');
   
   return (
     <Layout>
@@ -114,69 +61,68 @@ const TransformerReportsPage = () => {
           <Card>
             <CardHeader>
               <CardTitle>เลือกเงื่อนไขในการสร้างกราฟ</CardTitle>
-              <CardDescription className="flex items-center gap-1 text-amber-600">
-                <Info size={16} />
-                เลือกเงื่อนไขเพียงหนึ่งเงื่อนไขเท่านั้นสำหรับการสร้างกราฟ
+              <CardDescription>
+                เลือกเงื่อนไขที่ต้องการสำหรับการสร้างกราฟ
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="filter-select">เลือกประเภทเงื่อนไข</Label>
-                <Select value={selectedFilter || ''} onValueChange={handleFilterSelect}>
-                  <SelectTrigger id="filter-select">
-                    <SelectValue placeholder="เลือกประเภทเงื่อนไข" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {filterOptions.map((option) => (
-                      <SelectItem key={option} value={option}>{option}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              {selectedFilter === 'อายุ' && (
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="age-start">อายุ (เริ่มต้น)</Label>
-                    <Input
-                      id="age-start"
-                      type="number"
-                      value={ageStart}
-                      onChange={(e) => setAgeStart(e.target.value)}
-                      placeholder="ระบุอายุเริ่มต้น"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="age-end">อายุ (สิ้นสุด)</Label>
-                    <Input
-                      id="age-end"
-                      type="number"
-                      value={ageEnd}
-                      onChange={(e) => setAgeEnd(e.target.value)}
-                      placeholder="ระบุอายุสิ้นสุด"
-                    />
-                  </div>
-                </div>
-              )}
-              
-              {selectedFilter && selectedFilter !== 'อายุ' && dropdownOptions[selectedFilter as keyof typeof dropdownOptions] && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="dropdown-value">{selectedFilter}</Label>
-                  <Select 
-                    value={selectedDropdownValue} 
-                    onValueChange={handleDropdownValueSelect}
-                  >
-                    <SelectTrigger id="dropdown-value">
-                      <SelectValue placeholder={`เลือก${selectedFilter}`} />
+                  <Label htmlFor="area-select">เขต</Label>
+                  <Select value={area} onValueChange={setArea}>
+                    <SelectTrigger id="area-select">
+                      <SelectValue placeholder="เลือกเขต" />
                     </SelectTrigger>
                     <SelectContent>
-                      {dropdownOptions[selectedFilter as keyof typeof dropdownOptions].map((option) => (
+                      {areaOptions.map((option) => (
                         <SelectItem key={option} value={option}>{option}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
-              )}
+                
+                <div className="space-y-2">
+                  <Label htmlFor="station-select">สถานีไฟฟ้า</Label>
+                  <Select value={station} onValueChange={setStation}>
+                    <SelectTrigger id="station-select">
+                      <SelectValue placeholder="เลือกสถานีไฟฟ้า" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {stationOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="manufacturer-select">ชื่อบริษัทผู้ผลิต</Label>
+                  <Select value={manufacturer} onValueChange={setManufacturer}>
+                    <SelectTrigger id="manufacturer-select">
+                      <SelectValue placeholder="เลือกบริษัทผู้ผลิต" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {manufacturerOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="transformer-select">หม้อแปลงไฟฟ้า</Label>
+                  <Select value={transformer} onValueChange={setTransformer}>
+                    <SelectTrigger id="transformer-select">
+                      <SelectValue placeholder="เลือกหม้อแปลงไฟฟ้า" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {transformerOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
             </CardContent>
           </Card>
           
@@ -204,7 +150,6 @@ const TransformerReportsPage = () => {
                 <Button 
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
                   onClick={handleConfirm}
-                  disabled={!selectedFilter || (selectedFilter === 'อายุ' && (!ageStart || !ageEnd)) || (selectedFilter !== 'อายุ' && !selectedDropdownValue)}
                 >
                   ยืนยัน
                 </Button>
