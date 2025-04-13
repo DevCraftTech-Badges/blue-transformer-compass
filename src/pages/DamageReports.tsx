@@ -8,15 +8,15 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { BarChart, PieChart, Pie, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, ResponsiveContainer } from 'recharts';
 
-type FilterType = 'age' | 'area' | 'station' | 'manufacturer' | 'transformer' | 'environment' | 'operationCondition' | 'damageDetails' | 'equipmentGroup' | 'damagedPart' | 'damageLevel' | 'rootCause' | 'management' | '';
-
 const DamageReportsPage = () => {
-  // State for active filter type
-  const [activeFilter, setActiveFilter] = useState<FilterType>('');
-  
-  // States for filter values
+  // States for age range
   const [ageStart, setAgeStart] = useState<string>('');
   const [ageEnd, setAgeEnd] = useState<string>('');
+  
+  // State to track which filter is active
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  
+  // States for each filter value
   const [areaValue, setAreaValue] = useState<string>('');
   const [stationValue, setStationValue] = useState<string>('');
   const [manufacturerValue, setManufacturerValue] = useState<string>('');
@@ -72,24 +72,37 @@ const DamageReportsPage = () => {
   
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
   
-  // Handle filter type change
-  const handleFilterChange = (filterType: FilterType) => {
-    if (activeFilter === filterType) {
-      setActiveFilter('');
+  // Handle filter change
+  const handleFilterChange = (filterName: string) => {
+    if (activeFilter === filterName) {
+      setActiveFilter(null);
     } else {
-      setActiveFilter(filterType);
+      setActiveFilter(filterName);
+      
+      // Reset all other filter values except the active one
+      if (filterName !== 'area') setAreaValue('');
+      if (filterName !== 'station') setStationValue('');
+      if (filterName !== 'manufacturer') setManufacturerValue('');
+      if (filterName !== 'transformer') setTransformerValue('');
+      if (filterName !== 'environment') setEnvironmentValue('');
+      if (filterName !== 'operationCondition') setOperationConditionValue('');
+      if (filterName !== 'damageDetails') setDamageDetailsValue('');
+      if (filterName !== 'equipmentGroup') setEquipmentGroupValue('');
+      if (filterName !== 'damagedPart') setDamagedPartValue('');
+      if (filterName !== 'damageLevel') setDamageLevelValue('');
+      if (filterName !== 'rootCause') setRootCauseValue('');
+      if (filterName !== 'management') setManagementValue('');
     }
   };
   
   // Handle form submission
   const handleConfirm = () => {
+    console.log('Age Range:', { start: ageStart, end: ageEnd });
     console.log('Active Filter:', activeFilter);
     console.log('Group By:', groupBy);
     
-    // Log the currently active filter value
-    if (activeFilter === 'age') {
-      console.log('Age Range:', { start: ageStart, end: ageEnd });
-    } else if (activeFilter === 'area') {
+    // Log the active filter value
+    if (activeFilter === 'area') {
       console.log('Area:', areaValue);
     } else if (activeFilter === 'station') {
       console.log('Station:', stationValue);
@@ -118,431 +131,6 @@ const DamageReportsPage = () => {
     setShowChart(true);
   };
   
-  // Function to render the filter input based on the active filter type
-  const renderFilterInput = (filterType: FilterType) => {
-    const isActive = activeFilter === filterType;
-    const baseClasses = "space-y-2";
-    const classes = isActive ? baseClasses : `${baseClasses} opacity-50`;
-    
-    const handleClick = () => {
-      if (!isActive) {
-        handleFilterChange(filterType);
-      }
-    };
-    
-    switch (filterType) {
-      case 'age':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="age-start">อายุ เริ่มต้น</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <Input 
-                id="age-start" 
-                type="number" 
-                placeholder="อายุเริ่มต้น" 
-                value={ageStart}
-                onChange={(e) => setAgeStart(e.target.value)}
-                disabled={!isActive}
-              />
-              <Input 
-                id="age-end" 
-                type="number" 
-                placeholder="อายุสิ้นสุด" 
-                value={ageEnd}
-                onChange={(e) => setAgeEnd(e.target.value)}
-                disabled={!isActive}
-              />
-            </div>
-          </div>
-        );
-        
-      case 'area':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="area-select">เขต</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={areaValue} 
-              onValueChange={setAreaValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="area-select">
-                <SelectValue placeholder="เลือกเขต" />
-              </SelectTrigger>
-              <SelectContent>
-                {areaOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'station':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="station-select">สถานีไฟฟ้า</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={stationValue} 
-              onValueChange={setStationValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="station-select">
-                <SelectValue placeholder="เลือกสถานีไฟฟ้า" />
-              </SelectTrigger>
-              <SelectContent>
-                {stationOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'manufacturer':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="manufacturer-select">ชื่อบริษัทผู้ผลิต</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={manufacturerValue} 
-              onValueChange={setManufacturerValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="manufacturer-select">
-                <SelectValue placeholder="เลือกบริษัทผู้ผลิต" />
-              </SelectTrigger>
-              <SelectContent>
-                {manufacturerOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'transformer':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="transformer-select">หม้อแปลงไฟฟ้า</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={transformerValue} 
-              onValueChange={setTransformerValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="transformer-select">
-                <SelectValue placeholder="เลือกหม้อแปลงไฟฟ้า" />
-              </SelectTrigger>
-              <SelectContent>
-                {transformerOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'environment':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="environment-select">สภาพแวดล้อม</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={environmentValue} 
-              onValueChange={setEnvironmentValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="environment-select">
-                <SelectValue placeholder="เลือกสภาพแวดล้อม" />
-              </SelectTrigger>
-              <SelectContent>
-                {environmentOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'operationCondition':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="operation-condition-select">สภาวะการใช้งานขณะพบความผิดปกติ</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={operationConditionValue} 
-              onValueChange={setOperationConditionValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="operation-condition-select">
-                <SelectValue placeholder="เลือกสภาวะการใช้งาน" />
-              </SelectTrigger>
-              <SelectContent>
-                {operationConditionOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'damageDetails':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="damage-details-select">รายละเอียดความผิดปกติหรือเสียหาย</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={damageDetailsValue} 
-              onValueChange={setDamageDetailsValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="damage-details-select">
-                <SelectValue placeholder="เลือกรายละเอียดความเสียหาย" />
-              </SelectTrigger>
-              <SelectContent>
-                {damageDetailsOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'equipmentGroup':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="equipment-group-select">กลุ่มอุปกรณ์</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={equipmentGroupValue} 
-              onValueChange={setEquipmentGroupValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="equipment-group-select">
-                <SelectValue placeholder="เลือกกลุ่มอุปกรณ์" />
-              </SelectTrigger>
-              <SelectContent>
-                {equipmentGroupOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'damagedPart':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="damaged-part-select">ชิ้นส่วนที่เสียหายหรือผิดปกติ</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={damagedPartValue} 
-              onValueChange={setDamagedPartValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="damaged-part-select">
-                <SelectValue placeholder="เลือกชิ้นส่วนที่เสียหาย" />
-              </SelectTrigger>
-              <SelectContent>
-                {damagedPartOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'damageLevel':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="damage-level-select">ระดับความเสียหาย</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={damageLevelValue} 
-              onValueChange={setDamageLevelValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="damage-level-select">
-                <SelectValue placeholder="เลือกระดับความเสียหาย" />
-              </SelectTrigger>
-              <SelectContent>
-                {damageLevelOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'rootCause':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="root-cause-select">สาเหตุที่แท้จริง</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={rootCauseValue} 
-              onValueChange={setRootCauseValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="root-cause-select">
-                <SelectValue placeholder="เลือกสาเหตุที่แท้จริง" />
-              </SelectTrigger>
-              <SelectContent>
-                {rootCauseOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      case 'management':
-        return (
-          <div className={classes} onClick={handleClick}>
-            <div className="flex justify-between">
-              <Label htmlFor="management-select">การจัดการ</Label>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="radio" 
-                  checked={isActive} 
-                  onChange={() => handleFilterChange(filterType)} 
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-            <Select 
-              value={managementValue} 
-              onValueChange={setManagementValue}
-              disabled={!isActive}
-            >
-              <SelectTrigger id="management-select">
-                <SelectValue placeholder="เลือกการจัดการ" />
-              </SelectTrigger>
-              <SelectContent>
-                {managementOptions.map((option) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-        
-      default:
-        return null;
-    }
-  };
-  
   return (
     <Layout>
       <div className="space-y-6">
@@ -561,20 +149,378 @@ const DamageReportsPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-4">
-                {renderFilterInput('age')}
-                {renderFilterInput('area')}
-                {renderFilterInput('station')}
-                {renderFilterInput('manufacturer')}
-                {renderFilterInput('transformer')}
-                {renderFilterInput('environment')}
-                {renderFilterInput('operationCondition')}
-                {renderFilterInput('damageDetails')}
-                {renderFilterInput('equipmentGroup')}
-                {renderFilterInput('damagedPart')}
-                {renderFilterInput('damageLevel')}
-                {renderFilterInput('rootCause')}
-                {renderFilterInput('management')}
+              {/* Age Range Filter - Always enabled */}
+              <div className="space-y-2">
+                <Label htmlFor="age-start">อายุเริ่มต้น</Label>
+                <div className="flex gap-4">
+                  <Input 
+                    id="age-start" 
+                    type="number" 
+                    placeholder="อายุเริ่มต้น" 
+                    value={ageStart}
+                    onChange={(e) => setAgeStart(e.target.value)}
+                  />
+                  <Input 
+                    id="age-end" 
+                    type="number" 
+                    placeholder="อายุสิ้นสุด" 
+                    value={ageEnd}
+                    onChange={(e) => setAgeEnd(e.target.value)}
+                  />
+                </div>
+              </div>
+              
+              {/* Select Dropdowns - Only one can be active at a time */}
+              <div className="space-y-4 pt-4 border-t">
+                <p className="text-sm font-medium">เลือกหนึ่งเงื่อนไขเท่านั้น</p>
+                
+                {/* Area Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="area-select">เขต</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'area'} 
+                        onChange={() => handleFilterChange('area')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={areaValue} 
+                    onValueChange={setAreaValue}
+                    disabled={activeFilter !== null && activeFilter !== 'area'}
+                  >
+                    <SelectTrigger id="area-select">
+                      <SelectValue placeholder="เลือกเขต" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {areaOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Station Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="station-select">สถานีไฟฟ้า</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'station'} 
+                        onChange={() => handleFilterChange('station')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={stationValue} 
+                    onValueChange={setStationValue}
+                    disabled={activeFilter !== null && activeFilter !== 'station'}
+                  >
+                    <SelectTrigger id="station-select">
+                      <SelectValue placeholder="เลือกสถานีไฟฟ้า" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {stationOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Manufacturer Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="manufacturer-select">ชื่อบริษัทผู้ผลิต</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'manufacturer'} 
+                        onChange={() => handleFilterChange('manufacturer')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={manufacturerValue} 
+                    onValueChange={setManufacturerValue}
+                    disabled={activeFilter !== null && activeFilter !== 'manufacturer'}
+                  >
+                    <SelectTrigger id="manufacturer-select">
+                      <SelectValue placeholder="เลือกบริษัทผู้ผลิต" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {manufacturerOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Transformer Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="transformer-select">หม้อแปลงไฟฟ้า</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'transformer'} 
+                        onChange={() => handleFilterChange('transformer')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={transformerValue} 
+                    onValueChange={setTransformerValue}
+                    disabled={activeFilter !== null && activeFilter !== 'transformer'}
+                  >
+                    <SelectTrigger id="transformer-select">
+                      <SelectValue placeholder="เลือกหม้อแปลงไฟฟ้า" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {transformerOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Environment Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="environment-select">สภาพแวดล้อม</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'environment'} 
+                        onChange={() => handleFilterChange('environment')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={environmentValue} 
+                    onValueChange={setEnvironmentValue}
+                    disabled={activeFilter !== null && activeFilter !== 'environment'}
+                  >
+                    <SelectTrigger id="environment-select">
+                      <SelectValue placeholder="เลือกสภาพแวดล้อม" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {environmentOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Operation Condition Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="operation-condition-select">สภาวะการใช้งานขณะพบความผิดปกติ</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'operationCondition'} 
+                        onChange={() => handleFilterChange('operationCondition')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={operationConditionValue} 
+                    onValueChange={setOperationConditionValue}
+                    disabled={activeFilter !== null && activeFilter !== 'operationCondition'}
+                  >
+                    <SelectTrigger id="operation-condition-select">
+                      <SelectValue placeholder="เลือกสภาวะการใช้งาน" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {operationConditionOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Damage Details Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="damage-details-select">รายละเอียดความผิดปกติหรือเสียหาย</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'damageDetails'} 
+                        onChange={() => handleFilterChange('damageDetails')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={damageDetailsValue} 
+                    onValueChange={setDamageDetailsValue}
+                    disabled={activeFilter !== null && activeFilter !== 'damageDetails'}
+                  >
+                    <SelectTrigger id="damage-details-select">
+                      <SelectValue placeholder="เลือกรายละเอียดความเสียหาย" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {damageDetailsOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Equipment Group Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="equipment-group-select">กลุ่มอุปกรณ์</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'equipmentGroup'} 
+                        onChange={() => handleFilterChange('equipmentGroup')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={equipmentGroupValue} 
+                    onValueChange={setEquipmentGroupValue}
+                    disabled={activeFilter !== null && activeFilter !== 'equipmentGroup'}
+                  >
+                    <SelectTrigger id="equipment-group-select">
+                      <SelectValue placeholder="เลือกกลุ่มอุปกรณ์" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {equipmentGroupOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Damaged Part Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="damaged-part-select">ชิ้นส่วนที่เสียหายหรือผิดปกติ</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'damagedPart'} 
+                        onChange={() => handleFilterChange('damagedPart')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={damagedPartValue} 
+                    onValueChange={setDamagedPartValue}
+                    disabled={activeFilter !== null && activeFilter !== 'damagedPart'}
+                  >
+                    <SelectTrigger id="damaged-part-select">
+                      <SelectValue placeholder="เลือกชิ้นส่วนที่เสียหาย" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {damagedPartOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Damage Level Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="damage-level-select">ระดับความเสียหาย</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'damageLevel'} 
+                        onChange={() => handleFilterChange('damageLevel')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={damageLevelValue} 
+                    onValueChange={setDamageLevelValue}
+                    disabled={activeFilter !== null && activeFilter !== 'damageLevel'}
+                  >
+                    <SelectTrigger id="damage-level-select">
+                      <SelectValue placeholder="เลือกระดับความเสียหาย" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {damageLevelOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Root Cause Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="root-cause-select">สาเหตุที่แท้จริง</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'rootCause'} 
+                        onChange={() => handleFilterChange('rootCause')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={rootCauseValue} 
+                    onValueChange={setRootCauseValue}
+                    disabled={activeFilter !== null && activeFilter !== 'rootCause'}
+                  >
+                    <SelectTrigger id="root-cause-select">
+                      <SelectValue placeholder="เลือกสาเหตุที่แท้จริง" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {rootCauseOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Management Filter */}
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="management-select">การจัดการ</Label>
+                    <div className="flex items-center gap-2">
+                      <input 
+                        type="radio" 
+                        checked={activeFilter === 'management'} 
+                        onChange={() => handleFilterChange('management')} 
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                  <Select 
+                    value={managementValue} 
+                    onValueChange={setManagementValue}
+                    disabled={activeFilter !== null && activeFilter !== 'management'}
+                  >
+                    <SelectTrigger id="management-select">
+                      <SelectValue placeholder="เลือกการจัดการ" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {managementOptions.map((option) => (
+                        <SelectItem key={option} value={option}>{option}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -603,7 +549,6 @@ const DamageReportsPage = () => {
                 <Button 
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
                   onClick={handleConfirm}
-                  disabled={!activeFilter}
                 >
                   ยืนยัน
                 </Button>
