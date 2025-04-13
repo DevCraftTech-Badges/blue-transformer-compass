@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       dropdown: [
         { title: 'รายงานมาตรฐาน', link: '/standard-reports' },
         { title: 'รายงานข้อมูลหม้อแปลงไฟฟ้า', link: '/transformer-reports' },
-        { title: 'รายงานข้อมูลความเสียหาย', link: '#' }
+        { title: 'รายงานข้อมูลความเสียหาย', link: '/damage-reports' }
       ]
     },
     {

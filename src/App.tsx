@@ -13,6 +13,7 @@ import ChangePasswordPage from "./pages/ChangePassword";
 import UserManagementPage from "./pages/UserManagement";
 import StandardReportsPage from "./pages/StandardReports";
 import TransformerReportsPage from "./pages/TransformerReports";
+import DamageReportsPage from "./pages/DamageReports";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/user-management" element={<UserManagementPage />} />
           <Route path="/standard-reports" element={<StandardReportsPage />} />
           <Route path="/transformer-reports" element={<TransformerReportsPage />} />
+          <Route path="/damage-reports" element={<DamageReportsPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
