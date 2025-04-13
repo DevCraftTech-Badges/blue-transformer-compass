@@ -79,7 +79,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <Upload size={20} />,
       dropdown: [
         { title: 'การทดสอบทางน้ำมัน', link: '/oil-test-upload' },
-        { title: 'การทดสอบทางไฟฟ้า', link: '#' },
+        { title: 'การทดสอบทางไฟฟ้า', link: '/electrical-test-upload' },
         { title: 'Activate ผลการทดสอบ', link: '#' }
       ]
     },
