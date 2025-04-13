@@ -78,7 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       title: 'Upload ข้อมูล',
       icon: <Upload size={20} />,
       dropdown: [
-        { title: 'การทดสอบทางน้ำมัน', link: '#' },
+        { title: 'การทดสอบทางน้ำมัน', link: '/oil-test-upload' },
         { title: 'การทดสอบทางไฟฟ้า', link: '#' },
         { title: 'Activate ผลการทดสอบ', link: '#' }
       ]
@@ -96,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <TrendingUp size={20} />,
       dropdown: [
         { title: 'Factor Setting', link: '#' },
-        { title: 'ราคาและ Loss ของหม้อแปลง', link: '#' },
+        { title: 'ราคาและ Loss ของหม้อแ��ลง', link: '#' },
         { title: 'ข้อมูลที่จำเป็นในการพิจารณา', link: '#' }
       ]
     },

@@ -14,6 +14,7 @@ import UserManagementPage from "./pages/UserManagement";
 import StandardReportsPage from "./pages/StandardReports";
 import TransformerReportsPage from "./pages/TransformerReports";
 import DamageReportsPage from "./pages/DamageReports";
+import OilTestUploadPage from "./pages/OilTestUpload";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/standard-reports" element={<StandardReportsPage />} />
           <Route path="/transformer-reports" element={<TransformerReportsPage />} />
           <Route path="/damage-reports" element={<DamageReportsPage />} />
+          <Route path="/oil-test-upload" element={<OilTestUploadPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
