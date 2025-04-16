@@ -124,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'เปลี่ยนรหัสผ่าน', link: '/change-password' },
         { title: 'การจัดการผู้ใช้งาน', link: '/user-management' },
         { title: 'กำหนดข้อมูลพื้นฐานหม้อแปลง', link: '/transformer-config-management' },
-        { title: 'กำหนดข้อมูลความสำคัญหม้อแปลง', link: '#' },
+        { title: 'กำหนดข้อมูลความสำคัญหม้อแปลง', link: '/transformer-importance-config' },
         { title: 'กำหนดข้อมูลการทดสอบ', link: '#' },
         { title: 'หัวข้อ Visual Inspection', link: '#' },
         { title: 'เกณฑ์ Visual Inspection', link: '#' },
