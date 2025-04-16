@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -126,7 +125,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'กำหนดข้อมูลพื้นฐานหม้อแปลง', link: '/transformer-config-management' },
         { title: 'กำหนดข้อมูลความสำคัญหม้อแปลง', link: '/transformer-importance-config' },
         { title: 'กำหนดข้อมูลการทดสอบ', link: '#' },
-        { title: 'หัวข้อ Visual Inspection', link: '#' },
+        { title: 'หัวข้อ Visual Inspection', link: '/visual-inspection-topics' },
         { title: 'เกณฑ์ Visual Inspection', link: '#' },
         { title: 'คะแนน %HI', link: '#' },
         { title: 'คะแนน %Factor', link: '#' },

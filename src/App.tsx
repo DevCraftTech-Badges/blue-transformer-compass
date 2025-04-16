@@ -19,6 +19,7 @@ import ElectricalTestUploadPage from "./pages/ElectricalTestUpload";
 import ActivateTestResultsPage from "./pages/ActivateTestResults";
 import TransformerConfigManagementPage from "./pages/TransformerConfigManagement";
 import TransformerImportanceConfigPage from "./pages/TransformerImportanceConfig";
+import VisualInspectionTopicsPage from "./pages/VisualInspectionTopics";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
           <Route path="/activate-test-results" element={<ActivateTestResultsPage />} />
           <Route path="/transformer-config-management" element={<TransformerConfigManagementPage />} />
           <Route path="/transformer-importance-config" element={<TransformerImportanceConfigPage />} />
+          <Route path="/visual-inspection-topics" element={<VisualInspectionTopicsPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
