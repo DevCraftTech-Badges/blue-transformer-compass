@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -80,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       dropdown: [
         { title: 'การทดสอบทางน้ำมัน', link: '/oil-test-upload' },
         { title: 'การทดสอบทางไฟฟ้า', link: '/electrical-test-upload' },
-        { title: 'Activate ผลการทดสอบ', link: '#' }
+        { title: 'Activate ผลการทดสอบ', link: '/activate-test-results' }
       ]
     },
     {

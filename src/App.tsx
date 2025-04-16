@@ -16,6 +16,7 @@ import TransformerReportsPage from "./pages/TransformerReports";
 import DamageReportsPage from "./pages/DamageReports";
 import OilTestUploadPage from "./pages/OilTestUpload";
 import ElectricalTestUploadPage from "./pages/ElectricalTestUpload";
+import ActivateTestResultsPage from "./pages/ActivateTestResults";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/damage-reports" element={<DamageReportsPage />} />
           <Route path="/oil-test-upload" element={<OilTestUploadPage />} />
           <Route path="/electrical-test-upload" element={<ElectricalTestUploadPage />} />
+          <Route path="/activate-test-results" element={<ActivateTestResultsPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
