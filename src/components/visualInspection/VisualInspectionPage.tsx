@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Settings, Disc, Zap, Box, Filter, Fan, 
@@ -24,7 +25,7 @@ const inspectionCategories: Category[] = [
   {
     id: 'general-condition',
     title: 'General Condition',
-    icon: <Settings className="h-8 w-8 text-blue-600" />,
+    icon: <Settings className="h-8 w-8 text-transformer-primary" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -189,11 +190,12 @@ const VisualInspectionPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">
+    <div className="space-y-6 p-6 animate-fade-in">
+      <div>
+        <h1 className="text-2xl font-bold text-transformer-dark">
           ข้อมูลบำรุงรักษาหม้อแปลง - ผลการทดสอบ Visual Inspection
         </h1>
+        <p className="text-muted-foreground">ข้อมูลผลการตรวจสอบด้วยสายตาของหม้อแปลง</p>
       </div>
 
       {activeCategory ? (
@@ -209,7 +211,7 @@ const VisualInspectionPage: React.FC = () => {
             </Button>
           </div>
           
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-lg shadow-sm p-6 border">
             {activeCategory && (
               <VisualInspectionSection 
                 category={inspectionCategories.find(c => c.id === activeCategory)!} 
@@ -218,18 +220,18 @@ const VisualInspectionPage: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {inspectionCategories.map((category) => (
             <Card 
               key={category.id}
-              className="cursor-pointer hover:ring-2 hover:ring-blue-300 hover:shadow-md transition-all duration-200"
+              className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-white group cursor-pointer"
               onClick={() => setActiveCategory(category.id)}
             >
-              <CardContent className="p-6 flex flex-col items-center text-center">
-                <div className="mb-4 mt-2">
+              <CardContent className="p-0 flex items-center space-x-3">
+                <div className="h-10 w-10 rounded-full bg-transformer-primary/10 flex items-center justify-center group-hover:bg-transformer-primary/20 transition-colors">
                   {category.icon}
                 </div>
-                <h3 className="text-lg font-medium">{category.title}</h3>
+                <div className="font-medium">{category.title}</div>
               </CardContent>
             </Card>
           ))}

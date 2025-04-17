@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { PlusCircle, Search, Eye, Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -124,10 +125,10 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
       );
     } else {
       const newId = Math.max(0, ...items.map((item) => item.id)) + 1;
-      const newItem = {
+      const newItem: InspectionItem = {
         ...itemData,
         id: newId
-      } as InspectionItem;
+      };
       setItems([...items, newItem]);
     }
     setIsModalOpen(false);
@@ -160,7 +161,7 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         </div>
         <Button 
-          className="bg-blue-600 hover:bg-blue-700" 
+          className="bg-transformer-primary hover:bg-transformer-primary/90" 
           onClick={handleCreateNew}
         >
           <PlusCircle className="h-4 w-4 mr-2" />
@@ -171,8 +172,8 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
       <div className="border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>No</TableHead>
+            <TableRow className="bg-muted/70">
+              <TableHead className="w-[60px] text-center">No</TableHead>
               <TableHead>หม้อแปลงไฟฟ้า</TableHead>
               <TableHead>EGAT S/N</TableHead>
               <TableHead>รูปแบบการทดสอบ</TableHead>
@@ -192,7 +193,7 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
             ) : (
               filteredItems.map((item, index) => (
                 <TableRow key={item.id}>
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell className="text-center">{index + 1}</TableCell>
                   <TableCell>{item.transformerName}</TableCell>
                   <TableCell>{item.egatSN}</TableCell>
                   <TableCell>{item.testType}</TableCell>

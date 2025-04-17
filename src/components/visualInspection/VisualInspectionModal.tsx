@@ -134,10 +134,10 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-xl max-h-[90vh] flex flex-col">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-transformer-dark">
             {item ? 'แก้ไขข้อมูล' : 'สร้างรายการใหม่'} - {category.title}
           </DialogTitle>
-          <DialogDescription>กรอกข้อมูลการตรวจสอบ General Condition</DialogDescription>
+          <DialogDescription>กรอกข้อมูลการตรวจสอบ {category.title}</DialogDescription>
         </DialogHeader>
 
         <ScrollArea className="flex-grow overflow-y-auto px-2">
@@ -163,7 +163,11 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
           <Button variant="outline" onClick={onClose} type="button">
             ยกเลิก
           </Button>
-          <Button type="submit" className="bg-blue-600 hover:bg-blue-700" onClick={form.handleSubmit(handleSubmit)}>
+          <Button 
+            type="submit" 
+            className="bg-transformer-primary hover:bg-transformer-primary/90" 
+            onClick={form.handleSubmit(handleSubmit)}
+          >
             บันทึกข้อมูล
           </Button>
         </DialogFooter>
