@@ -1,11 +1,12 @@
-
 import React, { useState } from 'react';
 import { 
   Settings, Disc, Zap, Box, Filter, Fan, 
-  Server, CircuitBoard, Sliders, ThermometerSun
+  Server, CircuitBoard, Sliders, ThermometerSun,
+  ArrowLeft
 } from 'lucide-react';
 import VisualInspectionSection from './VisualInspectionSection';
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 interface Field {
   name: string;
@@ -196,28 +197,18 @@ const VisualInspectionPage: React.FC = () => {
       </div>
 
       {activeCategory ? (
-        <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6">
-          <div className="bg-white rounded-lg shadow-md p-4">
-            <h2 className="text-lg font-medium mb-4">ประเภทการตรวจสอบ</h2>
-            <div className="space-y-2">
-              {inspectionCategories.map((category) => (
-                <div 
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
-                  className={`p-2 rounded-md cursor-pointer transition-colors ${
-                    activeCategory === category.id 
-                      ? 'bg-blue-100 text-blue-800' 
-                      : 'hover:bg-gray-100'
-                  }`}
-                >
-                  <div className="flex items-center">
-                    {category.title}
-                  </div>
-                </div>
-              ))}
-            </div>
+        <div className="space-y-6">
+          <div className="mb-4">
+            <Button 
+              variant="outline" 
+              onClick={() => setActiveCategory(null)}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" /> 
+              ย้อนกลับ
+            </Button>
           </div>
-
+          
           <div className="bg-white rounded-lg shadow-md p-6">
             {activeCategory && (
               <VisualInspectionSection 
