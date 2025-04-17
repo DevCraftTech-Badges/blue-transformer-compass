@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { 
   Form, 
@@ -24,6 +25,7 @@ import {
   FormLabel 
 } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface Field {
   name: string;
@@ -116,34 +118,37 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-xl max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>
             {item ? 'แก้ไขข้อมูล' : 'สร้างรายการใหม่'} - {category.title}
           </DialogTitle>
+          <DialogDescription>กรอกข้อมูลการตรวจสอบ General Condition</DialogDescription>
         </DialogHeader>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 py-4">
-            {category.fields.map((field, index) => (
-              <FormItem key={index}>
-                <FormLabel>{field.name}</FormLabel>
-                <FormControl>
-                  {getFormField(field)}
-                </FormControl>
-              </FormItem>
-            ))}
+        <ScrollArea className="flex-grow overflow-y-auto px-2">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 py-4">
+              {category.fields.map((field, index) => (
+                <FormItem key={index}>
+                  <FormLabel>{field.name}</FormLabel>
+                  <FormControl>
+                    {getFormField(field)}
+                  </FormControl>
+                </FormItem>
+              ))}
+            </form>
+          </Form>
+        </ScrollArea>
 
-            <DialogFooter className="pt-4">
-              <Button variant="outline" onClick={onClose} type="button">
-                ยกเลิก
-              </Button>
-              <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-                บันทึกข้อมูล
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
+        <DialogFooter className="pt-4">
+          <Button variant="outline" onClick={onClose} type="button">
+            ยกเลิก
+          </Button>
+          <Button type="submit" className="bg-blue-600 hover:bg-blue-700" onClick={form.handleSubmit(handleSubmit)}>
+            บันทึกข้อมูล
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
