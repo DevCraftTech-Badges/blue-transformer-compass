@@ -1,212 +1,185 @@
 
-import React from 'react';
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { MainEquipmentWeightItem } from './MainEquipmentWeightPage';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import React, { useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import { MainEquipmentWeightItem } from "@/types/mainEquipmentWeight";
 
 interface MainEquipmentWeightModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (data: Omit<MainEquipmentWeightItem, 'id'>) => void;
-  item: MainEquipmentWeightItem | null;
+  onSubmit: (data: Omit<MainEquipmentWeightItem, "id">) => void;
+  initialData?: MainEquipmentWeightItem;
+  isEditing: boolean;
 }
-
-// Form validation schema
-const formSchema = z.object({
-  activePart: z.coerce
-    .number()
-    .nonnegative({ message: "ต้องเป็นค่าบวกหรือศูนย์" })
-    .max(100, { message: "ค่าสูงสุดคือ 100" }),
-  bushing: z.coerce
-    .number()
-    .nonnegative({ message: "ต้องเป็นค่าบวกหรือศูนย์" })
-    .max(100, { message: "ค่าสูงสุดคือ 100" }),
-  arrester: z.coerce
-    .number()
-    .nonnegative({ message: "ต้องเป็นค่าบวกหรือศูนย์" })
-    .max(100, { message: "ค่าสูงสุดคือ 100" }),
-  oil: z.coerce
-    .number()
-    .nonnegative({ message: "ต้องเป็นค่าบวกหรือศูนย์" })
-    .max(100, { message: "ค่าสูงสุดคือ 100" }),
-  oltc: z.coerce
-    .number()
-    .nonnegative({ message: "ต้องเป็นค่าบวกหรือศูนย์" })
-    .max(100, { message: "ค่าสูงสุดคือ 100" }),
-});
-
-// Type for form values
-type FormValues = z.infer<typeof formSchema>;
 
 const MainEquipmentWeightModal: React.FC<MainEquipmentWeightModalProps> = ({
   isOpen,
   onClose,
-  onSave,
-  item,
+  onSubmit,
+  initialData,
+  isEditing,
 }) => {
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<Omit<MainEquipmentWeightItem, "id">>({
     defaultValues: {
-      activePart: item?.activePart || 0,
-      bushing: item?.bushing || 0,
-      arrester: item?.arrester || 0,
-      oil: item?.oil || 0,
-      oltc: item?.oltc || 0,
-    },
+      activePart: initialData?.activePart || 0,
+      bushing: initialData?.bushing || 0,
+      arrester: initialData?.arrester || 0,
+      oil: initialData?.oil || 0,
+      oltc: initialData?.oltc || 0,
+    }
   });
 
-  React.useEffect(() => {
-    if (isOpen) {
-      form.reset({
-        activePart: item?.activePart || 0,
-        bushing: item?.bushing || 0,
-        arrester: item?.arrester || 0,
-        oil: item?.oil || 0,
-        oltc: item?.oltc || 0,
+  useEffect(() => {
+    if (isOpen && initialData) {
+      reset({
+        activePart: initialData.activePart,
+        bushing: initialData.bushing,
+        arrester: initialData.arrester,
+        oil: initialData.oil,
+        oltc: initialData.oltc,
+      });
+    } else if (isOpen) {
+      reset({
+        activePart: 0,
+        bushing: 0,
+        arrester: 0,
+        oil: 0,
+        oltc: 0,
       });
     }
-  }, [isOpen, item, form]);
+  }, [isOpen, initialData, reset]);
 
-  const onSubmit = (values: FormValues) => {
-    onSave(values);
+  const submitHandler = (data: Omit<MainEquipmentWeightItem, "id">) => {
+    onSubmit(data);
+    onClose();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>
-            {item ? 'แก้ไขรายการ' : 'สร้างรายการใหม่'}
-          </DialogTitle>
+          <DialogTitle>{isEditing ? "แก้ไขข้อมูล" : "สร้างรายการใหม่"}</DialogTitle>
         </DialogHeader>
-        
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="activePart"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Active Part</FormLabel>
-                  <FormControl>
-                    <Input 
-                      type="number" 
-                      placeholder="กรอกค่า Active Part" 
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+        <form onSubmit={handleSubmit(submitHandler)}>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="activePart" className="text-right">
+                Active Part
+              </Label>
+              <Input
+                id="activePart"
+                type="number"
+                min="0"
+                max="100"
+                className="col-span-3"
+                {...register("activePart", {
+                  required: "This field is required",
+                  valueAsNumber: true,
+                  min: { value: 0, message: "Value must be positive" },
+                  max: { value: 100, message: "Value must be 100 or less" }
+                })}
+              />
+              {errors.activePart && (
+                <p className="text-red-500 text-sm col-span-4 text-right">{errors.activePart.message}</p>
               )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="bushing"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bushing</FormLabel>
-                  <FormControl>
-                    <Input 
-                      type="number" 
-                      placeholder="กรอกค่า Bushing" 
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="bushing" className="text-right">
+                Bushing
+              </Label>
+              <Input
+                id="bushing"
+                type="number"
+                min="0"
+                max="100"
+                className="col-span-3"
+                {...register("bushing", {
+                  required: "This field is required",
+                  valueAsNumber: true,
+                  min: { value: 0, message: "Value must be positive" },
+                  max: { value: 100, message: "Value must be 100 or less" }
+                })}
+              />
+              {errors.bushing && (
+                <p className="text-red-500 text-sm col-span-4 text-right">{errors.bushing.message}</p>
               )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="arrester"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Arrester</FormLabel>
-                  <FormControl>
-                    <Input 
-                      type="number" 
-                      placeholder="กรอกค่า Arrester" 
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="arrester" className="text-right">
+                Arrester
+              </Label>
+              <Input
+                id="arrester"
+                type="number"
+                min="0"
+                max="100"
+                className="col-span-3"
+                {...register("arrester", {
+                  required: "This field is required",
+                  valueAsNumber: true,
+                  min: { value: 0, message: "Value must be positive" },
+                  max: { value: 100, message: "Value must be 100 or less" }
+                })}
+              />
+              {errors.arrester && (
+                <p className="text-red-500 text-sm col-span-4 text-right">{errors.arrester.message}</p>
               )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="oil"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Oil</FormLabel>
-                  <FormControl>
-                    <Input 
-                      type="number" 
-                      placeholder="กรอกค่า Oil" 
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="oil" className="text-right">
+                Oil
+              </Label>
+              <Input
+                id="oil"
+                type="number"
+                min="0"
+                max="100"
+                className="col-span-3"
+                {...register("oil", {
+                  required: "This field is required",
+                  valueAsNumber: true,
+                  min: { value: 0, message: "Value must be positive" },
+                  max: { value: 100, message: "Value must be 100 or less" }
+                })}
+              />
+              {errors.oil && (
+                <p className="text-red-500 text-sm col-span-4 text-right">{errors.oil.message}</p>
               )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="oltc"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>OLTC</FormLabel>
-                  <FormControl>
-                    <Input 
-                      type="number" 
-                      placeholder="กรอกค่า OLTC" 
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="oltc" className="text-right">
+                OLTC
+              </Label>
+              <Input
+                id="oltc"
+                type="number"
+                min="0"
+                max="100"
+                className="col-span-3"
+                {...register("oltc", {
+                  required: "This field is required",
+                  valueAsNumber: true,
+                  min: { value: 0, message: "Value must be positive" },
+                  max: { value: 100, message: "Value must be 100 or less" }
+                })}
+              />
+              {errors.oltc && (
+                <p className="text-red-500 text-sm col-span-4 text-right">{errors.oltc.message}</p>
               )}
-            />
-            
-            <DialogFooter className="mt-6">
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={onClose}
-              >
-                ยกเลิก
-              </Button>
-              <Button 
-                type="submit" 
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                บันทึกข้อมูล
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose}>
+              ยกเลิก
+            </Button>
+            <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+              {isEditing ? "บันทึกการแก้ไข" : "บันทึกข้อมูล"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

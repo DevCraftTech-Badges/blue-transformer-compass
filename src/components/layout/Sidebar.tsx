@@ -58,7 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       title: 'ข้อมูลบำรุงรักษาหม้อแปลง',
       icon: <Wrench size={20} />,
       dropdown: [
-        { title: 'ค้นหาข้อมูลบำรุงรักษาหม้อแปลง', link: '#' },
+        { title: 'ค้นหาข้อมูลบำรุงรักษาหม้อแปลง', link: '/transformer-maintenance-search' },
         { title: 'Visual Inspection', link: '#' },
         { title: 'ผลทดสอบน้ำมัน', link: '#' },
         { title: 'ผลทดสอบทางไฟฟ้า', link: '/electrical-test-results' },

@@ -26,6 +26,7 @@ import ScorePercentageFactorPage from "./pages/ScorePercentageFactor";
 import SubequipmentWeightPage from "./pages/SubequipmentWeight";
 import ScoreWeightTestingPage from "./pages/ScoreWeightTesting";
 import MainEquipmentWeight from "./pages/MainEquipmentWeight";
+import TransformerMaintenanceSearch from "./pages/TransformerMaintenanceSearch";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,7 @@ const App = () => (
           <Route path="/subequipment-weight" element={<SubequipmentWeightPage />} />
           <Route path="/score-weight-testing" element={<ScoreWeightTestingPage />} />
           <Route path="/main-equipment-weight" element={<MainEquipmentWeight />} />
+          <Route path="/transformer-maintenance-search" element={<TransformerMaintenanceSearch />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
