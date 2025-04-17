@@ -55,6 +55,7 @@ const App = () => (
           <Route path="/score-percentage-factor" element={<ScorePercentageFactorPage />} />
           <Route path="/subequipment-weight" element={<SubequipmentWeightPage />} />
           <Route path="/score-weight-testing" element={<ScoreWeightTestingPage />} />
+          <Route path="/main-equipment-weight" element={<MainEquipmentWeightPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
