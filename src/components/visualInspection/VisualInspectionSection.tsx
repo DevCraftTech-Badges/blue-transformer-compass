@@ -29,6 +29,7 @@ interface Field {
 interface Category {
   id: string;
   title: string;
+  icon?: React.ReactNode;
   fields: Field[];
 }
 
@@ -126,9 +127,10 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
       );
     } else {
       // Add new item
-      const newItem = {
+      const newId = Math.max(0, ...items.map((item) => item.id)) + 1;
+      const newItem: InspectionItem = {
         ...itemData,
-        id: Math.max(0, ...items.map((item) => item.id)) + 1,
+        id: newId
       };
       setItems([...items, newItem]);
     }

@@ -1,17 +1,30 @@
 
 import React, { useState } from 'react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { 
+  Settings, Disc, Zap, Box, Filter, Fan, 
+  Server, CircuitBoard, Sliders, ThermometerSun
+} from 'lucide-react';
+import Layout from "@/components/layout/Layout";
 import VisualInspectionSection from './VisualInspectionSection';
+import { Card, CardContent } from "@/components/ui/card";
 
-const inspectionCategories = [
+interface Field {
+  name: string;
+  type: 'text' | 'select' | 'date';
+}
+
+interface Category {
+  id: string;
+  title: string;
+  icon: React.ReactNode;
+  fields: Field[];
+}
+
+const inspectionCategories: Category[] = [
   {
     id: 'general-condition',
     title: 'General Condition',
+    icon: <Settings className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -29,6 +42,7 @@ const inspectionCategories = [
   {
     id: 'bushing',
     title: 'Bushing',
+    icon: <Disc className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -40,6 +54,7 @@ const inspectionCategories = [
   {
     id: 'lightning-arrester',
     title: 'Lightning Arrester',
+    icon: <Zap className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -51,6 +66,7 @@ const inspectionCategories = [
   {
     id: 'conservator-tank',
     title: 'Conservator Tank',
+    icon: <Box className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -62,6 +78,7 @@ const inspectionCategories = [
   {
     id: 'main-tank',
     title: 'Main Tank',
+    icon: <Box className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -73,6 +90,7 @@ const inspectionCategories = [
   {
     id: 'hot-line-oil-filter',
     title: 'Hot Line Oil Filter',
+    icon: <Filter className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -84,6 +102,7 @@ const inspectionCategories = [
   {
     id: 'radiator-cooling-system',
     title: 'Radiator and Cooling System',
+    icon: <Fan className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -95,6 +114,7 @@ const inspectionCategories = [
   {
     id: 'transformer-control-cabinet',
     title: 'Transformer Control Cabinet',
+    icon: <Server className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -106,6 +126,7 @@ const inspectionCategories = [
   {
     id: 'ngr',
     title: 'NGR',
+    icon: <CircuitBoard className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -117,6 +138,7 @@ const inspectionCategories = [
   {
     id: 'regulating-pt',
     title: 'Regulating PT',
+    icon: <Sliders className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -128,6 +150,7 @@ const inspectionCategories = [
   {
     id: 'oltc-compartment',
     title: 'OLTC Compartment',
+    icon: <Box className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -139,6 +162,7 @@ const inspectionCategories = [
   {
     id: 'oltc-control-cabinet',
     title: 'OLTC Control Cabinet',
+    icon: <Server className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -150,6 +174,7 @@ const inspectionCategories = [
   {
     id: 'thermo-scan',
     title: 'Thermo Scan',
+    icon: <ThermometerSun className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -171,34 +196,55 @@ const VisualInspectionPage: React.FC = () => {
         </h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6">
-        <div className="bg-white rounded-lg shadow-md p-4">
-          <h2 className="text-lg font-medium mb-4">ประเภทการตรวจสอบ</h2>
-          <Accordion 
-            type="single" 
-            collapsible 
-            defaultValue="general-condition"
-            onValueChange={(value) => setActiveCategory(value)}
-          >
-            {inspectionCategories.map((category) => (
-              <AccordionItem key={category.id} value={category.id}>
-                <AccordionTrigger className="py-2">
-                  {category.title}
-                </AccordionTrigger>
-                <AccordionContent></AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
+      {activeCategory ? (
+        <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6">
+          <div className="bg-white rounded-lg shadow-md p-4">
+            <h2 className="text-lg font-medium mb-4">ประเภทการตรวจสอบ</h2>
+            <div className="space-y-2">
+              {inspectionCategories.map((category) => (
+                <div 
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`p-2 rounded-md cursor-pointer transition-colors ${
+                    activeCategory === category.id 
+                      ? 'bg-blue-100 text-blue-800' 
+                      : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    {category.title}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          {activeCategory && (
-            <VisualInspectionSection 
-              category={inspectionCategories.find(c => c.id === activeCategory)!} 
-            />
-          )}
+          <div className="bg-white rounded-lg shadow-md p-6">
+            {activeCategory && (
+              <VisualInspectionSection 
+                category={inspectionCategories.find(c => c.id === activeCategory)!} 
+              />
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {inspectionCategories.map((category) => (
+            <Card 
+              key={category.id}
+              className="cursor-pointer hover:ring-2 hover:ring-blue-300 transition-all"
+              onClick={() => setActiveCategory(category.id)}
+            >
+              <CardContent className="p-6 flex flex-col items-center text-center">
+                <div className="mb-4 mt-2">
+                  {category.icon}
+                </div>
+                <h3 className="text-lg font-medium">{category.title}</h3>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
