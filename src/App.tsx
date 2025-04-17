@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -29,6 +28,7 @@ import TransformerMaintenanceSearchPage from "./pages/TransformerMaintenanceSear
 import VisualInspectionPage from "./pages/VisualInspection";
 import NotFoundThermoScan from "./pages/NotFoundThermoScan";
 import FactorSettingPage from "./pages/FactorSetting";
+import TransformerPriceAndLossPage from "./pages/TransformerPriceAndLoss";
 
 const queryClient = new QueryClient();
 
@@ -63,7 +63,7 @@ const App = () => (
           <Route path="/visual-inspection" element={<VisualInspectionPage />} />
           <Route path="/not-found-thermo-scan" element={<NotFoundThermoScan />} />
           <Route path="/factor-setting" element={<FactorSettingPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/transformer-price-and-loss" element={<TransformerPriceAndLossPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
