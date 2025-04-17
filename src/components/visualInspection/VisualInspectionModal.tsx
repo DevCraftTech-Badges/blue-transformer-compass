@@ -26,29 +26,7 @@ import {
 } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { ScrollArea } from '@/components/ui/scroll-area';
-
-interface Field {
-  name: string;
-  type: 'text' | 'select' | 'date';
-}
-
-interface Category {
-  id: string;
-  title: string;
-  icon?: React.ReactNode;
-  fields: Field[];
-}
-
-interface InspectionItem {
-  id: number;
-  transformerName: string;
-  egatSN: string;
-  testType: string;
-  testDate: string;
-  testTime: string;
-  inspector: string;
-  [key: string]: any;
-}
+import { Category, InspectionItem, Field } from './types';
 
 interface VisualInspectionModalProps {
   isOpen: boolean;

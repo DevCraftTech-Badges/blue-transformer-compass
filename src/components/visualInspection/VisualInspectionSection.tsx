@@ -1,48 +1,11 @@
 
 import React, { useState } from 'react';
-import { PlusCircle, Search, Eye, Pencil, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import VisualInspectionModal from './VisualInspectionModal';
-
-interface Field {
-  name: string;
-  type: 'text' | 'select' | 'date';
-}
-
-interface Category {
-  id: string;
-  title: string;
-  icon?: React.ReactNode;
-  fields: Field[];
-}
-
-interface InspectionItem {
-  id: number;
-  transformerName: string;
-  egatSN: string;
-  testType: string;
-  testDate: string;
-  testTime: string;
-  inspector: string;
-  [key: string]: any;
-}
+import SearchBar from './SearchBar';
+import ActionButtons from './ActionButtons';
+import InspectionTable from './InspectionTable';
+import { Category, InspectionItem } from './types';
 
 interface VisualInspectionSectionProps {
   category: Category;
@@ -85,10 +48,6 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
     },
   ]);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
-
   const handleCreateNew = () => {
     setCurrentItem(null);
     setIsModalOpen(true);
@@ -125,10 +84,10 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
       );
     } else {
       const newId = Math.max(0, ...items.map((item) => item.id)) + 1;
-      const newItem: InspectionItem = {
+      const newItem = {
         ...itemData,
         id: newId
-      };
+      } as InspectionItem;
       setItems([...items, newItem]);
     }
     setIsModalOpen(false);
@@ -150,91 +109,16 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
       <h2 className="text-xl font-semibold mb-4">{category.title}</h2>
       
       <div className="flex justify-between items-center gap-4">
-        <div className="relative flex-1">
-          <Input
-            type="text"
-            placeholder="ค้นหา..."
-            value={searchQuery}
-            onChange={handleSearchChange}
-            className="pl-10"
-          />
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        </div>
-        <Button 
-          className="bg-transformer-primary hover:bg-transformer-primary/90" 
-          onClick={handleCreateNew}
-        >
-          <PlusCircle className="h-4 w-4 mr-2" />
-          สร้างรายการใหม่
-        </Button>
+        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <ActionButtons onCreateNew={handleCreateNew} />
       </div>
 
-      <div className="border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-muted/70">
-              <TableHead className="w-[60px] text-center">No</TableHead>
-              <TableHead>หม้อแปลงไฟฟ้า</TableHead>
-              <TableHead>EGAT S/N</TableHead>
-              <TableHead>รูปแบบการทดสอบ</TableHead>
-              <TableHead>วันที่เริ่มทดสอบ</TableHead>
-              <TableHead>เวลาที่เริ่มปฏิบัติงาน</TableHead>
-              <TableHead>ผู้ตรวจสอบ</TableHead>
-              <TableHead>จัดการ</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredItems.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={8} className="text-center py-4">
-                  ไม่พบข้อมูล
-                </TableCell>
-              </TableRow>
-            ) : (
-              filteredItems.map((item, index) => (
-                <TableRow key={item.id}>
-                  <TableCell className="text-center">{index + 1}</TableCell>
-                  <TableCell>{item.transformerName}</TableCell>
-                  <TableCell>{item.egatSN}</TableCell>
-                  <TableCell>{item.testType}</TableCell>
-                  <TableCell>{item.testDate}</TableCell>
-                  <TableCell>{item.testTime}</TableCell>
-                  <TableCell>{item.inspector}</TableCell>
-                  <TableCell>
-                    <div className="flex space-x-2">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => handleView(item)}
-                        title="แสดงข้อมูล"
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => handleEdit(item)}
-                        title="แก้ไขข้อมูล"
-                      >
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => handleDelete(item.id)}
-                        title="ลบข้อมูล"
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        <Trash className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
+      <InspectionTable 
+        items={filteredItems}
+        onView={handleView}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
 
       <Pagination>
         <PaginationContent>
