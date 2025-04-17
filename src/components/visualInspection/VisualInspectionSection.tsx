@@ -84,10 +84,10 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
       );
     } else {
       const newId = Math.max(0, ...items.map((item) => item.id)) + 1;
-      const newItem = {
+      const newItem: InspectionItem = {
         ...itemData,
         id: newId
-      } as InspectionItem;
+      };
       setItems([...items, newItem]);
     }
     setIsModalOpen(false);

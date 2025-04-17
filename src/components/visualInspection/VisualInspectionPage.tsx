@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Settings, Disc, Zap, Box, Filter, Fan, 
   Server, CircuitBoard, Sliders, ThermometerSun,
@@ -8,18 +9,7 @@ import {
 import VisualInspectionSection from './VisualInspectionSection';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
-interface Field {
-  name: string;
-  type: 'text' | 'select' | 'date';
-}
-
-interface Category {
-  id: string;
-  title: string;
-  icon: React.ReactNode;
-  fields: Field[];
-}
+import { Category } from './types';
 
 const inspectionCategories: Category[] = [
   {
@@ -188,6 +178,16 @@ const inspectionCategories: Category[] = [
 
 const VisualInspectionPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (categoryId: string) => {
+    if (categoryId === 'thermo-scan') {
+      // Navigate to 404 page for Thermo Scan
+      navigate('/not-found-thermo-scan');
+    } else {
+      setActiveCategory(categoryId);
+    }
+  };
 
   return (
     <div className="space-y-6 p-6 animate-fade-in">
@@ -225,7 +225,7 @@ const VisualInspectionPage: React.FC = () => {
             <Card 
               key={category.id}
               className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-white group cursor-pointer"
-              onClick={() => setActiveCategory(category.id)}
+              onClick={() => handleCategoryClick(category.id)}
             >
               <CardContent className="p-0 flex items-center space-x-3">
                 <div className="h-10 w-10 rounded-full bg-transformer-primary/10 flex items-center justify-center group-hover:bg-transformer-primary/20 transition-colors">

@@ -28,6 +28,7 @@ import ScoreWeightTestingPage from "./pages/ScoreWeightTesting";
 import MainEquipmentWeightPage from "./pages/MainEquipmentWeight";
 import TransformerMaintenanceSearchPage from "./pages/TransformerMaintenanceSearch";
 import VisualInspectionPage from "./pages/VisualInspection";
+import NotFoundThermoScan from "./pages/NotFoundThermoScan";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,7 @@ const App = () => (
           <Route path="/main-equipment-weight" element={<MainEquipmentWeightPage />} />
           <Route path="/transformer-maintenance-search" element={<TransformerMaintenanceSearchPage />} />
           <Route path="/visual-inspection" element={<VisualInspectionPage />} />
+          <Route path="/not-found-thermo-scan" element={<NotFoundThermoScan />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
