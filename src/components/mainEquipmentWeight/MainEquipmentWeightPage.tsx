@@ -1,48 +1,54 @@
 
-import React, { useState } from 'react';
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
+import React, { useState } from "react";
+import { PlusCircle, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Search } from "lucide-react";
-import MainEquipmentWeightTable from './MainEquipmentWeightTable';
-import MainEquipmentWeightModal from './MainEquipmentWeightModal';
-import { useToast } from "@/hooks/use-toast";
+import MainEquipmentWeightTable from "./MainEquipmentWeightTable";
+import MainEquipmentWeightModal from "./MainEquipmentWeightModal";
+import { MainEquipmentWeightItem } from "@/types/mainEquipmentWeight";
 
-// Mock data for demonstration
-const initialData = Array(15).fill(null).map((_, index) => ({
-  id: index + 1,
-  activePart: Math.floor(Math.random() * 30) + 20,
-  bushing: Math.floor(Math.random() * 20) + 10,
-  arrester: Math.floor(Math.random() * 15) + 5,
-  oil: Math.floor(Math.random() * 25) + 15,
-  oltc: Math.floor(Math.random() * 20) + 10,
-}));
-
-export interface MainEquipmentWeightItem {
-  id: number;
-  activePart: number;
-  bushing: number;
-  arrester: number;
-  oil: number;
-  oltc: number;
-}
-
-const MainEquipmentWeightPage = () => {
-  const [data, setData] = useState<MainEquipmentWeightItem[]>(initialData);
-  const [filteredData, setFilteredData] = useState<MainEquipmentWeightItem[]>(initialData);
+const MainEquipmentWeightPage: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState<MainEquipmentWeightItem | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const { toast } = useToast();
+  const [items, setItems] = useState<MainEquipmentWeightItem[]>([
+    {
+      id: 1,
+      activePart: 30,
+      bushing: 20,
+      arrester: 15,
+      oil: 25,
+      oltc: 10,
+    },
+    {
+      id: 2,
+      activePart: 35,
+      bushing: 15,
+      arrester: 10,
+      oil: 30,
+      oltc: 10,
+    },
+    {
+      id: 3,
+      activePart: 40,
+      bushing: 15,
+      arrester: 15,
+      oil: 20,
+      oltc: 10,
+    },
+  ]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   const handleCreateNew = () => {
     setCurrentItem(null);
     setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   const handleEdit = (item: MainEquipmentWeightItem) => {
@@ -51,111 +57,86 @@ const MainEquipmentWeightPage = () => {
   };
 
   const handleDelete = (id: number) => {
-    const updatedData = data.filter(item => item.id !== id);
-    setData(updatedData);
-    filterData(updatedData, searchQuery);
-    
-    toast({
-      title: "รายการถูกลบแล้ว",
-      description: `รายการ ID: ${id} ถูกลบออกจากระบบเรียบร้อยแล้ว`,
-    });
+    const confirmDelete = window.confirm("คุณต้องการลบรายการนี้ใช่หรือไม่?");
+    if (confirmDelete) {
+      setItems(items.filter((item) => item.id !== id));
+    }
   };
 
-  const handleSave = (itemData: Omit<MainEquipmentWeightItem, 'id'>) => {
-    let updatedData: MainEquipmentWeightItem[];
-    
+  const handleSaveItem = (itemData: Omit<MainEquipmentWeightItem, "id">) => {
     if (currentItem) {
       // Edit existing item
-      updatedData = data.map(item => 
-        item.id === currentItem.id 
-          ? { ...itemData, id: currentItem.id } 
-          : item
+      setItems(
+        items.map((item) =>
+          item.id === currentItem.id
+            ? { ...itemData, id: currentItem.id }
+            : item
+        )
       );
-      toast({
-        title: "อัปเดตข้อมูลสำเร็จ",
-        description: `รายการ ID: ${currentItem.id} ได้รับการอัปเดตเรียบร้อยแล้ว`,
-      });
     } else {
-      // Create new item
-      const newId = data.length > 0 ? Math.max(...data.map(item => item.id)) + 1 : 1;
-      const newItem = { ...itemData, id: newId };
-      updatedData = [...data, newItem];
-      toast({
-        title: "สร้างรายการใหม่สำเร็จ",
-        description: "เพิ่มรายการใหม่เข้าสู่ระบบเรียบร้อยแล้ว",
-      });
+      // Add new item
+      const newItem = {
+        ...itemData,
+        id: Math.max(0, ...items.map((item) => item.id)) + 1,
+      };
+      setItems([...items, newItem]);
     }
-    
-    setData(updatedData);
-    filterData(updatedData, searchQuery);
     setIsModalOpen(false);
   };
 
-  const filterData = (dataToFilter: MainEquipmentWeightItem[], query: string) => {
-    if (!query.trim()) {
-      setFilteredData(dataToFilter);
-      return;
-    }
-    
-    const lowercaseQuery = query.toLowerCase();
-    const filtered = dataToFilter.filter(item => 
-      item.id.toString().includes(lowercaseQuery) ||
-      item.activePart.toString().includes(lowercaseQuery) ||
-      item.bushing.toString().includes(lowercaseQuery) ||
-      item.arrester.toString().includes(lowercaseQuery) ||
-      item.oil.toString().includes(lowercaseQuery) ||
-      item.oltc.toString().includes(lowercaseQuery)
+  const filteredItems = items.filter((item) => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      item.id.toString().includes(query) ||
+      item.activePart.toString().includes(query) ||
+      item.bushing.toString().includes(query) ||
+      item.arrester.toString().includes(query) ||
+      item.oil.toString().includes(query) ||
+      item.oltc.toString().includes(query)
     );
-    
-    setFilteredData(filtered);
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    filterData(data, query);
-  };
+  });
 
   return (
-    <div className="space-y-4">
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-2xl font-bold">การจัดการ - Weight อุปกรณ์หลัก</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
-            <div className="relative w-full md:w-96">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="ค้นหา..."
-                className="pl-8"
-                value={searchQuery}
-                onChange={handleSearch}
-              />
-            </div>
-            <Button 
-              onClick={handleCreateNew} 
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              สร้างรายการใหม่
-            </Button>
-          </div>
-          
-          <MainEquipmentWeightTable 
-            data={filteredData} 
-            onEdit={handleEdit} 
-            onDelete={handleDelete} 
-          />
-        </CardContent>
-      </Card>
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">การจัดการ - Weight อุปกรณ์หลัก</h1>
+      </div>
 
-      <MainEquipmentWeightModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        onSave={handleSave} 
-        item={currentItem} 
+      <div className="flex justify-between items-center gap-4">
+        <div className="relative flex-1">
+          <Input
+            type="text"
+            placeholder="ค้นหา..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="pl-10"
+          />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        </div>
+        <Button 
+          className="bg-blue-600 hover:bg-blue-700" 
+          onClick={handleCreateNew}
+        >
+          <PlusCircle className="h-4 w-4 mr-2" />
+          สร้างรายการใหม่
+        </Button>
+      </div>
+
+      <MainEquipmentWeightTable
+        items={filteredItems}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
       />
+
+      {isModalOpen && (
+        <MainEquipmentWeightModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onSave={handleSaveItem}
+          item={currentItem}
+        />
+      )}
     </div>
   );
 };

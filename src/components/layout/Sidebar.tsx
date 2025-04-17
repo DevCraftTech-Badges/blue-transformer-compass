@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -59,7 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <Wrench size={20} />,
       dropdown: [
         { title: 'ค้นหาข้อมูลบำรุงรักษาหม้อแปลง', link: '/transformer-maintenance-search' },
-        { title: 'Visual Inspection', link: '#' },
+        { title: 'Visual Inspection', link: '/visual-inspection' },
         { title: 'ผลทดสอบน้ำมัน', link: '#' },
         { title: 'ผลทดสอบทางไฟฟ้า', link: '/electrical-test-results' },
         { title: 'Core Insulation Resistance', link: '/core-insulation-resistance' },
