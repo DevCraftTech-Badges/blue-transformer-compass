@@ -4,7 +4,6 @@ import {
   Settings, Disc, Zap, Box, Filter, Fan, 
   Server, CircuitBoard, Sliders, ThermometerSun
 } from 'lucide-react';
-import Layout from "@/components/layout/Layout";
 import VisualInspectionSection from './VisualInspectionSection';
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -186,7 +185,7 @@ const inspectionCategories: Category[] = [
 ];
 
 const VisualInspectionPage: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string | null>('general-condition');
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   return (
     <div className="space-y-6">
@@ -228,11 +227,11 @@ const VisualInspectionPage: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {inspectionCategories.map((category) => (
             <Card 
               key={category.id}
-              className="cursor-pointer hover:ring-2 hover:ring-blue-300 transition-all"
+              className="cursor-pointer hover:ring-2 hover:ring-blue-300 hover:shadow-md transition-all duration-200"
               onClick={() => setActiveCategory(category.id)}
             >
               <CardContent className="p-6 flex flex-col items-center text-center">
