@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { PlusCircle, Search, Eye, Pencil, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -99,7 +98,6 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
   };
 
   const handleView = (item: InspectionItem) => {
-    // View details implementation
     console.log('View item:', item);
   };
 
@@ -117,7 +115,6 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
 
   const handleSaveItem = (itemData: Omit<InspectionItem, "id">) => {
     if (currentItem) {
-      // Edit existing item
       setItems(
         items.map((item) =>
           item.id === currentItem.id
@@ -126,12 +123,11 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
         )
       );
     } else {
-      // Add new item
       const newId = Math.max(0, ...items.map((item) => item.id)) + 1;
-      const newItem: InspectionItem = {
+      const newItem = {
         ...itemData,
         id: newId
-      };
+      } as InspectionItem;
       setItems([...items, newItem]);
     }
     setIsModalOpen(false);

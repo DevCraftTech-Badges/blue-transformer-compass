@@ -10,12 +10,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetFooter,
-} from '@/components/ui/sheet';
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
 import { 
   Form, 
   FormControl, 
@@ -115,13 +115,13 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="sm:max-w-lg">
-        <SheetHeader>
-          <SheetTitle>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>
             {item ? 'แก้ไขข้อมูล' : 'สร้างรายการใหม่'} - {category.title}
-          </SheetTitle>
-        </SheetHeader>
+          </DialogTitle>
+        </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 py-4">
@@ -134,18 +134,18 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
               </FormItem>
             ))}
 
-            <SheetFooter className="pt-4">
+            <DialogFooter className="pt-4">
               <Button variant="outline" onClick={onClose} type="button">
                 ยกเลิก
               </Button>
               <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
                 บันทึกข้อมูล
               </Button>
-            </SheetFooter>
+            </DialogFooter>
           </form>
         </Form>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   );
 };
 
