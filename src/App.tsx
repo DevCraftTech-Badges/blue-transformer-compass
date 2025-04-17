@@ -23,6 +23,7 @@ import VisualInspectionTopicsPage from "./pages/VisualInspectionTopics";
 import VisualInspectionCriteriaPage from "./pages/VisualInspectionCriteria";
 import ScorePercentageHIPage from "./pages/ScorePercentageHI";
 import ScorePercentageFactorPage from "./pages/ScorePercentageFactor";
+import SubequipmentWeightPage from "./pages/SubequipmentWeight";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
           <Route path="/visual-inspection-criteria" element={<VisualInspectionCriteriaPage />} />
           <Route path="/score-percentage-hi" element={<ScorePercentageHIPage />} />
           <Route path="/score-percentage-factor" element={<ScorePercentageFactorPage />} />
+          <Route path="/subequipment-weight" element={<SubequipmentWeightPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

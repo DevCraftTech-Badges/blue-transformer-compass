@@ -9,42 +9,34 @@ import { Edit, Trash2 } from 'lucide-react';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { useToast } from '@/hooks/use-toast';
 
-interface FactorData {
+interface WeightData {
   id: number;
-  group: string;
+  performGroup: string;
   name: string;
-  hiFactor: number;
-  meaning: string;
-  lowerBound: number;
-  upperBound: number;
-  color: string;
+  wf: number;
 }
 
-const ScorePercentageFactorPage = () => {
+const SubequipmentWeightPage = () => {
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [editingItem, setEditingItem] = useState<FactorData | null>(null);
-  const [formData, setFormData] = useState<FactorData>({
+  const [editingItem, setEditingItem] = useState<WeightData | null>(null);
+  const [formData, setFormData] = useState<WeightData>({
     id: 0,
-    group: '',
+    performGroup: '',
     name: '',
-    hiFactor: 0,
-    meaning: '',
-    lowerBound: 0,
-    upperBound: 0,
-    color: '#000000'
+    wf: 0
   });
   
   // Sample data
-  const [data, setData] = useState<FactorData[]>([
-    { id: 1, group: 'Electrical Tests', name: 'Critical', hiFactor: 0.9, meaning: 'Very important', lowerBound: 0.8, upperBound: 1.0, color: '#FF0000' },
-    { id: 2, group: 'Oil Tests', name: 'High', hiFactor: 0.7, meaning: 'Important', lowerBound: 0.6, upperBound: 0.79, color: '#FFA500' },
-    { id: 3, group: 'Visual Inspection', name: 'Medium', hiFactor: 0.5, meaning: 'Moderate', lowerBound: 0.4, upperBound: 0.59, color: '#FFFF00' },
-    { id: 4, group: 'Core Tests', name: 'Low', hiFactor: 0.3, meaning: 'Less important', lowerBound: 0.2, upperBound: 0.39, color: '#008000' },
-    { id: 5, group: 'General', name: 'Minimal', hiFactor: 0.1, meaning: 'Least important', lowerBound: 0, upperBound: 0.19, color: '#0000FF' },
+  const [data, setData] = useState<WeightData[]>([
+    { id: 1, performGroup: 'Bushing', name: 'Bushing Test', wf: 0.30 },
+    { id: 2, performGroup: 'Core', name: 'Core Test', wf: 0.25 },
+    { id: 3, performGroup: 'OLTC', name: 'OLTC Test', wf: 0.20 },
+    { id: 4, performGroup: 'Tank', name: 'Tank Test', wf: 0.15 },
+    { id: 5, performGroup: 'Cooling', name: 'Cooling System', wf: 0.10 },
   ]);
 
   // Reset form when opening dialog
@@ -52,38 +44,32 @@ const ScorePercentageFactorPage = () => {
     setEditingItem(null);
     setFormData({
       id: data.length > 0 ? Math.max(...data.map(item => item.id)) + 1 : 1,
-      group: '',
+      performGroup: '',
       name: '',
-      hiFactor: 0,
-      meaning: '',
-      lowerBound: 0,
-      upperBound: 0,
-      color: '#000000'
+      wf: 0
     });
     setIsOpen(true);
   };
 
   // Open edit dialog with existing data
-  const openEditDialog = (item: FactorData) => {
+  const openEditDialog = (item: WeightData) => {
     setEditingItem(item);
     setFormData({ ...item });
     setIsOpen(true);
   };
 
   // Open delete confirmation dialog
-  const openDeleteDialog = (item: FactorData) => {
+  const openDeleteDialog = (item: WeightData) => {
     setEditingItem(item);
     setIsDeleteDialogOpen(true);
   };
 
   // Handle form field changes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === 'hiFactor' || name === 'lowerBound' || name === 'upperBound' 
-        ? parseFloat(value) || 0 
-        : value
+      [name]: name === 'wf' ? parseFloat(value) || 0 : value
     });
   };
 
@@ -92,9 +78,7 @@ const ScorePercentageFactorPage = () => {
     e.preventDefault();
     
     // Validate form
-    if (!formData.group || !formData.name || formData.hiFactor === undefined || 
-        !formData.meaning || formData.lowerBound === undefined || 
-        formData.upperBound === undefined || !formData.color) {
+    if (!formData.performGroup || !formData.name || formData.wf === undefined) {
       toast({
         title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
         variant: 'destructive'
@@ -144,7 +128,7 @@ const ScorePercentageFactorPage = () => {
     <Layout>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">การจัดการ - คะแนน %Factor</h1>
+          <h1 className="text-2xl font-bold">การจัดการ - Weight อุปกรณ์ย่อย</h1>
           <Button 
             onClick={openCreateDialog} 
             className="bg-blue-600 hover:bg-blue-700 text-white"
@@ -159,13 +143,9 @@ const ScorePercentageFactorPage = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>ID</TableHead>
-                <TableHead>Group</TableHead>
+                <TableHead>Perform Group</TableHead>
                 <TableHead>Name</TableHead>
-                <TableHead>HI Factor</TableHead>
-                <TableHead>Meaning</TableHead>
-                <TableHead>Lower Bound</TableHead>
-                <TableHead>Upper Bound</TableHead>
-                <TableHead>Color</TableHead>
+                <TableHead>Wf</TableHead>
                 <TableHead>จัดการ</TableHead>
               </TableRow>
             </TableHeader>
@@ -173,21 +153,9 @@ const ScorePercentageFactorPage = () => {
               {currentItems.map((item) => (
                 <TableRow key={item.id} className="hover:bg-gray-50">
                   <TableCell>{item.id}</TableCell>
-                  <TableCell>{item.group}</TableCell>
+                  <TableCell>{item.performGroup}</TableCell>
                   <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.hiFactor}</TableCell>
-                  <TableCell>{item.meaning}</TableCell>
-                  <TableCell>{item.lowerBound}</TableCell>
-                  <TableCell>{item.upperBound}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <div 
-                        className="w-6 h-6 rounded-full" 
-                        style={{ backgroundColor: item.color }}
-                      ></div>
-                      <span>{item.color}</span>
-                    </div>
-                  </TableCell>
+                  <TableCell>{item.wf.toFixed(2)}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
                       <Button variant="ghost" size="icon" onClick={() => openEditDialog(item)}>
@@ -246,12 +214,12 @@ const ScorePercentageFactorPage = () => {
           <form onSubmit={handleSubmit}>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="group" className="text-right">Group</label>
+                <label htmlFor="performGroup" className="text-right">Perform Group</label>
                 <Input 
-                  id="group" 
-                  name="group" 
+                  id="performGroup" 
+                  name="performGroup" 
                   className="col-span-3" 
-                  value={formData.group} 
+                  value={formData.performGroup} 
                   onChange={handleChange} 
                   required
                 />
@@ -268,81 +236,19 @@ const ScorePercentageFactorPage = () => {
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="hiFactor" className="text-right">HI Factor</label>
+                <label htmlFor="wf" className="text-right">Wf (Weight Factor)</label>
                 <Input 
-                  id="hiFactor" 
-                  name="hiFactor" 
+                  id="wf" 
+                  name="wf" 
                   type="number" 
                   className="col-span-3" 
-                  value={formData.hiFactor} 
+                  value={formData.wf} 
                   onChange={handleChange} 
                   required
                   min="0"
                   max="1"
                   step="0.01"
                 />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="meaning" className="text-right">Meaning</label>
-                <Input 
-                  id="meaning" 
-                  name="meaning" 
-                  className="col-span-3" 
-                  value={formData.meaning} 
-                  onChange={handleChange} 
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="lowerBound" className="text-right">Lower Bound</label>
-                <Input 
-                  id="lowerBound" 
-                  name="lowerBound" 
-                  type="number" 
-                  className="col-span-3" 
-                  value={formData.lowerBound} 
-                  onChange={handleChange} 
-                  required
-                  min="0"
-                  max="1"
-                  step="0.01"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="upperBound" className="text-right">Upper Bound</label>
-                <Input 
-                  id="upperBound" 
-                  name="upperBound" 
-                  type="number" 
-                  className="col-span-3" 
-                  value={formData.upperBound} 
-                  onChange={handleChange} 
-                  required
-                  min="0"
-                  max="1"
-                  step="0.01"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="color" className="text-right">Color</label>
-                <div className="col-span-3 flex gap-2">
-                  <Input 
-                    id="color" 
-                    name="color" 
-                    type="color" 
-                    className="w-16" 
-                    value={formData.color} 
-                    onChange={handleChange} 
-                    required
-                  />
-                  <Input 
-                    type="text" 
-                    name="color" 
-                    value={formData.color} 
-                    onChange={handleChange} 
-                    className="flex-1"
-                  />
-                </div>
               </div>
             </div>
             <DialogFooter>
@@ -381,4 +287,4 @@ const ScorePercentageFactorPage = () => {
   );
 };
 
-export default ScorePercentageFactorPage;
+export default SubequipmentWeightPage;
