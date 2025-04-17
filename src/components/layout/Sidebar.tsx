@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -63,7 +64,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'ผลทดสอบทางไฟฟ้า', link: '/electrical-test-results' },
         { title: 'บำรุงรักษา OLTC', link: '#' },
         { title: 'ดูข้อมูลผลการทดสอบทั้งหมด', link: '#' },
-        { title: 'ตรวจสอบสภาพหม้อแปลงไฟฟ้า', link: '#' }
+        { title: 'ตรวจสอบสภาพหม้อแปลงไฟฟ้า', link: '#' },
+        { title: 'Thermo Scan', link: '/not-found-thermo-scan' }
       ]
     },
     {
@@ -94,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       title: 'การวิเคราะห์ทางเศรษฐศาสตร์',
       icon: <TrendingUp size={20} />,
       dropdown: [
-        { title: 'Factor Setting', link: '#' },
+        { title: 'Factor Setting', link: '/factor-setting' },
         { title: 'ราคาและ Loss ของหม้อแลง', link: '#' },
         { title: 'ข้อมูลที่จำเป็นในการพิจารณา', link: '#' }
       ]

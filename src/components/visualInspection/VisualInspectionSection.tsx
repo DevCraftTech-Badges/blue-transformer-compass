@@ -1,156 +1,140 @@
 
 import React, { useState } from 'react';
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import VisualInspectionModal from './VisualInspectionModal';
-import SearchBar from './SearchBar';
-import ActionButtons from './ActionButtons';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { PlusCircle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import InspectionTable from './InspectionTable';
-import { Category, InspectionItem } from './types';
+import { useToast } from '@/hooks/use-toast';
+import VisualInspectionModal from './VisualInspectionModal';
+import { InspectionItem } from './types';
+import { useNavigate } from 'react-router-dom';
 
 interface VisualInspectionSectionProps {
-  category: Category;
+  title: string;
+  description?: string;
+  transformerName?: string;
+  egatSN?: string;
 }
 
-const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ category }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
+  title,
+  description,
+  transformerName,
+  egatSN,
+}) => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentItem, setCurrentItem] = useState<InspectionItem | null>(null);
-  const [items, setItems] = useState<InspectionItem[]>([
-    {
-      id: 1,
-      transformerName: 'TR-EGAT-001',
-      egatSN: 'SN001',
-      testType: 'Weekly Test',
-      testDate: '2023-04-15',
-      testTime: '09:30',
-      inspector: 'ธนกฤต',
-      maxLoad: 'Normal',
-      sound: 'Normal',
-      vibration: 'Normal',
-      groundingConnector: 'Normal',
-      foundation: 'Normal',
-      animalProtection: 'Normal',
-    },
-    {
-      id: 2,
-      transformerName: 'TR-EGAT-002',
-      egatSN: 'SN002',
-      testType: 'Monthly Test',
-      testDate: '2023-03-10',
-      testTime: '13:45',
-      inspector: 'วิชัย',
-      maxLoad: 'High',
-      sound: 'Abnormal',
-      vibration: 'Normal',
-      groundingConnector: 'Normal',
-      foundation: 'Normal',
-      animalProtection: 'Abnormal',
-    },
-  ]);
+  const [items, setItems] = useState<InspectionItem[]>([]);
+  const [selectedItem, setSelectedItem] = useState<InspectionItem | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const handleCreateNew = () => {
-    setCurrentItem(null);
+  const handleOpenModal = () => {
+    setSelectedItem(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditItem = (item: InspectionItem) => {
+    setSelectedItem(item);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedItem(null);
   };
 
-  const handleView = (item: InspectionItem) => {
-    console.log('View item:', item);
-  };
-
-  const handleEdit = (item: InspectionItem) => {
-    setCurrentItem(item);
-    setIsModalOpen(true);
-  };
-
-  const handleDelete = (id: number) => {
-    const confirmDelete = window.confirm("คุณต้องการลบรายการนี้ใช่หรือไม่?");
-    if (confirmDelete) {
-      setItems(items.filter((item) => item.id !== id));
-    }
-  };
-
-  const handleSaveItem = (itemData: Omit<InspectionItem, "id">) => {
-    if (currentItem) {
+  const handleSubmit = (data: InspectionItem) => {
+    if (selectedItem) {
+      // Edit existing item
       setItems(
-        items.map((item) =>
-          item.id === currentItem.id
-            ? { ...itemData, id: currentItem.id }
-            : item
-        )
+        items.map((item) => (item.id === selectedItem.id ? { ...data, id: item.id } : item))
       );
+      toast({
+        title: 'บันทึกข้อมูลสำเร็จ',
+        description: 'แก้ไขข้อมูลเรียบร้อยแล้ว',
+      });
     } else {
-      const newId = Math.max(0, ...items.map((item) => item.id)) + 1;
+      // Add new item
       const newItem: InspectionItem = {
-        ...itemData,
-        id: newId,
-        // Ensure all required properties are provided
-        transformerName: itemData.transformerName || '',
-        egatSN: itemData.egatSN || '',
-        testType: itemData.testType || '',
-        testDate: itemData.testDate || '',
-        testTime: itemData.testTime || '',
-        inspector: itemData.inspector || ''
+        ...data,
+        id: Math.floor(Math.random() * 10000),
       };
       setItems([...items, newItem]);
+      toast({
+        title: 'บันทึกข้อมูลสำเร็จ',
+        description: 'เพิ่มข้อมูลเรียบร้อยแล้ว',
+      });
     }
     setIsModalOpen(false);
   };
 
-  const filteredItems = items.filter((item) => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      item.transformerName.toLowerCase().includes(query) ||
-      item.egatSN.toLowerCase().includes(query) ||
-      item.testType.toLowerCase().includes(query) ||
-      item.inspector.toLowerCase().includes(query)
-    );
-  });
+  const handleDeleteItem = (id: number) => {
+    const filteredItems = items.filter((item) => item.id !== id);
+    setItems(filteredItems);
+    toast({
+      title: 'ลบข้อมูลสำเร็จ',
+      description: 'ลบข้อมูลเรียบร้อยแล้ว',
+    });
+  };
+
+  const handleViewDetails = (item: InspectionItem) => {
+    if (title === 'Thermo Scan') {
+      navigate('/not-found-thermo-scan');
+    } else {
+      // Handle other item types
+      console.log('View details for item:', item);
+    }
+  };
+
+  const filteredItems = items.filter((item) =>
+    item.transformerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.egatSN.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.testType.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold mb-4">{category.title}</h2>
-      
-      <div className="flex justify-between items-center gap-4">
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <ActionButtons onCreateNew={handleCreateNew} />
-      </div>
-
-      <InspectionTable 
-        items={filteredItems}
-        onView={handleView}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
-
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" isActive>1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-
-      {isModalOpen && (
-        <VisualInspectionModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          onSave={handleSaveItem}
-          item={currentItem}
-          category={category}
+    <Card className="w-full shadow-sm bg-white">
+      <CardHeader className="pb-3">
+        <div className="flex flex-row justify-between items-center">
+          <div>
+            <CardTitle className="text-xl font-bold">{title}</CardTitle>
+            {description && <p className="text-gray-500 text-sm mt-1">{description}</p>}
+          </div>
+          <Button
+            onClick={handleOpenModal}
+            className="bg-transformer-primary hover:bg-blue-700 text-white"
+          >
+            <PlusCircle className="mr-2 h-4 w-4" /> เพิ่มรายการใหม่
+          </Button>
+        </div>
+        <div className="mt-4">
+          <Input
+            placeholder="ค้นหา..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="max-w-md"
+          />
+        </div>
+      </CardHeader>
+      <CardContent>
+        <InspectionTable
+          items={filteredItems}
+          onEdit={handleEditItem}
+          onDelete={handleDeleteItem}
+          onViewDetails={handleViewDetails}
         />
-      )}
-    </div>
+      </CardContent>
+      <VisualInspectionModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmit}
+        initialData={selectedItem}
+        transformerName={transformerName}
+        egatSN={egatSN}
+      />
+    </Card>
   );
 };
 
