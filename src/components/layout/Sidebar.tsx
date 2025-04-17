@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -129,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'หัวข้อ Visual Inspection', link: '/visual-inspection-topics' },
         { title: 'เกณฑ์ Visual Inspection', link: '/visual-inspection-criteria' },
         { title: 'คะแนน %HI', link: '/score-percentage-hi' },
-        { title: 'คะแนน %Factor', link: '#' },
+        { title: 'คะแนน %Factor', link: '/score-percentage-factor' },
         { title: 'Weight อุปกรณ์ย่อย', link: '#' },
         { title: 'Score และ Weight การทดสอบ', link: '#' },
         { title: 'Weight อุปกรณ์หลัก', link: '#' }
