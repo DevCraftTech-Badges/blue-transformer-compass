@@ -116,6 +116,20 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
     }
   };
 
+  // Function to split fields into chunks for two columns
+  const getFieldChunks = () => {
+    // Create pairs of fields for 2-column layout
+    const chunks = [];
+    for (let i = 0; i < category.fields.length; i += 2) {
+      const chunk = [
+        category.fields[i],
+        i + 1 < category.fields.length ? category.fields[i + 1] : null
+      ];
+      chunks.push(chunk);
+    }
+    return chunks;
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-xl max-h-[90vh] flex flex-col">
@@ -128,14 +142,18 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
         <ScrollArea className="flex-grow overflow-y-auto px-2">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 py-4">
-              {category.fields.map((field, index) => (
-                <FormItem key={index}>
-                  <FormLabel>{field.name}</FormLabel>
-                  <FormControl>
-                    {getFormField(field)}
-                  </FormControl>
-                </FormItem>
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6 py-4">
+              {getFieldChunks().map((chunk, chunkIndex) => (
+                <div key={chunkIndex} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {chunk.map((field, fieldIndex) => field && (
+                    <FormItem key={fieldIndex} className="space-y-1.5">
+                      <FormLabel>{field.name}</FormLabel>
+                      <FormControl>
+                        {getFormField(field)}
+                      </FormControl>
+                    </FormItem>
+                  ))}
+                </div>
               ))}
             </form>
           </Form>
