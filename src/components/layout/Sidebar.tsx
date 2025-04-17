@@ -131,7 +131,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'คะแนน %HI', link: '/score-percentage-hi' },
         { title: 'คะแนน %Factor', link: '/score-percentage-factor' },
         { title: 'Weight อุปกรณ์ย่อย', link: '/subequipment-weight' },
-        { title: 'Score และ Weight การทดสอบ', link: '#' },
+        { title: 'Score และ Weight การทดสอบ', link: '/score-weight-testing' },
         { title: 'Weight อุปกรณ์หลัก', link: '#' }
       ]
     }
