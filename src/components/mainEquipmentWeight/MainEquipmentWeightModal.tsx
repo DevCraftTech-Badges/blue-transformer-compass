@@ -53,8 +53,14 @@ const MainEquipmentWeightModal: React.FC<MainEquipmentWeightModalProps> = ({
   }, [isOpen, initialData, reset]);
 
   const submitHandler = (data: Omit<MainEquipmentWeightItem, "id">) => {
+    // Ensure all values add up to 100%
+    const total = Object.values(data).reduce((sum, value) => sum + value, 0);
+    if (total !== 100) {
+      alert("ผลรวมน้ำหนักทั้งหมดต้องเท่ากับ 100%");
+      return;
+    }
+    
     onSubmit(data);
-    onClose();
   };
 
   return (

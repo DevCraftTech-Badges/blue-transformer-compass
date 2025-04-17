@@ -86,7 +86,14 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({ categ
       const newId = Math.max(0, ...items.map((item) => item.id)) + 1;
       const newItem: InspectionItem = {
         ...itemData,
-        id: newId
+        id: newId,
+        // Ensure all required properties are provided
+        transformerName: itemData.transformerName || '',
+        egatSN: itemData.egatSN || '',
+        testType: itemData.testType || '',
+        testDate: itemData.testDate || '',
+        testTime: itemData.testTime || '',
+        inspector: itemData.inspector || ''
       };
       setItems([...items, newItem]);
     }

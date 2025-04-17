@@ -1,9 +1,11 @@
 
 export interface MainEquipmentWeightItem {
   id: number;
-  name: string;
-  weight: number;
-  category: string;
+  activePart: number;
+  bushing: number;
+  arrester: number;
+  oil: number;
+  oltc: number;
 }
 
 export interface MainEquipmentWeightTableProps {
@@ -15,6 +17,7 @@ export interface MainEquipmentWeightTableProps {
 export interface MainEquipmentWeightModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (itemData: Omit<MainEquipmentWeightItem, "id">) => void;
-  item: MainEquipmentWeightItem | null;
+  onSubmit: (itemData: Omit<MainEquipmentWeightItem, "id">) => void;
+  initialData?: MainEquipmentWeightItem;
+  isEditing: boolean;
 }

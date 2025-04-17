@@ -63,7 +63,7 @@ const MainEquipmentWeightPage: React.FC = () => {
     }
   };
 
-  const handleSaveItem = (itemData: Omit<MainEquipmentWeightItem, "id">) => {
+  const handleSubmit = (itemData: Omit<MainEquipmentWeightItem, "id">) => {
     if (currentItem) {
       // Edit existing item
       setItems(
@@ -133,8 +133,9 @@ const MainEquipmentWeightPage: React.FC = () => {
         <MainEquipmentWeightModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          onSave={handleSaveItem}
-          item={currentItem}
+          onSubmit={handleSubmit}
+          initialData={currentItem || undefined}
+          isEditing={!!currentItem}
         />
       )}
     </div>
