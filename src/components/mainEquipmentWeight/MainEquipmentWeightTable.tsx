@@ -37,7 +37,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Tooltip } from "@/components/ui/tooltip";
 
 interface MainEquipmentWeightTableProps {
   data: MainEquipmentWeightItem[];
@@ -212,35 +211,51 @@ const MainEquipmentWeightTable: React.FC<MainEquipmentWeightTableProps> = ({
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationLink 
+                <Button 
+                  variant="outline" 
+                  size="icon" 
                   onClick={() => handlePageChange(1)} 
                   disabled={currentPage === 1}
+                  className="h-9 w-9 p-0"
                 >
                   <ChevronsLeft className="h-4 w-4" />
-                </PaginationLink>
+                </Button>
               </PaginationItem>
               <PaginationItem>
-                <PaginationPrevious 
+                <Button
+                  variant="outline"
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                />
+                  className="gap-1 px-2.5"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  <span>Previous</span>
+                </Button>
               </PaginationItem>
               
               {renderPaginationItems()}
               
               <PaginationItem>
-                <PaginationNext 
+                <Button
+                  variant="outline"
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                />
+                  className="gap-1 px-2.5"
+                >
+                  <span>Next</span>
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink 
+                <Button
+                  variant="outline"
+                  size="icon"
                   onClick={() => handlePageChange(totalPages)} 
                   disabled={currentPage === totalPages}
+                  className="h-9 w-9 p-0"
                 >
                   <ChevronsRight className="h-4 w-4" />
-                </PaginationLink>
+                </Button>
               </PaginationItem>
             </PaginationContent>
           </Pagination>
