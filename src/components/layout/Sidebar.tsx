@@ -61,7 +61,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'Visual Inspection', link: '/visual-inspection' },
         { title: 'ผลทดสอบน้ำมัน', link: '#' },
         { title: 'ผลทดสอบทางไฟฟ้า', link: '/electrical-test-results' },
-        { title: 'Core Insulation Resistance', link: '/core-insulation-resistance' },
         { title: 'บำรุงรักษา OLTC', link: '#' },
         { title: 'ดูข้อมูลผลการทดสอบทั้งหมด', link: '#' },
         { title: 'ตรวจสอบสภาพหม้อแปลงไฟฟ้า', link: '#' }
@@ -96,7 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <TrendingUp size={20} />,
       dropdown: [
         { title: 'Factor Setting', link: '#' },
-        { title: 'ราคาและ Loss ของหม้อแ��ลง', link: '#' },
+        { title: 'ราคาและ Loss ของหม้อแลง', link: '#' },
         { title: 'ข้อมูลที่จำเป็นในการพิจารณา', link: '#' }
       ]
     },
