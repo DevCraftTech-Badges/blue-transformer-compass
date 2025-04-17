@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -97,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <TrendingUp size={20} />,
       dropdown: [
         { title: 'Factor Setting', link: '/factor-setting' },
-        { title: 'ราคาและ Loss ของหม้อแลง', link: '#' },
+        { title: 'ราคาและ Loss ของหม้อแลง', link: '/transformer-price-and-loss' },
         { title: 'ข้อมูลที่จำเป็นในการพิจารณา', link: '#' }
       ]
     },

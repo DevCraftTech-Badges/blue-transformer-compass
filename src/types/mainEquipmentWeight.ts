@@ -17,3 +17,9 @@ export interface MainEquipmentWeightModalProps {
   onSave: (itemData: Omit<MainEquipmentWeightItem, "id">) => void;
   item?: MainEquipmentWeightItem;
 }
+
+export interface MainEquipmentWeightTableProps {
+  items: MainEquipmentWeightItem[];
+  onEdit: (item: MainEquipmentWeightItem) => void;
+  onDelete: (id: number) => void;
+}
