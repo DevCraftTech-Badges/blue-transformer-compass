@@ -33,6 +33,8 @@ import TransformerInformationPage from "./pages/TransformerInformation";
 import TransformerRelocation from "./pages/TransformerRelocation";
 import TransformerAbnormality from "./pages/TransformerAbnormality";
 import OilTest from "./pages/OilTest";
+import OltcMaintenance from "./pages/OltcMaintenance";
+import OilContact from "./pages/OilContact";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +74,8 @@ const App = () => (
           <Route path="/transformer-relocation" element={<TransformerRelocation />} />
           <Route path="/transformer-abnormality" element={<TransformerAbnormality />} />
           <Route path="/oil-test" element={<OilTest />} />
+          <Route path="/oltc-maintenance" element={<OltcMaintenance />} />
+          <Route path="/oil-contact" element={<OilContact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

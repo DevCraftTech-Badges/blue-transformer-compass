@@ -61,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'Visual Inspection', link: '/visual-inspection' },
         { title: 'ผลทดสอบน้ำมัน', link: '/oil-test' },
         { title: 'ผลทดสอบทางไฟฟ้า', link: '/electrical-test-results' },
-        { title: 'บำรุงรักษา OLTC', link: '#' },
+        { title: 'บำรุงรักษา OLTC', link: '/oltc-maintenance' },
         { title: 'ดูข้อมูลผลการทดสอบทั้งหมด', link: '#' },
         { title: 'ตรวจสอบสภาพหม้อแปลงไฟฟ้า', link: '/transformer-inspection' },
         { title: 'Thermo Scan', link: '/not-found-thermo-scan' }
