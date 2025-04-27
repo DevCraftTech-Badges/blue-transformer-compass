@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -31,6 +30,7 @@ import NotFoundThermoScan from "./pages/NotFoundThermoScan";
 import FactorSettingPage from "./pages/FactorSetting";
 import TransformerPriceAndLossPage from "./pages/TransformerPriceAndLoss";
 import TransformerInformationPage from "./pages/TransformerInformation";
+import TransformerRelocation from "./pages/TransformerRelocation";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +67,7 @@ const App = () => (
           <Route path="/factor-setting" element={<FactorSettingPage />} />
           <Route path="/transformer-price-and-loss" element={<TransformerPriceAndLossPage />} />
           <Route path="/transformer-information" element={<TransformerInformationPage />} />
+          <Route path="/transformer-relocation" element={<TransformerRelocation />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

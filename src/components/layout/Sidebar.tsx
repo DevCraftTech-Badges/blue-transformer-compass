@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -50,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <Database size={20} />,
       dropdown: [
         { title: 'หม้อแปลงไฟฟ้า', link: '/transformer-information' },
-        { title: 'การย้ายหม้อแปลง', link: '#' },
+        { title: 'การย้ายหม้อแปลง', link: '/transformer-relocation' },
         { title: 'ความผิดปกติหม้อแปลง', link: '#' }
       ]
     },
