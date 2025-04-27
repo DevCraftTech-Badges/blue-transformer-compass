@@ -49,7 +49,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <Database size={20} />,
       dropdown: [
         { title: 'หม้อแปลงไฟฟ้า', link: '/transformer-information' },
-        { title: 'การย้ายหม้อแปลง', link: '/transformer-relocation' }
+        { title: 'การย้ายหม้อแปลง', link: '/transformer-relocation' },
+        { title: 'ความผิดปกติหม้อแปลง', link: '/transformer-abnormality' }
       ]
     },
     {
