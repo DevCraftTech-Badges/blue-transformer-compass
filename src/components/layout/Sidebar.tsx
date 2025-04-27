@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap, Plus } from 'lucide-react';
+import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 interface DropdownItem {
@@ -87,7 +87,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       title: 'ความสำคัญของหม้อแปลง',
       icon: <Star size={20} />,
       dropdown: [
-        { title: 'เพิ่มรายการ', link: '#' },
         { title: 'ค้นหาและแก้ไข', link: '#' }
       ]
     },
@@ -134,13 +133,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'Weight อุปกรณ์หลัก', link: '/main-equipment-weight' }
       ]
     },
-    {
-      title: 'เพิ่มรายการ',
-      icon: <Plus size={20} />,
-      dropdown: [
-        { title: 'เพิ่มรายการความสำคัญของหม้อแปลง', link: '/importance/add' }
-      ]
-    }
   ];
 
   const bottomNavItems: NavItem[] = [
