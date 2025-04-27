@@ -26,6 +26,7 @@ interface InspectionTableProps {
   onView: (item: InspectionItem) => void;
   onEdit: (item: InspectionItem) => void;
   onDelete: (id: number) => void;
+  onViewDetails?: (item: InspectionItem) => void;
 }
 
 const InspectionTable: React.FC<InspectionTableProps> = ({
@@ -33,7 +34,17 @@ const InspectionTable: React.FC<InspectionTableProps> = ({
   onView,
   onEdit,
   onDelete,
+  onViewDetails,
 }) => {
+  // Handle the view details action, defaulting to onView if onViewDetails is not provided
+  const handleViewDetails = (item: InspectionItem) => {
+    if (onViewDetails) {
+      onViewDetails(item);
+    } else {
+      onView(item);
+    }
+  };
+
   return (
     <div className="border rounded-lg overflow-hidden">
       <Table>

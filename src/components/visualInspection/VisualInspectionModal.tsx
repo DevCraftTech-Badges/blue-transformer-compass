@@ -33,7 +33,9 @@ interface VisualInspectionModalProps {
   onClose: () => void;
   onSave: (data: Omit<InspectionItem, 'id'>) => void;
   item: InspectionItem | null;
-  category: Category;
+  category: Category | undefined;
+  transformerName?: string;
+  egatSN?: string;
 }
 
 const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
@@ -42,11 +44,13 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
   onSave,
   item,
   category,
+  transformerName = '',
+  egatSN = '',
 }) => {
   const form = useForm({
     defaultValues: item || {
-      transformerName: '',
-      egatSN: '',
+      transformerName: transformerName || '',
+      egatSN: egatSN || '',
       testType: 'Weekly Test',
       testDate: new Date().toISOString().split('T')[0],
       testTime: new Date().toTimeString().split(' ')[0].substring(0, 5),
@@ -96,6 +100,10 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
   // Function to split fields into chunks for two columns
   const getFieldChunks = () => {
+    if (!category || !category.fields) {
+      return [];
+    }
+    
     // Create pairs of fields for 2-column layout
     const chunks = [];
     for (let i = 0; i < category.fields.length; i += 2) {
@@ -113,9 +121,9 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
       <DialogContent className="sm:max-w-xl max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-transformer-dark">
-            {item ? 'แก้ไขข้อมูล' : 'สร้างรายการใหม่'} - {category.title}
+            {item ? 'แก้ไขข้อมูล' : 'สร้างรายการใหม่'} - {category?.title || ''}
           </DialogTitle>
-          <DialogDescription>กรอกข้อมูลการตรวจสอบ {category.title}</DialogDescription>
+          <DialogDescription>กรอกข้อมูลการตรวจสอบ {category?.title || ''}</DialogDescription>
         </DialogHeader>
 
         <ScrollArea className="flex-grow overflow-y-auto px-2">

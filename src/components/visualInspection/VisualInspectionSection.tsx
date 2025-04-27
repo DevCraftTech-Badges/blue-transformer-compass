@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import InspectionTable from './InspectionTable';
 import { useToast } from '@/hooks/use-toast';
 import VisualInspectionModal from './VisualInspectionModal';
-import { InspectionItem } from './types';
+import { InspectionItem, Category } from './types';
 import { useNavigate } from 'react-router-dom';
 
 interface VisualInspectionSectionProps {
@@ -15,6 +15,7 @@ interface VisualInspectionSectionProps {
   description?: string;
   transformerName?: string;
   egatSN?: string;
+  category?: Category; // Add this prop
 }
 
 const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
@@ -22,6 +23,7 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
   description,
   transformerName,
   egatSN,
+  category,
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -123,16 +125,16 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
           items={filteredItems}
           onEdit={handleEditItem}
           onDelete={handleDeleteItem}
+          onView={handleViewDetails}
           onViewDetails={handleViewDetails}
         />
       </CardContent>
       <VisualInspectionModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        onSubmit={handleSubmit}
-        initialData={selectedItem}
-        transformerName={transformerName}
-        egatSN={egatSN}
+        onSave={handleSubmit}
+        item={selectedItem}
+        category={category}
       />
     </Card>
   );

@@ -214,7 +214,8 @@ const VisualInspectionPage: React.FC = () => {
           <div className="bg-white rounded-lg shadow-sm p-6 border">
             {activeCategory && (
               <VisualInspectionSection 
-                category={inspectionCategories.find(c => c.id === activeCategory)!} 
+                title={inspectionCategories.find(c => c.id === activeCategory)?.title || ""}
+                category={inspectionCategories.find(c => c.id === activeCategory)}
               />
             )}
           </div>
