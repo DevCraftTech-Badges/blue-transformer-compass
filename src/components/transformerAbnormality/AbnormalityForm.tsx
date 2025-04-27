@@ -9,6 +9,7 @@ import { TimingInformation } from './sections/TimingInformation';
 import { TestDetails } from './sections/TestDetails';
 import { DamageAssessment } from './sections/DamageAssessment';
 import { ManagementNotes } from './sections/ManagementNotes';
+import { toast } from "sonner";
 
 interface AbnormalityFormProps {
   selectedZone: string;
@@ -19,7 +20,19 @@ export const AbnormalityForm = ({
   selectedZone,
   selectedTransformer,
 }: AbnormalityFormProps) => {
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      zone: selectedZone,
+      transformer: selectedTransformer,
+    },
+  });
+
+  // Effect to update form values when selections change
+  React.useEffect(() => {
+    form.setValue('zone', selectedZone);
+    form.setValue('transformer', selectedTransformer);
+  }, [selectedZone, selectedTransformer, form]);
+
   const [environment, setEnvironment] = React.useState('');
   const [operationStatus, setOperationStatus] = React.useState('');
   const [testDetails, setTestDetails] = React.useState('');
@@ -40,6 +53,7 @@ export const AbnormalityForm = ({
 
   const handleSubmit = (data: any) => {
     console.log('Form submitted:', data);
+    toast.success("บันทึกข้อมูลสำเร็จ");
   };
 
   return (
