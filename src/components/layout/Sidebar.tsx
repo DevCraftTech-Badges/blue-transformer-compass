@@ -59,11 +59,11 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       dropdown: [
         { title: 'ค้นหาข้อมูลบำรุงรักษาหม้อแปลง', link: '/transformer-maintenance-search' },
         { title: 'Visual Inspection', link: '/visual-inspection' },
-        { title: 'ผลทดสอบน้ำมัน', link: '#' },
+        { title: 'ผลทดสอบน้ำมัน', link: '/oil-test' },
         { title: 'ผลทดสอบทางไฟฟ้า', link: '/electrical-test-results' },
         { title: 'บำรุงรักษา OLTC', link: '#' },
         { title: 'ดูข้อมูลผลการทดสอบทั้งหมด', link: '#' },
-        { title: 'ตรวจสอบสภาพหม้อแปลงไฟฟ้า', link: '#' },
+        { title: 'ต���วจสอบสภาพหม้อแปลงไฟฟ้า', link: '#' },
         { title: 'Thermo Scan', link: '/not-found-thermo-scan' }
       ]
     },
