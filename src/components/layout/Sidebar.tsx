@@ -63,7 +63,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'ผลทดสอบทางไฟฟ้า', link: '/electrical-test-results' },
         { title: 'บำรุงรักษา OLTC', link: '#' },
         { title: 'ดูข้อมูลผลการทดสอบทั้งหมด', link: '#' },
-        { title: 'ต���วจสอบสภาพหม้อแปลงไฟฟ้า', link: '#' },
         { title: 'Thermo Scan', link: '/not-found-thermo-scan' }
       ]
     },
