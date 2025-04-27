@@ -1,6 +1,6 @@
 
-import Layout from '@/components/layout/Layout';
-import TransformerImportanceForm from '@/components/transformerImportance/TransformerImportanceForm';
+import Layout from '@/components/layout/Layout'
+import TransformerImportanceForm from '@/components/transformerImportance/TransformerImportanceForm'
 
 const TransformerImportancePage = () => {
   return (
@@ -12,7 +12,7 @@ const TransformerImportancePage = () => {
         <TransformerImportanceForm />
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default TransformerImportancePage;
+export default TransformerImportancePage
