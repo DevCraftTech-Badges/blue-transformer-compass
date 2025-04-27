@@ -1,189 +1,153 @@
 
-import React, { useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
-import { MainEquipmentWeightItem } from "@/types/mainEquipmentWeight";
-
-interface MainEquipmentWeightModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (data: Omit<MainEquipmentWeightItem, "id">) => void;
-  initialData?: MainEquipmentWeightItem;
-  isEditing: boolean;
-}
+import React from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useForm } from 'react-hook-form';
+import { MainEquipmentWeightItem, MainEquipmentWeightModalProps } from '@/types/mainEquipmentWeight';
 
 const MainEquipmentWeightModal: React.FC<MainEquipmentWeightModalProps> = ({
   isOpen,
   onClose,
-  onSubmit,
-  initialData,
-  isEditing,
+  onSave,
+  item
 }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<Omit<MainEquipmentWeightItem, "id">>({
-    defaultValues: {
-      activePart: initialData?.activePart || 0,
-      bushing: initialData?.bushing || 0,
-      arrester: initialData?.arrester || 0,
-      oil: initialData?.oil || 0,
-      oltc: initialData?.oltc || 0,
-    }
+  const defaultValues = {
+    name: item?.name || '',
+    category: item?.category || '',
+    weight: item?.weight || 0,
+    activePart: item?.activePart || 0,
+    bushing: item?.bushing || 0,
+    arrester: item?.arrester || 0,
+    oil: item?.oil || 0,
+    oltc: item?.oltc || 0
+  };
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    defaultValues
   });
 
-  useEffect(() => {
-    if (isOpen && initialData) {
-      reset({
-        activePart: initialData.activePart,
-        bushing: initialData.bushing,
-        arrester: initialData.arrester,
-        oil: initialData.oil,
-        oltc: initialData.oltc,
-      });
-    } else if (isOpen) {
-      reset({
-        activePart: 0,
-        bushing: 0,
-        arrester: 0,
-        oil: 0,
-        oltc: 0,
-      });
+  React.useEffect(() => {
+    if (isOpen) {
+      reset(defaultValues);
     }
-  }, [isOpen, initialData, reset]);
+  }, [isOpen, item, reset]);
 
-  const submitHandler = (data: Omit<MainEquipmentWeightItem, "id">) => {
-    // Ensure all values add up to 100%
-    const total = Object.values(data).reduce((sum, value) => sum + value, 0);
-    if (total !== 100) {
-      alert("ผลรวมน้ำหนักทั้งหมดต้องเท่ากับ 100%");
-      return;
-    }
-    
-    onSubmit(data);
+  const onSubmit = (data: Omit<MainEquipmentWeightItem, "id">) => {
+    onSave(data);
+    onClose();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{isEditing ? "แก้ไขข้อมูล" : "สร้างรายการใหม่"}</DialogTitle>
+          <DialogTitle>{item ? 'แก้ไขข้อมูล' : 'เพิ่มข้อมูลใหม่'}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(submitHandler)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="activePart" className="text-right">
+              <label htmlFor="name" className="text-right">
+                ชื่อ
+              </label>
+              <Input id="name" className="col-span-3" {...register('name', { required: true })} />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <label htmlFor="category" className="text-right">
+                หมวดหมู่
+              </label>
+              <Input id="category" className="col-span-3" {...register('category', { required: true })} />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <label htmlFor="weight" className="text-right">
+                น้ำหนัก
+              </label>
+              <Input 
+                id="weight" 
+                className="col-span-3" 
+                type="number" 
+                {...register('weight', { 
+                  required: true,
+                  valueAsNumber: true
+                })} 
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <label htmlFor="activePart" className="text-right">
                 Active Part
-              </Label>
-              <Input
-                id="activePart"
+              </label>
+              <Input 
+                id="activePart" 
+                className="col-span-3" 
                 type="number"
-                min="0"
-                max="100"
-                className="col-span-3"
-                {...register("activePart", {
-                  required: "This field is required",
-                  valueAsNumber: true,
-                  min: { value: 0, message: "Value must be positive" },
-                  max: { value: 100, message: "Value must be 100 or less" }
-                })}
+                {...register('activePart', { 
+                  required: true,
+                  valueAsNumber: true
+                })} 
               />
-              {errors.activePart && (
-                <p className="text-red-500 text-sm col-span-4 text-right">{errors.activePart.message}</p>
-              )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="bushing" className="text-right">
+              <label htmlFor="bushing" className="text-right">
                 Bushing
-              </Label>
-              <Input
-                id="bushing"
+              </label>
+              <Input 
+                id="bushing" 
+                className="col-span-3" 
                 type="number"
-                min="0"
-                max="100"
-                className="col-span-3"
-                {...register("bushing", {
-                  required: "This field is required",
-                  valueAsNumber: true,
-                  min: { value: 0, message: "Value must be positive" },
-                  max: { value: 100, message: "Value must be 100 or less" }
-                })}
+                {...register('bushing', { 
+                  required: true,
+                  valueAsNumber: true
+                })} 
               />
-              {errors.bushing && (
-                <p className="text-red-500 text-sm col-span-4 text-right">{errors.bushing.message}</p>
-              )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="arrester" className="text-right">
+              <label htmlFor="arrester" className="text-right">
                 Arrester
-              </Label>
-              <Input
-                id="arrester"
+              </label>
+              <Input 
+                id="arrester" 
+                className="col-span-3" 
                 type="number"
-                min="0"
-                max="100"
-                className="col-span-3"
-                {...register("arrester", {
-                  required: "This field is required",
-                  valueAsNumber: true,
-                  min: { value: 0, message: "Value must be positive" },
-                  max: { value: 100, message: "Value must be 100 or less" }
-                })}
+                {...register('arrester', { 
+                  required: true,
+                  valueAsNumber: true
+                })} 
               />
-              {errors.arrester && (
-                <p className="text-red-500 text-sm col-span-4 text-right">{errors.arrester.message}</p>
-              )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="oil" className="text-right">
+              <label htmlFor="oil" className="text-right">
                 Oil
-              </Label>
-              <Input
-                id="oil"
+              </label>
+              <Input 
+                id="oil" 
+                className="col-span-3" 
                 type="number"
-                min="0"
-                max="100"
-                className="col-span-3"
-                {...register("oil", {
-                  required: "This field is required",
-                  valueAsNumber: true,
-                  min: { value: 0, message: "Value must be positive" },
-                  max: { value: 100, message: "Value must be 100 or less" }
-                })}
+                {...register('oil', { 
+                  required: true,
+                  valueAsNumber: true
+                })} 
               />
-              {errors.oil && (
-                <p className="text-red-500 text-sm col-span-4 text-right">{errors.oil.message}</p>
-              )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="oltc" className="text-right">
+              <label htmlFor="oltc" className="text-right">
                 OLTC
-              </Label>
-              <Input
-                id="oltc"
+              </label>
+              <Input 
+                id="oltc" 
+                className="col-span-3" 
                 type="number"
-                min="0"
-                max="100"
-                className="col-span-3"
-                {...register("oltc", {
-                  required: "This field is required",
-                  valueAsNumber: true,
-                  min: { value: 0, message: "Value must be positive" },
-                  max: { value: 100, message: "Value must be 100 or less" }
-                })}
+                {...register('oltc', { 
+                  required: true,
+                  valueAsNumber: true
+                })} 
               />
-              {errors.oltc && (
-                <p className="text-red-500 text-sm col-span-4 text-right">{errors.oltc.message}</p>
-              )}
             </div>
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
               ยกเลิก
             </Button>
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-              {isEditing ? "บันทึกการแก้ไข" : "บันทึกข้อมูล"}
-            </Button>
+            <Button type="submit">บันทึก</Button>
           </DialogFooter>
         </form>
       </DialogContent>
