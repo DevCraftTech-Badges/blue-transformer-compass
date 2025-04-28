@@ -87,7 +87,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       title: 'ความสำคัญของหม้อแปลง',
       icon: <Star size={20} />,
       dropdown: [
-        { title: 'เพิ่มรายการความสำคัญของหม้อแปลง', link: '/transformer-importance' },
         { title: 'ค้นหาและแก้ไข', link: '#' }
       ]
     },
