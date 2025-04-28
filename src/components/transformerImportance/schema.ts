@@ -3,46 +3,46 @@ import * as z from "zod"
 
 export const transformerImportanceSchema = z.object({
   transformerName: z.string({
-    required_error: "กรุณาเลือกหม้อแปลง",
+    required_error: "กรุณาเลือกชื่อหม้อแปลง",
   }),
   recordedDate: z.date({
     required_error: "กรุณาเลือกวันที่",
   }),
-  busVoltageHv: z.string({
-    required_error: "กรุณาเลือกแรงดันไฟฟ้า HV",
+  busVoltageHV: z.string({
+    required_error: "กรุณาเลือกแรงดันไฟฟ้าด้าน HV",
   }),
-  systemFaultLevelHv: z.number({
-    required_error: "กรุณากรอกค่า System Fault Level HV",
+  systemFaultLevelHV: z.number({
+    required_error: "กรุณาระบุระดับความผิดพลาดของระบบด้าน HV",
   }),
-  busVoltageLv: z.string({
-    required_error: "กรุณาเลือกแรงดันไฟฟ้า LV",
+  busVoltageLV: z.string({
+    required_error: "กรุณาเลือกแรงดันไฟฟ้าด้าน LV",
   }),
-  systemFaultLevelLv: z.number({
-    required_error: "กรุณากรอกค่า System Fault Level LV",
+  systemFaultLevelLV: z.number({
+    required_error: "กรุณาระบุระดับความผิดพลาดของระบบด้าน LV",
   }),
-  probabilityOutage: z.string({
-    required_error: "กรุณาเลือก Probability Of Force Outage",
+  probabilityOfForceOutage: z.string({
+    required_error: "กรุณาเลือกความน่าจะเป็นของการดับไฟ",
   }),
   socialAspect: z.string({
-    required_error: "กรุณาเลือก Social Aspect",
+    required_error: "กรุณาเลือกด้านสังคม",
   }),
   loadShedding: z.string({
-    required_error: "กรุณาเลือก Load Shedding",
+    required_error: "กรุณาเลือกการจ่ายโหลด",
   }),
   publicImage: z.string({
-    required_error: "กรุณาเลือก Public Image",
+    required_error: "กรุณาเลือกภาพลักษณ์",
   }),
-  nOneCriteria: z.string({
-    required_error: "กรุณาเลือก N-1 Criteria",
+  nMinusOneCriteria: z.string({
+    required_error: "กรุณาเลือกเกณฑ์ N-1",
   }),
   applicationUse: z.string({
-    required_error: "กรุณาเลือก Application Use",
+    required_error: "กรุณาเลือกการใช้งาน",
   }),
   systemStability: z.string({
-    required_error: "กรุณาเลือก System Stability",
+    required_error: "กรุณาเลือกความเสถียรของระบบ",
   }),
   pollution: z.string({
-    required_error: "กรุณาเลือก Pollution",
+    required_error: "กรุณาเลือกมลพิษ",
   }),
   damageProperties: z.array(z.string()),
   loadFactors: z.object({

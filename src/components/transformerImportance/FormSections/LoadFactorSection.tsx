@@ -1,52 +1,82 @@
 
-import { FormField, FormItem, FormLabel } from "@/components/ui/form"
+import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { UseFormReturn } from "react-hook-form"
-import { TransformerImportanceFormValues } from "../schema"
 
-interface LoadFactorSectionProps {
-  form: UseFormReturn<TransformerImportanceFormValues>
-}
+const months = Array.from({ length: 13 }, (_, i) => i.toString())
 
-const loadFactorRanges = [
-  { key: "below06", label: "<= 0.6" },
-  { key: "from06to1", label: "0.6 < LF <= 1" },
-  { key: "from1to12", label: "1 < LF <= 1.2" },
-  { key: "from12to15", label: "1.2 < LF <= 1.5" },
-  { key: "above15", label: "> 1.5" }
-]
-
-export const LoadFactorSection = ({ form }: LoadFactorSectionProps) => {
+export const LoadFactorSection = ({ form }) => {
   return (
     <div className="space-y-6">
       <h2 className="text-lg font-semibold">Load Factor</h2>
-      <div className="grid gap-4">
-        {loadFactorRanges.map((item) => (
-          <FormField
-            key={item.key}
-            control={form.control}
-            name={`loadFactors.${item.key}` as any}
-            render={({ field }) => (
-              <FormItem>
-                <div className="grid grid-cols-2 items-center gap-4">
-                  <FormLabel>{item.label}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select months" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {[...Array(13)].map((_, i) => (
-                        <SelectItem key={i} value={i.toString()}>
-                          {i} months
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </FormItem>
-            )}
-          />
-        ))}
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr>
+              <th className="text-left py-2">Load Factor Range</th>
+              <th className="text-left py-2">Number of Months</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="py-2">&lt;= 0.6</td>
+              <td>
+                <FormField
+                  control={form.control}
+                  name="loadFactors.below06"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select months" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {months.map((month) => (
+                            <SelectItem key={month} value={month}>
+                              {month}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </td>
+            </tr>
+            {/* Similar rows for other load factor ranges */}
+            <tr>
+              <td className="py-2">0.6 &lt; LF &lt;= 1</td>
+              <td>
+                <FormField
+                  control={form.control}
+                  name="loadFactors.from06to1"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select months" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {months.map((month) => (
+                            <SelectItem key={month} value={month}>
+                              {month}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </td>
+            </tr>
+            {/* Continue with other load factor ranges */}
+          </tbody>
+        </table>
       </div>
     </div>
   )

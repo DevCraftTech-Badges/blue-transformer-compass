@@ -35,6 +35,8 @@ import TransformerAbnormality from "./pages/TransformerAbnormality";
 import OilTest from "./pages/OilTest";
 import OltcMaintenance from "./pages/OltcMaintenance";
 import OilContact from "./pages/OilContact";
+import ViewAllTestResults from "@/pages/ViewAllTestResults";
+import AddTransformerImportancePage from "./pages/transformer-importance/AddTransformerImportance";
 
 const queryClient = new QueryClient();
 
@@ -57,7 +59,7 @@ const App = () => (
           <Route path="/electrical-test-upload" element={<ElectricalTestUploadPage />} />
           <Route path="/activate-test-results" element={<ActivateTestResultsPage />} />
           <Route path="/transformer-config-management" element={<TransformerConfigManagementPage />} />
-          <Route path="/importance/add" element={<TransformerImportancePage />} />
+          <Route path="/transformer-importance" element={<TransformerImportancePage />} />
           <Route path="/visual-inspection-topics" element={<VisualInspectionTopicsPage />} />
           <Route path="/visual-inspection-criteria" element={<VisualInspectionCriteriaPage />} />
           <Route path="/score-percentage-hi" element={<ScorePercentageHIPage />} />
@@ -76,6 +78,8 @@ const App = () => (
           <Route path="/oil-test" element={<OilTest />} />
           <Route path="/oltc-maintenance" element={<OltcMaintenance />} />
           <Route path="/oil-contact" element={<OilContact />} />
+          <Route path="/view-all-test-results" element={<ViewAllTestResults />} />
+          <Route path="/transformer-importance/add" element={<AddTransformerImportancePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
