@@ -1,5 +1,5 @@
 
-import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { FormField, FormItem, FormLabel, FormMessage, FormControl } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const months = Array.from({ length: 13 }, (_, i) => i.toString())
@@ -45,7 +45,6 @@ export const LoadFactorSection = ({ form }) => {
                 />
               </td>
             </tr>
-            {/* Similar rows for other load factor ranges */}
             <tr>
               <td className="py-2">0.6 &lt; LF &lt;= 1</td>
               <td>
@@ -74,7 +73,90 @@ export const LoadFactorSection = ({ form }) => {
                 />
               </td>
             </tr>
-            {/* Continue with other load factor ranges */}
+            <tr>
+              <td className="py-2">1 &lt; LF &lt;= 1.2</td>
+              <td>
+                <FormField
+                  control={form.control}
+                  name="loadFactors.from1to12"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select months" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {months.map((month) => (
+                            <SelectItem key={month} value={month}>
+                              {month}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="py-2">1.2 &lt; LF &lt;= 1.5</td>
+              <td>
+                <FormField
+                  control={form.control}
+                  name="loadFactors.from12to15"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select months" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {months.map((month) => (
+                            <SelectItem key={month} value={month}>
+                              {month}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="py-2">&gt; 1.5</td>
+              <td>
+                <FormField
+                  control={form.control}
+                  name="loadFactors.above15"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select months" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {months.map((month) => (
+                            <SelectItem key={month} value={month}>
+                              {month}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
