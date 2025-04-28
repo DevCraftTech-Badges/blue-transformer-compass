@@ -8,6 +8,7 @@ import { transformerImportanceSchema, TransformerImportanceFormValues } from "./
 import { TransformerInfoSection } from "./FormSections/TransformerInfoSection"
 import { DamagePropertySection } from "./FormSections/DamagePropertySection"
 import { LoadFactorSection } from "./FormSections/LoadFactorSection"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 const TransformerImportanceForm = () => {
   const { toast } = useToast()
@@ -35,12 +36,33 @@ const TransformerImportanceForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="grid grid-cols-1 gap-6">
-          <TransformerInfoSection form={form} />
-          <DamagePropertySection form={form} />
-          <LoadFactorSection form={form} />
-        </div>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>ข้อมูลหม้อแปลง</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <TransformerInfoSection form={form} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>ความเสียหายของทรัพย์สิน</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <DamagePropertySection form={form} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Load Factor</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <LoadFactorSection form={form} />
+          </CardContent>
+        </Card>
 
         <div className="flex justify-end pt-6">
           <Button type="submit" className="bg-blue-600 hover:bg-blue-700">

@@ -1,4 +1,3 @@
-
 import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
 
@@ -27,50 +26,47 @@ const damageProperties = [
 
 export const DamagePropertySection = ({ form }) => {
   return (
-    <div className="space-y-6">
-      <h2 className="text-lg font-semibold">ความเสียหายของทรัพย์สิน</h2>
-      <FormField
-        control={form.control}
-        name="damageProperties"
-        render={() => (
-          <FormItem>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {damageProperties.map((property) => (
-                <FormField
-                  key={property.id}
-                  control={form.control}
-                  name="damageProperties"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={property.id}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <Checkbox
-                          checked={field.value?.includes(property.id)}
-                          onCheckedChange={(checked) => {
-                            return checked
-                              ? field.onChange([...field.value, property.id])
-                              : field.onChange(
-                                  field.value?.filter(
-                                    (value) => value !== property.id
-                                  )
+    <FormField
+      control={form.control}
+      name="damageProperties"
+      render={() => (
+        <FormItem>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {damageProperties.map((property) => (
+              <FormField
+                key={property.id}
+                control={form.control}
+                name="damageProperties"
+                render={({ field }) => {
+                  return (
+                    <FormItem
+                      key={property.id}
+                      className="flex flex-row items-start space-x-3 space-y-0"
+                    >
+                      <Checkbox
+                        checked={field.value?.includes(property.id)}
+                        onCheckedChange={(checked) => {
+                          return checked
+                            ? field.onChange([...field.value, property.id])
+                            : field.onChange(
+                                field.value?.filter(
+                                  (value) => value !== property.id
                                 )
-                          }}
-                        />
-                        <FormLabel className="font-normal">
-                          {property.label}
-                        </FormLabel>
-                      </FormItem>
-                    )
-                  }}
-                />
-              ))}
-            </div>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </div>
+                              )
+                        }}
+                      />
+                      <FormLabel className="font-normal">
+                        {property.label}
+                      </FormLabel>
+                    </FormItem>
+                  )
+                }}
+              />
+            ))}
+          </div>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   )
 }
