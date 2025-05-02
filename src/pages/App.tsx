@@ -37,6 +37,7 @@ import OilTest from "@/pages/OilTest";
 import OltcMaintenance from "@/pages/OltcMaintenance";
 import OilContact from "@/pages/OilContact";
 import ViewAllTestResults from "@/pages/ViewAllTestResults";
+import CoreInsulationResistancePage from "@/pages/CoreInsulationResistance";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +80,7 @@ const App = () => (
           <Route path="/oltc-maintenance" element={<OltcMaintenance />} />
           <Route path="/oil-contact" element={<OilContact />} />
           <Route path="/view-all-test-results" element={<ViewAllTestResults />} />
+          <Route path="/core-insulation-resistance" element={<CoreInsulationResistancePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

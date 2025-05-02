@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -37,6 +38,7 @@ import OltcMaintenance from "./pages/OltcMaintenance";
 import OilContact from "./pages/OilContact";
 import ViewAllTestResults from "@/pages/ViewAllTestResults";
 import AddTransformerImportancePage from "./pages/transformer-importance/AddTransformerImportance";
+import CoreInsulationResistancePage from "./pages/CoreInsulationResistance";
 
 const queryClient = new QueryClient();
 
@@ -80,6 +82,7 @@ const App = () => (
           <Route path="/oil-contact" element={<OilContact />} />
           <Route path="/view-all-test-results" element={<ViewAllTestResults />} />
           <Route path="/transformer-importance/add" element={<AddTransformerImportancePage />} />
+          <Route path="/core-insulation-resistance" element={<CoreInsulationResistancePage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
