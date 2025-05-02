@@ -541,7 +541,7 @@ const ExpenseItemsPage: React.FC = () => {
                               </FormLabel>
                               <FormControl>
                                 <div className="relative">
-                                  <Input {...field} type="text" readOnly className="text-right font-medium bg-slate-50 pr-16" />
+                                  <Input {...field} type="text" readOnly className="text-left font-medium bg-slate-50 pr-16" />
                                   <span className="absolute inset-y-0 right-3 flex items-center text-muted-foreground">
                                     บาท/ถัง/ปี
                                   </span>
@@ -588,7 +588,7 @@ const ExpenseItemsPage: React.FC = () => {
                               </FormLabel>
                               <FormControl>
                                 <div className="relative">
-                                  <Input {...field} type="text" readOnly className="text-right font-medium bg-slate-50 pr-16" />
+                                  <Input {...field} type="text" readOnly className="text-left font-medium bg-slate-50 pr-16" />
                                   <span className="absolute inset-y-0 right-3 flex items-center text-muted-foreground">
                                     บาท/ถัง/ปี
                                   </span>
