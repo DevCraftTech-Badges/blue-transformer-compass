@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { useForm } from 'react-hook-form';
@@ -437,7 +436,7 @@ const ExpenseItemsPage: React.FC = () => {
                               <FormItem className="mb-0">
                                 <FormControl>
                                   <div className="relative">
-                                    <Input {...field} type="text" readOnly className="text-lg font-bold text-right w-40 border-blue-200 pr-10" />
+                                    <Input {...field} type="text" readOnly className="text-lg font-bold text-left w-60 border-blue-200 pr-16" />
                                     <span className="absolute inset-y-0 right-3 flex items-center font-bold">
                                       บาท
                                     </span>
@@ -617,7 +616,7 @@ const ExpenseItemsPage: React.FC = () => {
                               <FormItem className="mb-0">
                                 <FormControl>
                                   <div className="relative">
-                                    <Input {...field} type="text" readOnly className="text-lg font-bold text-right w-40 border-green-200 pr-16" />
+                                    <Input {...field} type="text" readOnly className="text-lg font-bold text-left w-60 border-green-200 pr-20" />
                                     <span className="absolute inset-y-0 right-3 flex items-center font-bold">
                                       บาท/ถัง/ปี
                                     </span>
