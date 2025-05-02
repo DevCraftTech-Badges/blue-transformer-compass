@@ -39,6 +39,7 @@ import OilContact from "./pages/OilContact";
 import ViewAllTestResults from "@/pages/ViewAllTestResults";
 import AddTransformerImportancePage from "./pages/transformer-importance/AddTransformerImportance";
 import CoreInsulationResistancePage from "./pages/CoreInsulationResistance";
+import TransformerInspection from "./pages/TransformerInspection";
 
 const queryClient = new QueryClient();
 
@@ -83,6 +84,7 @@ const App = () => (
           <Route path="/view-all-test-results" element={<ViewAllTestResults />} />
           <Route path="/transformer-importance/add" element={<AddTransformerImportancePage />} />
           <Route path="/core-insulation-resistance" element={<CoreInsulationResistancePage />} />
+          <Route path="/transformer-inspection" element={<TransformerInspection />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -57,7 +57,14 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       title: 'ข้อมูลบำรุงรักษาหม้อแปลง',
       icon: <Wrench size={20} />,
       dropdown: [
-        { title: 'ค่าฉนวนแกนเหล็ก', link: '/core-insulation-resistance' }
+        { title: 'ค้นหาข้อมูลบำรุงรักษาหม้อแปลง', link: '/transformer-maintenance-search' },
+        { title: 'Visual Inspection', link: '/visual-inspection' },
+        { title: 'ผลทดสอบน้ำมัน', link: '/oil-test' },
+        { title: 'ผลทดสอบทางไฟฟ้า', link: '/electrical-test-results' },
+        { title: 'บำรุงรักษา OLTC', link: '/oltc-maintenance' },
+        { title: 'ค่าฉนวนแกนเหล็ก', link: '/core-insulation-resistance' },
+        { title: 'ดูข้อมูลผลการทดสอบทั้งหมด', link: '/view-all-test-results' },
+        { title: 'ตรวจสอบสภาพหม้อแปลงไฟฟ้า', link: '/transformer-inspection' }
       ]
     },
     {
@@ -98,7 +105,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <Package size={20} />,
       dropdown: [
         { title: 'น้ำมันหม้อแปลง', link: '#' },
-        { title: 'คลังรายการน้ำมัน', link: '#' },
+        { title: 'คลังรายการน้ำมันน', link: '#' },
         { title: 'รายการเบิกจ่าย', link: '#' },
         { title: 'รายการสั่งซื้อ/รับน้ำมัน', link: '#' },
         { title: 'รายการค่าใช้จ่าย', link: '#' },
