@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const ElectricalTestResultsPage: React.FC = () => {
   const testTypes = [
-    { name: 'Core Insulation Resistance', link: '/core-insulation-resistance' },
+    { name: 'Core Insulation Resistance', link: '/electrical-test-results/core-insulation-resistance' },
     { name: 'Exciting Current Measurement', link: '/exciting-current-measurement' },
     { name: 'DC Resistance Measurement', link: '/dc-resistance-measurement' },
     { name: 'Single Phase Impedance Measurement', link: '/single-phase-impedance-measurement' },

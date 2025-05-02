@@ -52,6 +52,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/electrical-test-results" element={<ElectricalTestResultsPage />} />
+          <Route path="/electrical-test-results/core-insulation-resistance" element={<CoreInsulationResistancePage />} />
           <Route path="/dp-limit" element={<DPLimitPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/user-management" element={<UserManagementPage />} />
@@ -83,7 +84,6 @@ const App = () => (
           <Route path="/oil-contact" element={<OilContact />} />
           <Route path="/view-all-test-results" element={<ViewAllTestResults />} />
           <Route path="/transformer-importance/add" element={<AddTransformerImportancePage />} />
-          <Route path="/core-insulation-resistance" element={<CoreInsulationResistancePage />} />
           <Route path="/transformer-inspection" element={<TransformerInspection />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
