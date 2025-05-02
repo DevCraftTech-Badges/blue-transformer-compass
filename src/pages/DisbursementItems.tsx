@@ -1,97 +1,88 @@
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Plus, Edit, Trash2 } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import Layout from '@/components/layout/Layout';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { 
-  Pagination, 
-  PaginationContent, 
-  PaginationItem, 
-  PaginationLink, 
-  PaginationNext, 
-  PaginationPrevious 
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useToast } from "@/hooks/use-toast";
-import Layout from "@/components/layout/Layout";
+import { useToast } from "@/components/ui/use-toast";
+import { Plus, Edit, Trash2, Package, Search, Calendar, User, FileText, TrendingDown } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type DisbursementItem = {
   id: string;
   date: string;
   quantity: number;
+  recipient: string;
+  purpose: string;
+  approvedBy: string;
 };
 
-type AnnualSummary = {
-  id: string;
-  year: number;
-  quantity: number;
-  pricePerLiter: number;
-};
-
-const DisbursementItemsPage = () => {
-  const [activeTab, setActiveTab] = useState("details");
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isAnnualEditModalOpen, setIsAnnualEditModalOpen] = useState(false);
-  const [currentItem, setCurrentItem] = useState<DisbursementItem | null>(null);
-  const [currentAnnualItem, setCurrentAnnualItem] = useState<AnnualSummary | null>(null);
+const DisbursementItemsPage: React.FC = () => {
   const { toast } = useToast();
-  
-  // Mock data for demonstration
-  const [items, setItems] = useState<DisbursementItem[]>([
+  const [disbursements, setDisbursements] = useState<DisbursementItem[]>([
     {
       id: "1",
       date: "2023-05-15",
       quantity: 5,
+      recipient: "สถานีไฟฟ้าแรงสูง กรุงเทพ",
+      purpose: "สำหรับหม้อแปลงใหม่",
+      approvedBy: "วิศวกร วิศวกรรม"
     },
     {
       id: "2",
-      date: "2023-06-10",
+      date: "2023-06-20",
       quantity: 3,
+      recipient: "สถานีไฟฟ้าแรงสูง นนทบุรี",
+      purpose: "เปลี่ยนถ่ายน้ำมันหม้อแปลง",
+      approvedBy: "ผู้จัดการ แผนกบำรุงรักษา"
     },
     {
       id: "3",
-      date: "2023-07-05",
+      date: "2023-07-10",
       quantity: 2,
+      recipient: "สถานีไฟฟ้าแรงสูง ปทุมธานี",
+      purpose: "เติมน้ำมันหม้อแปลง",
+      approvedBy: "วิศวกร วิศวกรรม"
     },
   ]);
 
-  const [annualSummary, setAnnualSummary] = useState<AnnualSummary[]>([
-    {
-      id: "1",
-      year: 2023,
-      quantity: 10,
-      pricePerLiter: 25.75,
-    },
-    {
-      id: "2",
-      year: 2022,
-      quantity: 15,
-      pricePerLiter: 24.50,
-    },
-    {
-      id: "3",
-      year: 2021,
-      quantity: 12,
-      pricePerLiter: 23.25,
-    },
-  ]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [currentDisbursement, setCurrentDisbursement] = useState<DisbursementItem | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [dateFilter, setDateFilter] = useState<string>("all");
 
-  const handleAddNewItem = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddDisbursement = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     
-    const newItem: DisbursementItem = {
+    const newDisbursement: DisbursementItem = {
       id: Date.now().toString(),
       date: formData.get('date') as string,
       quantity: Number(formData.get('quantity')),
+      recipient: formData.get('recipient') as string,
+      purpose: formData.get('purpose') as string,
+      approvedBy: formData.get('approvedBy') as string,
     };
     
-    setItems([...items, newItem]);
+    setDisbursements([...disbursements, newDisbursement]);
     setIsAddModalOpen(false);
     toast({
       title: "เพิ่มรายการสำเร็จ",
@@ -99,200 +90,237 @@ const DisbursementItemsPage = () => {
     });
   };
 
-  const handleEditItem = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEditDisbursement = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!currentItem) return;
+    if (!currentDisbursement) return;
     
     const formData = new FormData(e.currentTarget);
     
-    const updatedItem: DisbursementItem = {
-      ...currentItem,
+    const updatedDisbursement: DisbursementItem = {
+      ...currentDisbursement,
       date: formData.get('date') as string,
       quantity: Number(formData.get('quantity')),
+      recipient: formData.get('recipient') as string,
+      purpose: formData.get('purpose') as string,
+      approvedBy: formData.get('approvedBy') as string,
     };
     
-    setItems(items.map(item => item.id === currentItem.id ? updatedItem : item));
+    setDisbursements(disbursements.map(item => item.id === currentDisbursement.id ? updatedDisbursement : item));
     setIsEditModalOpen(false);
-    setCurrentItem(null);
+    setCurrentDisbursement(null);
     toast({
       title: "แก้ไขรายการสำเร็จ",
       description: "รายการเบิกจ่ายได้ถูกอัปเดตแล้ว",
     });
   };
 
-  const handleEditAnnualItem = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!currentAnnualItem) return;
-    
-    const formData = new FormData(e.currentTarget);
-    
-    const updatedItem: AnnualSummary = {
-      ...currentAnnualItem,
-      year: Number(formData.get('year')),
-      quantity: Number(formData.get('quantity')),
-      pricePerLiter: Number(formData.get('pricePerLiter')),
-    };
-    
-    setAnnualSummary(annualSummary.map(item => item.id === currentAnnualItem.id ? updatedItem : item));
-    setIsAnnualEditModalOpen(false);
-    setCurrentAnnualItem(null);
-    toast({
-      title: "แก้ไขรายการสำเร็จ",
-      description: "สรุปรายปีได้ถูกอัปเดตแล้ว",
-    });
-  };
-
   const handleDelete = (id: string) => {
-    setItems(items.filter(item => item.id !== id));
+    setDisbursements(disbursements.filter(item => item.id !== id));
     toast({
       title: "ลบรายการสำเร็จ",
       description: "รายการเบิกจ่ายได้ถูกลบแล้ว",
     });
   };
 
-  const openEditModal = (item: DisbursementItem) => {
-    setCurrentItem(item);
+  const openEditModal = (disbursement: DisbursementItem) => {
+    setCurrentDisbursement(disbursement);
     setIsEditModalOpen(true);
   };
 
-  const openAnnualEditModal = (item: AnnualSummary) => {
-    setCurrentAnnualItem(item);
-    setIsAnnualEditModalOpen(true);
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('th-TH', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   };
+
+  const filteredDisbursements = disbursements.filter(item => {
+    // Match search query against multiple fields
+    const matchesSearch = 
+      formatDate(item.date).toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.recipient.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.purpose.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.approvedBy.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.quantity.toString().includes(searchQuery);
+    
+    if (dateFilter === "all") {
+      return matchesSearch;
+    }
+    
+    // Filter by month if selected
+    const itemDate = new Date(item.date);
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    
+    if (dateFilter === "this-month") {
+      return matchesSearch && 
+        itemDate.getMonth() === currentMonth && 
+        itemDate.getFullYear() === currentYear;
+    }
+    
+    // Last month filter
+    if (dateFilter === "last-month") {
+      const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+      const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+      return matchesSearch && 
+        itemDate.getMonth() === lastMonth && 
+        itemDate.getFullYear() === lastMonthYear;
+    }
+    
+    // Last 3 months filter
+    if (dateFilter === "last-3-months") {
+      const threeMonthsAgo = new Date(currentDate);
+      threeMonthsAgo.setMonth(currentDate.getMonth() - 3);
+      return matchesSearch && itemDate >= threeMonthsAgo;
+    }
+    
+    return matchesSearch;
+  });
+
+  const totalDisbursed = filteredDisbursements.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <Layout>
-      <div className="container mx-auto py-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold">รายการเบิกจ่าย</CardTitle>
+      <div className="p-6 animate-fade-in">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-transformer-primary">รายการเบิกจ่าย</h1>
+            <p className="text-muted-foreground">จัดการบันทึกการเบิกจ่ายน้ำมันหม้อแปลง</p>
+          </div>
+          <Button onClick={() => setIsAddModalOpen(true)} className="whitespace-nowrap">
+            <Plus className="mr-1 h-4 w-4" /> เพิ่มรายการเบิกจ่าย
+          </Button>
+        </div>
+
+        <Card className="shadow-md border-t-4 border-t-transformer-primary">
+          <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border-b pb-4">
+            <CardTitle className="flex items-center text-xl font-semibold text-transformer-primary gap-2">
+              <TrendingDown className="h-5 w-5" />
+              รายการเบิกจ่ายน้ำมัน
+            </CardTitle>
+            <CardDescription>
+              บันทึกและติดตามการเบิกจ่ายน้ำมันหม้อแปลงให้กับหน่วยงานต่างๆ
+            </CardDescription>
           </CardHeader>
-          <CardContent>
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="details">รายละเอียดแต่ละครั้ง</TabsTrigger>
-                <TabsTrigger value="annual">สรุปรายปี[ถัง]</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="details">
-                <div className="mb-6 mt-4">
-                  <Button onClick={() => setIsAddModalOpen(true)}>
-                    <Plus className="mr-1 h-4 w-4" /> เพิ่มรายการใหม่
-                  </Button>
-                </div>
-                
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>รายการที่</TableHead>
-                      <TableHead>วันที่เบิกน้ำมันไปใช้งาน</TableHead>
-                      <TableHead>ปริมาณการเบิก[ถัง]</TableHead>
-                      <TableHead>จัดการ</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {items.map((item, index) => (
-                      <TableRow key={item.id}>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>{item.date}</TableCell>
-                        <TableCell>{item.quantity}</TableCell>
+          
+          <CardContent className="p-6">
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <div className="relative flex-grow">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input 
+                  placeholder="ค้นหารายการ..." 
+                  className="pl-9"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <div className="w-full sm:w-60">
+                <Select value={dateFilter} onValueChange={setDateFilter}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="กรองตามช่วงเวลา" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">ทุกช่วงเวลา</SelectItem>
+                    <SelectItem value="this-month">เดือนนี้</SelectItem>
+                    <SelectItem value="last-month">เดือนที่แล้ว</SelectItem>
+                    <SelectItem value="last-3-months">3 เดือนล่าสุด</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="rounded-lg border overflow-hidden">
+              <Table>
+                <TableHeader className="bg-blue-50 dark:bg-blue-900/20">
+                  <TableRow>
+                    <TableHead className="font-semibold">วันที่</TableHead>
+                    <TableHead className="font-semibold text-center">ปริมาณ [ถัง]</TableHead>
+                    <TableHead className="font-semibold">ผู้รับ</TableHead>
+                    <TableHead className="font-semibold">วัตถุประสงค์</TableHead>
+                    <TableHead className="font-semibold">ผู้อนุมัติ</TableHead>
+                    <TableHead className="font-semibold text-center w-28">จัดการ</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredDisbursements.length > 0 ? (
+                    filteredDisbursements.map((item) => (
+                      <TableRow key={item.id} className="hover:bg-blue-50/50 dark:hover:bg-blue-900/10 even:bg-gray-50/50 transition-colors">
+                        <TableCell className="font-medium">{formatDate(item.date)}</TableCell>
+                        <TableCell className="text-center">
+                          <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                            {item.quantity}
+                          </span>
+                        </TableCell>
+                        <TableCell>{item.recipient}</TableCell>
+                        <TableCell>{item.purpose}</TableCell>
+                        <TableCell>{item.approvedBy}</TableCell>
                         <TableCell>
-                          <div className="flex space-x-2">
-                            <Button variant="outline" size="icon" onClick={() => openEditModal(item)}>
+                          <div className="flex space-x-2 justify-center">
+                            <Button variant="outline" size="icon" onClick={() => openEditModal(item)} className="h-8 w-8">
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button variant="outline" size="icon" onClick={() => handleDelete(item.id)}>
+                            <Button variant="outline" size="icon" onClick={() => handleDelete(item.id)} className="h-8 w-8 text-red-500 hover:text-red-600">
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </div>
                         </TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                
-                <div className="mt-4">
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious href="#" />
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#" isActive>1</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#">2</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#">3</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationNext href="#" />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="annual">
-                <Table>
-                  <TableHeader>
+                    ))
+                  ) : (
                     <TableRow>
-                      <TableHead>รายการที่</TableHead>
-                      <TableHead>ปีที่เบิกจ่ายน้ำมัน</TableHead>
-                      <TableHead>ปริมาณการเบิก[ถัง/ปี]</TableHead>
-                      <TableHead>ราคา[บาท/ลิตร]</TableHead>
-                      <TableHead>จัดการ</TableHead>
+                      <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                        ไม่พบข้อมูลรายการเบิกจ่าย
+                      </TableCell>
                     </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {annualSummary.map((item, index) => (
-                      <TableRow key={item.id}>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>{item.year}</TableCell>
-                        <TableCell>{item.quantity}</TableCell>
-                        <TableCell>{item.pricePerLiter}</TableCell>
-                        <TableCell>
-                          <Button variant="outline" size="icon" onClick={() => openAnnualEditModal(item)}>
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                
-                <div className="mt-4">
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious href="#" />
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href="#" isActive>1</PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationNext href="#" />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </div>
-              </TabsContent>
-            </Tabs>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+            
+            <div className="mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+              <div className="bg-slate-50 p-3 rounded-lg border flex items-center gap-4">
+                <span className="text-sm text-muted-foreground">ปริมาณที่เบิกจ่ายทั้งหมด:</span>
+                <span className="text-xl font-bold text-transformer-primary">{totalDisbursed} ถัง</span>
+              </div>
+            
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious href="#" />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#" isActive>1</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">2</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">3</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationNext href="#" />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
           </CardContent>
         </Card>
-        
-        {/* Add New Item Modal */}
+
+        {/* Add Disbursement Modal */}
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
               <DialogTitle>เพิ่มรายการเบิกจ่าย</DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleAddNewItem}>
+            
+            <form onSubmit={handleAddDisbursement}>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="date" className="text-right">
-                    วันที่เบิกน้ำมันไปใช้งาน
+                    <Calendar className="h-4 w-4 inline mr-1" /> วันที่
                   </Label>
                   <Input
                     id="date"
@@ -300,124 +328,155 @@ const DisbursementItemsPage = () => {
                     type="date"
                     required
                     className="col-span-3"
+                    defaultValue={new Date().toISOString().split('T')[0]}
                   />
                 </div>
+                
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="quantity" className="text-right">
-                    ปริมาณการเบิกต่อครั้ง[ถัง]
+                    <Package className="h-4 w-4 inline mr-1" /> ปริมาณ [ถัง]
                   </Label>
                   <Input
                     id="quantity"
                     name="quantity"
                     type="number"
+                    min="1"
                     required
                     className="col-span-3"
+                    placeholder="ระบุปริมาณ"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="recipient" className="text-right">
+                    <User className="h-4 w-4 inline mr-1" /> ผู้รับ
+                  </Label>
+                  <Input
+                    id="recipient"
+                    name="recipient"
+                    required
+                    className="col-span-3"
+                    placeholder="ระบุผู้รับหรือหน่วยงาน"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="purpose" className="text-right">
+                    <FileText className="h-4 w-4 inline mr-1" /> วัตถุประสงค์
+                  </Label>
+                  <Input
+                    id="purpose"
+                    name="purpose"
+                    required
+                    className="col-span-3"
+                    placeholder="ระบุวัตถุประสงค์การใช้งาน"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="approvedBy" className="text-right">
+                    <User className="h-4 w-4 inline mr-1" /> ผู้อนุมัติ
+                  </Label>
+                  <Input
+                    id="approvedBy"
+                    name="approvedBy"
+                    required
+                    className="col-span-3"
+                    placeholder="ระบุชื่อผู้อนุมัติ"
                   />
                 </div>
               </div>
+              
               <DialogFooter>
-                <Button type="submit">บันทึกข้อมูล</Button>
+                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>ยกเลิก</Button>
+                <Button type="submit">บันทึก</Button>
               </DialogFooter>
             </form>
           </DialogContent>
         </Dialog>
-        
-        {/* Edit Item Modal */}
+
+        {/* Edit Disbursement Modal */}
         <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
               <DialogTitle>แก้ไขรายการเบิกจ่าย</DialogTitle>
             </DialogHeader>
-            {currentItem && (
-              <form onSubmit={handleEditItem}>
+            
+            {currentDisbursement && (
+              <form onSubmit={handleEditDisbursement}>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="edit-date" className="text-right">
-                      วันที่เบิกน้ำมันไปใช้งาน
+                      <Calendar className="h-4 w-4 inline mr-1" /> วันที่
                     </Label>
                     <Input
                       id="edit-date"
                       name="date"
                       type="date"
-                      defaultValue={currentItem.date}
                       required
                       className="col-span-3"
+                      defaultValue={currentDisbursement.date}
                     />
                   </div>
+                  
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="edit-quantity" className="text-right">
-                      ปริมาณการเบิกต่อครั้ง[ถัง]
+                      <Package className="h-4 w-4 inline mr-1" /> ปริมาณ [ถัง]
                     </Label>
                     <Input
                       id="edit-quantity"
                       name="quantity"
                       type="number"
-                      defaultValue={currentItem.quantity}
+                      min="1"
                       required
                       className="col-span-3"
+                      defaultValue={currentDisbursement.quantity}
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-recipient" className="text-right">
+                      <User className="h-4 w-4 inline mr-1" /> ผู้รับ
+                    </Label>
+                    <Input
+                      id="edit-recipient"
+                      name="recipient"
+                      required
+                      className="col-span-3"
+                      defaultValue={currentDisbursement.recipient}
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-purpose" className="text-right">
+                      <FileText className="h-4 w-4 inline mr-1" /> วัตถุประสงค์
+                    </Label>
+                    <Input
+                      id="edit-purpose"
+                      name="purpose"
+                      required
+                      className="col-span-3"
+                      defaultValue={currentDisbursement.purpose}
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-approvedBy" className="text-right">
+                      <User className="h-4 w-4 inline mr-1" /> ผู้อนุมัติ
+                    </Label>
+                    <Input
+                      id="edit-approvedBy"
+                      name="approvedBy"
+                      required
+                      className="col-span-3"
+                      defaultValue={currentDisbursement.approvedBy}
                     />
                   </div>
                 </div>
+                
                 <DialogFooter>
-                  <Button type="submit">บันทึกข้อมูล</Button>
-                </DialogFooter>
-              </form>
-            )}
-          </DialogContent>
-        </Dialog>
-        
-        {/* Edit Annual Summary Modal */}
-        <Dialog open={isAnnualEditModalOpen} onOpenChange={setIsAnnualEditModalOpen}>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>แก้ไขสรุปรายปี</DialogTitle>
-            </DialogHeader>
-            {currentAnnualItem && (
-              <form onSubmit={handleEditAnnualItem}>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="edit-annual-year" className="text-right">
-                      ปีที่เบิกจ่ายน้ำมัน
-                    </Label>
-                    <Input
-                      id="edit-annual-year"
-                      name="year"
-                      type="number"
-                      defaultValue={currentAnnualItem.year}
-                      required
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="edit-annual-quantity" className="text-right">
-                      ปริมาณการเบิก[ถัง/ปี]
-                    </Label>
-                    <Input
-                      id="edit-annual-quantity"
-                      name="quantity"
-                      type="number"
-                      defaultValue={currentAnnualItem.quantity}
-                      required
-                      className="col-span-3"
-                    />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="edit-annual-price" className="text-right">
-                      ราคา[บาท/ลิตร]
-                    </Label>
-                    <Input
-                      id="edit-annual-price"
-                      name="pricePerLiter"
-                      type="number"
-                      step="0.01"
-                      defaultValue={currentAnnualItem.pricePerLiter}
-                      required
-                      className="col-span-3"
-                    />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button type="submit">บันทึกข้อมูล</Button>
+                  <Button type="button" variant="outline" onClick={() => setIsEditModalOpen(false)}>ยกเลิก</Button>
+                  <Button type="submit">บันทึกการแก้ไข</Button>
                 </DialogFooter>
               </form>
             )}

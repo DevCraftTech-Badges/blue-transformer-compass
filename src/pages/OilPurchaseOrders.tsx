@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2, FileText, Calendar, DollarSign } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import {
   PaginationNext, 
   PaginationPrevious 
 } from "@/components/ui/pagination";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import Layout from "@/components/layout/Layout";
 
 type OilPurchaseOrder = {
@@ -31,6 +31,7 @@ const OilPurchaseOrdersPage = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentOrder, setCurrentOrder] = useState<OilPurchaseOrder | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
   
   // Mock data for demonstration
@@ -60,6 +61,16 @@ const OilPurchaseOrdersPage = () => {
       testedQuantity: 174,
     },
   ]);
+
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('th-TH', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
 
   const handleAddNewOrder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -119,59 +130,115 @@ const OilPurchaseOrdersPage = () => {
     setIsEditModalOpen(true);
   };
 
+  const filteredOrders = orders.filter(order => 
+    formatDate(order.purchaseDate).includes(searchQuery) ||
+    order.quantity.toString().includes(searchQuery) ||
+    order.pricePerLiter.toString().includes(searchQuery)
+  );
+
+  const calculateTotalCost = (quantity: number, pricePerLiter: number): number => {
+    return quantity * 200 * pricePerLiter; // Assuming 1 barrel = 200 liters
+  };
+
   return (
     <Layout>
-      <div className="container mx-auto py-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold">รายการสั่งซื้อ/รับน้ำมัน</CardTitle>
+      <div className="container mx-auto py-6 animate-fade-in">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-transformer-primary">รายการสั่งซื้อ/รับน้ำมัน</h1>
+            <p className="text-muted-foreground">จัดการข้อมูลการสั่งซื้อและการรับน้ำมันหม้อแปลง</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <Input
+                placeholder="ค้นหารายการ..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-8 w-64"
+              />
+              <div className="absolute left-2.5 top-2.5 text-gray-400">
+                <FileText size={16} />
+              </div>
+            </div>
+            <Button onClick={() => setIsAddModalOpen(true)} className="whitespace-nowrap">
+              <Plus className="mr-1 h-4 w-4" /> เพิ่มรายการ
+            </Button>
+          </div>
+        </div>
+        
+        <Card className="shadow-md border-t-4 border-t-transformer-primary">
+          <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border-b pb-4">
+            <CardTitle className="text-xl font-semibold text-transformer-primary">รายการสั่งซื้อและรับน้ำมัน</CardTitle>
+            <CardDescription>
+              แสดงรายการสั่งซื้อน้ำมันหม้อแปลงและสถานะการรับน้ำมัน
+            </CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="mb-6">
-              <Button onClick={() => setIsAddModalOpen(true)}>
-                <Plus className="mr-1 h-4 w-4" /> เพิ่มรายการใหม่
-              </Button>
+          <CardContent className="p-6">
+            <div className="rounded-lg border overflow-hidden">
+              <Table>
+                <TableHeader className="bg-blue-50 dark:bg-blue-900/20">
+                  <TableRow>
+                    <TableHead className="font-semibold">วันที่ซื้อ</TableHead>
+                    <TableHead className="font-semibold text-center">ปริมาณสั่งซื้อ [ถัง]</TableHead>
+                    <TableHead className="font-semibold text-center">ราคาต่อลิตร [บาท]</TableHead>
+                    <TableHead className="font-semibold text-center">มูลค่ารวม [บาท]</TableHead>
+                    <TableHead className="font-semibold">วันที่ได้รับ</TableHead>
+                    <TableHead className="font-semibold text-center">ปริมาณที่ผ่านการทดสอบ</TableHead>
+                    <TableHead className="font-semibold text-center">สถานะ</TableHead>
+                    <TableHead className="font-semibold text-center">จัดการ</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredOrders.length > 0 ? (
+                    filteredOrders.map((order) => (
+                      <TableRow key={order.id} className="hover:bg-blue-50/50 dark:hover:bg-blue-900/10 even:bg-gray-50/50 transition-colors">
+                        <TableCell className="font-medium">{formatDate(order.purchaseDate)}</TableCell>
+                        <TableCell className="text-center">{order.quantity}</TableCell>
+                        <TableCell className="text-center">{order.pricePerLiter.toFixed(2)}</TableCell>
+                        <TableCell className="text-center font-semibold">
+                          {calculateTotalCost(order.quantity, order.pricePerLiter).toLocaleString('th-TH')}
+                        </TableCell>
+                        <TableCell>{formatDate(order.receiveDate)}</TableCell>
+                        <TableCell className="text-center">{order.testedQuantity !== null ? order.testedQuantity : "-"}</TableCell>
+                        <TableCell>
+                          {order.receiveDate ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                              ได้รับแล้ว
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                              รอรับน้ำมัน
+                            </span>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex space-x-2 justify-center">
+                            <Button variant="outline" size="icon" onClick={() => openEditModal(order)} className="h-8 w-8">
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button variant="outline" size="icon" onClick={() => handleDelete(order.id)} className="h-8 w-8 text-red-500 hover:text-red-600">
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                        ไม่พบข้อมูลรายการที่ค้นหา
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
             </div>
             
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>วันที่ซื้อ</TableHead>
-                  <TableHead>ปริมาณสั่งซื้อ [ถัง]</TableHead>
-                  <TableHead>ราคาต่อลิตร [บาท]</TableHead>
-                  <TableHead>วันที่ได้รับ</TableHead>
-                  <TableHead>ปริมาณที่ผ่านการทดสอบ [ถัง]</TableHead>
-                  <TableHead>จัดการ</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {orders.map((order) => (
-                  <TableRow key={order.id}>
-                    <TableCell>{order.purchaseDate}</TableCell>
-                    <TableCell>{order.quantity}</TableCell>
-                    <TableCell>{order.pricePerLiter}</TableCell>
-                    <TableCell>{order.receiveDate || "-"}</TableCell>
-                    <TableCell>{order.testedQuantity !== null ? order.testedQuantity : "-"}</TableCell>
-                    <TableCell>
-                      <div className="flex space-x-2">
-                        <Button variant="outline" size="icon" onClick={() => openEditModal(order)}>
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button variant="outline" size="icon" onClick={() => handleDelete(order.id)}>
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            
-            <div className="mt-4">
+            <div className="mt-6">
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
-                    <PaginationPrevious href="#" />
+                    <PaginationPrevious href="#" className="hover:bg-blue-50 transition-colors" />
                   </PaginationItem>
                   <PaginationItem>
                     <PaginationLink href="#" isActive>1</PaginationLink>
@@ -183,7 +250,7 @@ const OilPurchaseOrdersPage = () => {
                     <PaginationLink href="#">3</PaginationLink>
                   </PaginationItem>
                   <PaginationItem>
-                    <PaginationNext href="#" />
+                    <PaginationNext href="#" className="hover:bg-blue-50 transition-colors" />
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
@@ -193,7 +260,7 @@ const OilPurchaseOrdersPage = () => {
         
         {/* Add New Order Modal */}
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
               <DialogTitle>เพิ่มรายการสั่งซื้อ/รับน้ำมันใหม่</DialogTitle>
             </DialogHeader>
@@ -201,7 +268,7 @@ const OilPurchaseOrdersPage = () => {
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="purchaseDate" className="text-right">
-                    วันที่ซื้อ
+                    <Calendar className="h-4 w-4 inline mr-1" /> วันที่ซื้อ
                   </Label>
                   <Input
                     id="purchaseDate"
@@ -225,7 +292,7 @@ const OilPurchaseOrdersPage = () => {
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="pricePerLiter" className="text-right">
-                    ราคาต่อลิตร [บาท]
+                    <DollarSign className="h-4 w-4 inline mr-1" /> ราคาต่อลิตร [บาท]
                   </Label>
                   <Input
                     id="pricePerLiter"
@@ -238,7 +305,7 @@ const OilPurchaseOrdersPage = () => {
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="receiveDate" className="text-right">
-                    วันที่ได้รับ
+                    <Calendar className="h-4 w-4 inline mr-1" /> วันที่ได้รับ
                   </Label>
                   <Input
                     id="receiveDate"
@@ -260,6 +327,7 @@ const OilPurchaseOrdersPage = () => {
                 </div>
               </div>
               <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>ยกเลิก</Button>
                 <Button type="submit">บันทึก</Button>
               </DialogFooter>
             </form>
@@ -268,7 +336,7 @@ const OilPurchaseOrdersPage = () => {
         
         {/* Edit Order Modal */}
         <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
               <DialogTitle>แก้ไขรายการสั่งซื้อ/รับน้ำมัน</DialogTitle>
             </DialogHeader>
@@ -277,7 +345,7 @@ const OilPurchaseOrdersPage = () => {
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="edit-purchaseDate" className="text-right">
-                      วันที่ซื้อ
+                      <Calendar className="h-4 w-4 inline mr-1" /> วันที่ซื้อ
                     </Label>
                     <Input
                       id="edit-purchaseDate"
@@ -303,7 +371,7 @@ const OilPurchaseOrdersPage = () => {
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="edit-pricePerLiter" className="text-right">
-                      ราคาต่อลิตร [บาท]
+                      <DollarSign className="h-4 w-4 inline mr-1" /> ราคาต่อลิตร [บาท]
                     </Label>
                     <Input
                       id="edit-pricePerLiter"
@@ -317,7 +385,7 @@ const OilPurchaseOrdersPage = () => {
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="edit-receiveDate" className="text-right">
-                      วันที่ได้รับ
+                      <Calendar className="h-4 w-4 inline mr-1" /> วันที่ได้รับ
                     </Label>
                     <Input
                       id="edit-receiveDate"
@@ -341,7 +409,8 @@ const OilPurchaseOrdersPage = () => {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button type="submit">บันทึก</Button>
+                  <Button type="button" variant="outline" onClick={() => setIsEditModalOpen(false)}>ยกเลิก</Button>
+                  <Button type="submit">บันทึกการแก้ไข</Button>
                 </DialogFooter>
               </form>
             )}
