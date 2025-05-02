@@ -108,7 +108,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'รายการเบิกจ่าย', link: '#' },
         { title: 'รายการสั่งซื้อ/รับน้ำมัน', link: '#' },
         { title: 'รายการค่าใช้จ่าย', link: '#' },
-        { title: 'ผลการคำนวน', link: '#' },
+        { title: 'ผลการคำนวณ', link: '/calculation-results' },
         { title: 'ระยะเวลาได้รับน้ำมัน', link: '/oil-delivery-time' },
         { title: 'Bushing, Arrester, OLCT', link: '/weibull-calculation' }
       ]
