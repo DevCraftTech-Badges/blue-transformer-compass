@@ -2,22 +2,66 @@
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileType } from 'lucide-react';
+import { FileType, Zap, Gauge, Droplet, LightningBolt, FileText, SquareRoot, Transformer } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const ElectricalTestResultsPage: React.FC = () => {
   const testTypes = [
-    { name: 'Core Insulation Resistance', link: '/electrical-test-results/core-insulation-resistance' },
-    { name: 'Exciting Current Measurement', link: '/exciting-current-measurement' },
-    { name: 'DC Resistance Measurement', link: '/dc-resistance-measurement' },
-    { name: 'Single Phase Impedance Measurement', link: '/single-phase-impedance-measurement' },
-    { name: 'Three Phase Impedance Measurement', link: '/three-phase-impedance-measurement' },
-    { name: 'Auto Transformer Insulation Measurement', link: '/auto-transformer-insulation-measurement' },
-    { name: 'Two Winding Insulation Measurement', link: '/two-winding-insulation-measurement' },
-    { name: 'Ratio Measurement', link: '/ratio-measurement' },
-    { name: 'Insulating Oil', link: '/insulating-oil' },
-    { name: 'Arrester', link: '/arrester' },
-    { name: 'Bushing', link: '/bushing' },
+    { 
+      name: 'Core Insulation Resistance', 
+      link: '/electrical-test-results/core-insulation-resistance',
+      icon: <FileType className="h-5 w-5 text-transformer-primary" />
+    },
+    { 
+      name: 'Exciting Current Measurement', 
+      link: '/electrical-test-results/exciting-current-measurement',
+      icon: <Zap className="h-5 w-5 text-transformer-primary" />
+    },
+    { 
+      name: 'DC Resistance Measurement', 
+      link: '/electrical-test-results/dc-resistance-measurement',
+      icon: <FileType className="h-5 w-5 text-transformer-primary" />
+    },
+    { 
+      name: 'Single Phase Impedance Measurement', 
+      link: '/electrical-test-results/single-phase-impedance-measurement',
+      icon: <SquareRoot className="h-5 w-5 text-transformer-primary" />
+    },
+    { 
+      name: 'Three Phase Impedance Measurement', 
+      link: '/electrical-test-results/three-phase-impedance-measurement',
+      icon: <SquareRoot className="h-5 w-5 text-transformer-primary" />
+    },
+    { 
+      name: 'Auto Transformer Insulation Measurement', 
+      link: '/electrical-test-results/auto-transformer-insulation-measurement',
+      icon: <Transformer className="h-5 w-5 text-transformer-primary" />
+    },
+    { 
+      name: 'Two Winding Insulation Measurement', 
+      link: '/electrical-test-results/two-winding-insulation-measurement',
+      icon: <Transformer className="h-5 w-5 text-transformer-primary" />
+    },
+    { 
+      name: 'Ratio Measurement', 
+      link: '/electrical-test-results/ratio-measurement',
+      icon: <Gauge className="h-5 w-5 text-transformer-primary" />
+    },
+    { 
+      name: 'Insulating Oil', 
+      link: '/electrical-test-results/insulating-oil',
+      icon: <Droplet className="h-5 w-5 text-transformer-primary" />
+    },
+    { 
+      name: 'Arrester', 
+      link: '/electrical-test-results/arrester',
+      icon: <LightningBolt className="h-5 w-5 text-transformer-primary" />
+    },
+    { 
+      name: 'Bushing', 
+      link: '/electrical-test-results/bushing',
+      icon: <FileType className="h-5 w-5 text-transformer-primary" />
+    },
   ];
 
   return (
@@ -37,7 +81,7 @@ const ElectricalTestResultsPage: React.FC = () => {
             >
               <div className="flex items-center space-x-3">
                 <div className="h-10 w-10 rounded-full bg-transformer-primary/10 flex items-center justify-center group-hover:bg-transformer-primary/20 transition-colors">
-                  <FileType className="h-5 w-5 text-transformer-primary" />
+                  {test.icon}
                 </div>
                 <div className="font-medium">{test.name}</div>
               </div>

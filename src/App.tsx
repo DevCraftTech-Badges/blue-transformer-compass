@@ -39,6 +39,16 @@ import OilContact from "./pages/OilContact";
 import ViewAllTestResults from "@/pages/ViewAllTestResults";
 import AddTransformerImportancePage from "./pages/transformer-importance/AddTransformerImportance";
 import CoreInsulationResistancePage from "./pages/CoreInsulationResistance";
+import ExcitingCurrentMeasurementPage from "./pages/ExcitingCurrentMeasurement";
+import DCResistanceMeasurementPage from "./pages/DCResistanceMeasurement";
+import SinglePhaseImpedanceMeasurementPage from "./pages/SinglePhaseImpedanceMeasurement";
+import ThreePhaseImpedanceMeasurementPage from "./pages/ThreePhaseImpedanceMeasurement";
+import AutoTransformerInsulationMeasurementPage from "./pages/AutoTransformerInsulationMeasurement";
+import TwoWindingInsulationMeasurementPage from "./pages/TwoWindingInsulationMeasurement";
+import RatioMeasurementPage from "./pages/RatioMeasurement";
+import InsulatingOilPage from "./pages/InsulatingOil";
+import ArresterPage from "./pages/Arrester";
+import BushingPage from "./pages/Bushing";
 import TransformerInspection from "./pages/TransformerInspection";
 
 const queryClient = new QueryClient();
@@ -53,6 +63,16 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/electrical-test-results" element={<ElectricalTestResultsPage />} />
           <Route path="/electrical-test-results/core-insulation-resistance" element={<CoreInsulationResistancePage />} />
+          <Route path="/electrical-test-results/exciting-current-measurement" element={<ExcitingCurrentMeasurementPage />} />
+          <Route path="/electrical-test-results/dc-resistance-measurement" element={<DCResistanceMeasurementPage />} />
+          <Route path="/electrical-test-results/single-phase-impedance-measurement" element={<SinglePhaseImpedanceMeasurementPage />} />
+          <Route path="/electrical-test-results/three-phase-impedance-measurement" element={<ThreePhaseImpedanceMeasurementPage />} />
+          <Route path="/electrical-test-results/auto-transformer-insulation-measurement" element={<AutoTransformerInsulationMeasurementPage />} />
+          <Route path="/electrical-test-results/two-winding-insulation-measurement" element={<TwoWindingInsulationMeasurementPage />} />
+          <Route path="/electrical-test-results/ratio-measurement" element={<RatioMeasurementPage />} />
+          <Route path="/electrical-test-results/insulating-oil" element={<InsulatingOilPage />} />
+          <Route path="/electrical-test-results/arrester" element={<ArresterPage />} />
+          <Route path="/electrical-test-results/bushing" element={<BushingPage />} />
           <Route path="/dp-limit" element={<DPLimitPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/user-management" element={<UserManagementPage />} />
