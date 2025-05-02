@@ -17,10 +17,10 @@ export const TransformerInfoSection = ({ form }) => {
         name="transformerName"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">ชื่อหม้อแปลง</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">ชื่อหม้อแปลง</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกชื่อหม้อแปลง" />
                 </SelectTrigger>
               </FormControl>
@@ -41,14 +41,14 @@ export const TransformerInfoSection = ({ form }) => {
         name="recordedDate"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel className="text-blue-800">วันที่บันทึก</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">วันที่บันทึก</FormLabel>
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "w-full pl-3 text-left font-normal",
+                      "w-full h-11 pl-3 text-left font-normal border-input bg-white",
                       !field.value && "text-muted-foreground"
                     )}
                   >
@@ -79,15 +79,19 @@ export const TransformerInfoSection = ({ form }) => {
         )}
       />
 
+      <div className="col-span-1 md:col-span-2 border-t border-gray-200 my-2 pt-4">
+        <h3 className="text-blue-800 font-medium mb-4">ข้อมูล HV side</h3>
+      </div>
+
       <FormField
         control={form.control}
         name="busVoltageHV"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">Bus Voltage HV side [kV]</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">Bus Voltage HV side [kV]</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกแรงดันไฟฟ้า" />
                 </SelectTrigger>
               </FormControl>
@@ -107,9 +111,14 @@ export const TransformerInfoSection = ({ form }) => {
         name="systemFaultLevelHV"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">System Fault Level: HV side [kA]</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">System Fault Level: HV side [kA]</FormLabel>
             <FormControl>
-              <Input type="number" {...field} onChange={(e) => field.onChange(parseFloat(e.target.value))} />
+              <Input 
+                type="number" 
+                className="h-11 bg-white" 
+                {...field} 
+                onChange={(e) => field.onChange(parseFloat(e.target.value))} 
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -121,24 +130,28 @@ export const TransformerInfoSection = ({ form }) => {
         name="mvaHV"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">[MVA] HV side</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">[MVA] HV side</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input className="h-11 bg-white" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
 
+      <div className="col-span-1 md:col-span-2 border-t border-gray-200 my-2 pt-4">
+        <h3 className="text-blue-800 font-medium mb-4">ข้อมูล LV side</h3>
+      </div>
+
       <FormField
         control={form.control}
         name="busVoltageLV"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">Bus Voltage LV side [kV]</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">Bus Voltage LV side [kV]</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกแรงดันไฟฟ้า" />
                 </SelectTrigger>
               </FormControl>
@@ -158,9 +171,14 @@ export const TransformerInfoSection = ({ form }) => {
         name="systemFaultLevelLV"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">System Fault Level: LV side [kA]</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">System Fault Level: LV side [kA]</FormLabel>
             <FormControl>
-              <Input type="number" {...field} onChange={(e) => field.onChange(parseFloat(e.target.value))} />
+              <Input 
+                type="number" 
+                className="h-11 bg-white" 
+                {...field} 
+                onChange={(e) => field.onChange(parseFloat(e.target.value))} 
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -172,24 +190,28 @@ export const TransformerInfoSection = ({ form }) => {
         name="mvaLV"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">[MVA] LV side</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">[MVA] LV side</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input className="h-11 bg-white" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
 
+      <div className="col-span-1 md:col-span-2 border-t border-gray-200 my-2 pt-4">
+        <h3 className="text-blue-800 font-medium mb-4">ข้อมูลการประเมิน</h3>
+      </div>
+
       <FormField
         control={form.control}
         name="probabilityOfForceOutage"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">Probability Of Force Outage Per Year</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">Probability Of Force Outage Per Year</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกความน่าจะเป็น" />
                 </SelectTrigger>
               </FormControl>
@@ -209,10 +231,10 @@ export const TransformerInfoSection = ({ form }) => {
         name="socialAspect"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">Social Aspect</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">Social Aspect</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกด้านสังคม" />
                 </SelectTrigger>
               </FormControl>
@@ -232,10 +254,10 @@ export const TransformerInfoSection = ({ form }) => {
         name="loadShedding"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">Load Shedding</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">Load Shedding</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกการจ่ายโหลด" />
                 </SelectTrigger>
               </FormControl>
@@ -255,10 +277,10 @@ export const TransformerInfoSection = ({ form }) => {
         name="publicImage"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">Public Image</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">Public Image</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกภาพลักษณ์" />
                 </SelectTrigger>
               </FormControl>
@@ -278,10 +300,10 @@ export const TransformerInfoSection = ({ form }) => {
         name="nMinusOneCriteria"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">N-1 Criteria</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">N-1 Criteria</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกเกณฑ์ N-1" />
                 </SelectTrigger>
               </FormControl>
@@ -301,10 +323,10 @@ export const TransformerInfoSection = ({ form }) => {
         name="applicationUse"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">Application Use</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">Application Use</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกการใช้งาน" />
                 </SelectTrigger>
               </FormControl>
@@ -324,10 +346,10 @@ export const TransformerInfoSection = ({ form }) => {
         name="systemStability"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">System Stability</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">System Stability</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกความเสถียรของระบบ" />
                 </SelectTrigger>
               </FormControl>
@@ -347,10 +369,10 @@ export const TransformerInfoSection = ({ form }) => {
         name="pollution"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-blue-800">Pollution</FormLabel>
+            <FormLabel className="text-blue-800 font-medium">Pollution</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="เลือกมลพิษ" />
                 </SelectTrigger>
               </FormControl>
