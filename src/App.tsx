@@ -55,6 +55,7 @@ import OilDeliveryTimePage from "./pages/OilDeliveryTime";
 import CalculationResultsPage from "./pages/CalculationResults";
 import ExpenseItemsPage from "./pages/ExpenseItems";
 import OilPurchaseOrdersPage from "./pages/OilPurchaseOrders";
+import DisbursementItemsPage from "./pages/DisbursementItems";
 
 const queryClient = new QueryClient();
 
@@ -115,6 +116,7 @@ const App = () => (
           <Route path="/calculation-results" element={<CalculationResultsPage />} />
           <Route path="/expense-items" element={<ExpenseItemsPage />} />
           <Route path="/oil-purchase-orders" element={<OilPurchaseOrdersPage />} />
+          <Route path="/disbursement-items" element={<DisbursementItemsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
