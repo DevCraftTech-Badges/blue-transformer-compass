@@ -20,10 +20,10 @@ const NotFoundThermoScan: React.FC = () => {
           ขออภัย ระบบยังไม่มีข้อมูล Thermo Scan ในขณะนี้
         </p>
         <Button
-          onClick={() => navigate("/visual-inspection")}
+          onClick={() => navigate("/")}
           className="bg-transformer-primary hover:bg-transformer-primary/90"
         >
-          กลับไปหน้าตรวจสอบหม้อแปลง
+          กลับไปหน้าหลัก
         </Button>
       </div>
     </div>
