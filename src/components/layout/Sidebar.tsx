@@ -104,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <Package size={20} />,
       dropdown: [
         { title: 'น้ำมันหม้อแปลง', link: '#' },
-        { title: 'คลังรายการน้ำมัน', link: '#' },
+        { title: 'คลังรายการน้ำมัน', link: '/oil-inventory' },
         { title: 'รายการเบิกจ่าย', link: '/disbursement-items' },
         { title: 'รายการสั่งซื้อ/รับน้ำมัน', link: '/oil-purchase-orders' },
         { title: 'รายการค่าใช้จ่าย', link: '/expense-items' },
