@@ -110,9 +110,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'รายการค่าใช้จ่าย', link: '#' },
         { title: 'ผลการคำนวน', link: '#' },
         { title: 'ระยะเวลาได้รับน้ำมัน', link: '#' },
-        { title: 'Bushing', link: '#' },
-        { title: 'Arrester', link: '#' },
-        { title: 'OLCT', link: '#' }
+        { title: 'Bushing, Arrester, OLCT', link: '#' }
       ]
     },
     {
