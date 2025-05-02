@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -105,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       icon: <Package size={20} />,
       dropdown: [
         { title: 'น้ำมันหม้อแปลง', link: '#' },
-        { title: 'คลังรายการน้ำมันน', link: '#' },
+        { title: 'คลังรายการน้ำมัน', link: '#' },
         { title: 'รายการเบิกจ่าย', link: '/disbursement-items' },
         { title: 'รายการสั่งซื้อ/รับน้ำมัน', link: '/oil-purchase-orders' },
         { title: 'รายการค่าใช้จ่าย', link: '/expense-items' },
@@ -121,7 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'เปลี่ยนรหัสผ่าน', link: '/change-password' },
         { title: 'การจัดการผู้ใช้งาน', link: '/user-management' },
         { title: 'กำหนดข้อมูลพื้นฐานหม้อแปลง', link: '/transformer-config-management' },
-        { title: 'กำหนดข้อ��ูลความสำคัญหม้อแปลง', link: '/transformer-importance-config' },
+        { title: 'กำหนดข้อูลความสำคัญหม้อแปลง', link: '/transformer-importance-config' },
         { title: 'กำหนดข้อมูลการทดสอบ', link: '#' },
         { title: 'หัวข้อ Visual Inspection', link: '/visual-inspection-topics' },
         { title: 'เกณฑ์ Visual Inspection', link: '/visual-inspection-criteria' },
