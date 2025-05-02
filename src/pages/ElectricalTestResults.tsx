@@ -2,7 +2,7 @@
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileType, Zap, Gauge, Droplet, LightningBolt, FileText, SquareRoot, Transformer } from 'lucide-react';
+import { FileType, Zap, Gauge, Droplet, Bolt, FileText, Square, Box } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const ElectricalTestResultsPage: React.FC = () => {
@@ -25,22 +25,22 @@ const ElectricalTestResultsPage: React.FC = () => {
     { 
       name: 'Single Phase Impedance Measurement', 
       link: '/electrical-test-results/single-phase-impedance-measurement',
-      icon: <SquareRoot className="h-5 w-5 text-transformer-primary" />
+      icon: <Square className="h-5 w-5 text-transformer-primary" />
     },
     { 
       name: 'Three Phase Impedance Measurement', 
       link: '/electrical-test-results/three-phase-impedance-measurement',
-      icon: <SquareRoot className="h-5 w-5 text-transformer-primary" />
+      icon: <Square className="h-5 w-5 text-transformer-primary" />
     },
     { 
       name: 'Auto Transformer Insulation Measurement', 
       link: '/electrical-test-results/auto-transformer-insulation-measurement',
-      icon: <Transformer className="h-5 w-5 text-transformer-primary" />
+      icon: <Box className="h-5 w-5 text-transformer-primary" />
     },
     { 
       name: 'Two Winding Insulation Measurement', 
       link: '/electrical-test-results/two-winding-insulation-measurement',
-      icon: <Transformer className="h-5 w-5 text-transformer-primary" />
+      icon: <Box className="h-5 w-5 text-transformer-primary" />
     },
     { 
       name: 'Ratio Measurement', 
@@ -55,7 +55,7 @@ const ElectricalTestResultsPage: React.FC = () => {
     { 
       name: 'Arrester', 
       link: '/electrical-test-results/arrester',
-      icon: <LightningBolt className="h-5 w-5 text-transformer-primary" />
+      icon: <Bolt className="h-5 w-5 text-transformer-primary" />
     },
     { 
       name: 'Bushing', 
