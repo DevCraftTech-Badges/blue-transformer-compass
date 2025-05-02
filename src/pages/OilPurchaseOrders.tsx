@@ -16,6 +16,7 @@ import {
   PaginationPrevious 
 } from "@/components/ui/pagination";
 import { useToast } from "@/hooks/use-toast";
+import Layout from "@/components/layout/Layout";
 
 type OilPurchaseOrder = {
   id: string;
@@ -119,221 +120,141 @@ const OilPurchaseOrdersPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">รายการสั่งซื้อ/รับน้ำมัน</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="mb-6">
-            <Button onClick={() => setIsAddModalOpen(true)}>
-              <Plus className="mr-1 h-4 w-4" /> เพิ่มรายการใหม่
-            </Button>
-          </div>
-          
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>วันที่ซื้อ</TableHead>
-                <TableHead>ปริมาณสั่งซื้อ [ถัง]</TableHead>
-                <TableHead>ราคาต่อลิตร [บาท]</TableHead>
-                <TableHead>วันที่ได้รับ</TableHead>
-                <TableHead>ปริมาณที่ผ่านการทดสอบ [ถัง]</TableHead>
-                <TableHead>จัดการ</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {orders.map((order) => (
-                <TableRow key={order.id}>
-                  <TableCell>{order.purchaseDate}</TableCell>
-                  <TableCell>{order.quantity}</TableCell>
-                  <TableCell>{order.pricePerLiter}</TableCell>
-                  <TableCell>{order.receiveDate || "-"}</TableCell>
-                  <TableCell>{order.testedQuantity !== null ? order.testedQuantity : "-"}</TableCell>
-                  <TableCell>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="icon" onClick={() => openEditModal(order)}>
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="outline" size="icon" onClick={() => handleDelete(order.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          
-          <div className="mt-4">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#" isActive>1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">2</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        </CardContent>
-      </Card>
-      
-      {/* Add New Order Modal */}
-      <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>เพิ่มรายการสั่งซื้อ/รับน้ำมันใหม่</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleAddNewOrder}>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="purchaseDate" className="text-right">
-                  วันที่ซื้อ
-                </Label>
-                <Input
-                  id="purchaseDate"
-                  name="purchaseDate"
-                  type="date"
-                  required
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="quantity" className="text-right">
-                  ปริมาณสั่งซื้อ [ถัง]
-                </Label>
-                <Input
-                  id="quantity"
-                  name="quantity"
-                  type="number"
-                  required
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="pricePerLiter" className="text-right">
-                  ราคาต่อลิตร [บาท]
-                </Label>
-                <Input
-                  id="pricePerLiter"
-                  name="pricePerLiter"
-                  type="number"
-                  step="0.01"
-                  required
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="receiveDate" className="text-right">
-                  วันที่ได้รับ
-                </Label>
-                <Input
-                  id="receiveDate"
-                  name="receiveDate"
-                  type="date"
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="testedQuantity" className="text-right">
-                  ปริมาณที่ผ่านการทดสอบ [ถัง]
-                </Label>
-                <Input
-                  id="testedQuantity"
-                  name="testedQuantity"
-                  type="number"
-                  className="col-span-3"
-                />
-              </div>
+    <Layout>
+      <div className="container mx-auto py-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold">รายการสั่งซื้อ/รับน้ำมัน</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="mb-6">
+              <Button onClick={() => setIsAddModalOpen(true)}>
+                <Plus className="mr-1 h-4 w-4" /> เพิ่มรายการใหม่
+              </Button>
             </div>
-            <DialogFooter>
-              <Button type="submit">บันทึก</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-      
-      {/* Edit Order Modal */}
-      <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>แก้ไขรายการสั่งซื้อ/รับน้ำมัน</DialogTitle>
-          </DialogHeader>
-          {currentOrder && (
-            <form onSubmit={handleEditOrder}>
+            
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>วันที่ซื้อ</TableHead>
+                  <TableHead>ปริมาณสั่งซื้อ [ถัง]</TableHead>
+                  <TableHead>ราคาต่อลิตร [บาท]</TableHead>
+                  <TableHead>วันที่ได้รับ</TableHead>
+                  <TableHead>ปริมาณที่ผ่านการทดสอบ [ถัง]</TableHead>
+                  <TableHead>จัดการ</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orders.map((order) => (
+                  <TableRow key={order.id}>
+                    <TableCell>{order.purchaseDate}</TableCell>
+                    <TableCell>{order.quantity}</TableCell>
+                    <TableCell>{order.pricePerLiter}</TableCell>
+                    <TableCell>{order.receiveDate || "-"}</TableCell>
+                    <TableCell>{order.testedQuantity !== null ? order.testedQuantity : "-"}</TableCell>
+                    <TableCell>
+                      <div className="flex space-x-2">
+                        <Button variant="outline" size="icon" onClick={() => openEditModal(order)}>
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button variant="outline" size="icon" onClick={() => handleDelete(order.id)}>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            
+            <div className="mt-4">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious href="#" />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#" isActive>1</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">2</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">3</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationNext href="#" />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          </CardContent>
+        </Card>
+        
+        {/* Add New Order Modal */}
+        <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>เพิ่มรายการสั่งซื้อ/รับน้ำมันใหม่</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleAddNewOrder}>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="edit-purchaseDate" className="text-right">
+                  <Label htmlFor="purchaseDate" className="text-right">
                     วันที่ซื้อ
                   </Label>
                   <Input
-                    id="edit-purchaseDate"
+                    id="purchaseDate"
                     name="purchaseDate"
                     type="date"
-                    defaultValue={currentOrder.purchaseDate}
                     required
                     className="col-span-3"
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="edit-quantity" className="text-right">
+                  <Label htmlFor="quantity" className="text-right">
                     ปริมาณสั่งซื้อ [ถัง]
                   </Label>
                   <Input
-                    id="edit-quantity"
+                    id="quantity"
                     name="quantity"
                     type="number"
-                    defaultValue={currentOrder.quantity}
                     required
                     className="col-span-3"
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="edit-pricePerLiter" className="text-right">
+                  <Label htmlFor="pricePerLiter" className="text-right">
                     ราคาต่อลิตร [บาท]
                   </Label>
                   <Input
-                    id="edit-pricePerLiter"
+                    id="pricePerLiter"
                     name="pricePerLiter"
                     type="number"
                     step="0.01"
-                    defaultValue={currentOrder.pricePerLiter}
                     required
                     className="col-span-3"
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="edit-receiveDate" className="text-right">
+                  <Label htmlFor="receiveDate" className="text-right">
                     วันที่ได้รับ
                   </Label>
                   <Input
-                    id="edit-receiveDate"
+                    id="receiveDate"
                     name="receiveDate"
                     type="date"
-                    defaultValue={currentOrder.receiveDate || ""}
                     className="col-span-3"
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="edit-testedQuantity" className="text-right">
+                  <Label htmlFor="testedQuantity" className="text-right">
                     ปริมาณที่ผ่านการทดสอบ [ถัง]
                   </Label>
                   <Input
-                    id="edit-testedQuantity"
+                    id="testedQuantity"
                     name="testedQuantity"
                     type="number"
-                    defaultValue={currentOrder.testedQuantity || ""}
                     className="col-span-3"
                   />
                 </div>
@@ -342,10 +263,92 @@ const OilPurchaseOrdersPage = () => {
                 <Button type="submit">บันทึก</Button>
               </DialogFooter>
             </form>
-          )}
-        </DialogContent>
-      </Dialog>
-    </div>
+          </DialogContent>
+        </Dialog>
+        
+        {/* Edit Order Modal */}
+        <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>แก้ไขรายการสั่งซื้อ/รับน้ำมัน</DialogTitle>
+            </DialogHeader>
+            {currentOrder && (
+              <form onSubmit={handleEditOrder}>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-purchaseDate" className="text-right">
+                      วันที่ซื้อ
+                    </Label>
+                    <Input
+                      id="edit-purchaseDate"
+                      name="purchaseDate"
+                      type="date"
+                      defaultValue={currentOrder.purchaseDate}
+                      required
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-quantity" className="text-right">
+                      ปริมาณสั่งซื้อ [ถัง]
+                    </Label>
+                    <Input
+                      id="edit-quantity"
+                      name="quantity"
+                      type="number"
+                      defaultValue={currentOrder.quantity}
+                      required
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-pricePerLiter" className="text-right">
+                      ราคาต่อลิตร [บาท]
+                    </Label>
+                    <Input
+                      id="edit-pricePerLiter"
+                      name="pricePerLiter"
+                      type="number"
+                      step="0.01"
+                      defaultValue={currentOrder.pricePerLiter}
+                      required
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-receiveDate" className="text-right">
+                      วันที่ได้รับ
+                    </Label>
+                    <Input
+                      id="edit-receiveDate"
+                      name="receiveDate"
+                      type="date"
+                      defaultValue={currentOrder.receiveDate || ""}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit-testedQuantity" className="text-right">
+                      ปริมาณที่ผ่านการทดสอบ [ถัง]
+                    </Label>
+                    <Input
+                      id="edit-testedQuantity"
+                      name="testedQuantity"
+                      type="number"
+                      defaultValue={currentOrder.testedQuantity || ""}
+                      className="col-span-3"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit">บันทึก</Button>
+                </DialogFooter>
+              </form>
+            )}
+          </DialogContent>
+        </Dialog>
+      </div>
+    </Layout>
   );
 };
 
