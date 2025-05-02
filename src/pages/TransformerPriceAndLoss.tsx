@@ -87,14 +87,14 @@ const TransformerPriceAndLossPage = () => {
     <Layout>
       <div className="container mx-auto p-6">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-transformer-primary">การวิเคราะห์ทางเศรษฐศาสตร์ - ราคาและ Loss ของหม้อแปลง</h1>
+          <h1 className="text-2xl font-bold text-blue-800">การวิเคราะห์ทางเศรษฐศาสตร์ - ราคาและ Loss ของหม้อแปลง</h1>
           <p className="text-gray-600 mt-2">กรุณากรอกข้อมูลราคาและค่า Loss ของหม้อแปลงเพื่อใช้ในการวิเคราะห์</p>
         </div>
 
         <Alert className="mb-6 bg-blue-50 border-blue-200">
           <Info className="h-5 w-5 text-blue-500" />
-          <AlertTitle className="text-blue-700">คำแนะนำการกรอกข้อมูล</AlertTitle>
-          <AlertDescription className="text-blue-600">
+          <AlertTitle className="text-blue-800">คำแนะนำการกรอกข้อมูล</AlertTitle>
+          <AlertDescription className="text-blue-700">
             ข้อมูลราคาและค่า Loss ของหม้อแปลงจะถูกใช้ในการประเมินความคุ้มค่าทางเศรษฐศาสตร์ตลอดอายุการใช้งาน
           </AlertDescription>
         </Alert>
@@ -104,10 +104,10 @@ const TransformerPriceAndLossPage = () => {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 {/* Section 1: Transformer Selection */}
-                <Card className="shadow-md border-t-4 border-t-transformer-primary">
-                  <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 border-b">
-                    <CardTitle className="text-lg font-semibold text-transformer-primary">เลือกหม้อแปลงไฟฟ้า</CardTitle>
-                    <CardDescription>เลือกหม้อแปลงที่ต้องการวิเคราะห์ข้อมูล</CardDescription>
+                <Card className="shadow-md border-t-4 border-t-blue-800">
+                  <CardHeader className="bg-[#f0f8ff] border-b">
+                    <CardTitle className="text-lg font-semibold text-blue-800">เลือกหม้อแปลงไฟฟ้า</CardTitle>
+                    <CardDescription className="text-blue-700">เลือกหม้อแปลงที่ต้องการวิเคราะห์ข้อมูล</CardDescription>
                   </CardHeader>
                   <CardContent className="p-6">
                     <FormField
@@ -115,7 +115,7 @@ const TransformerPriceAndLossPage = () => {
                       name="transformer"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-medium text-transformer-primary">เลือกหม้อแปลง</FormLabel>
+                          <FormLabel className="font-medium text-blue-800">เลือกหม้อแปลง</FormLabel>
                           <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger className="border-blue-200 focus:border-blue-400">
@@ -137,53 +137,53 @@ const TransformerPriceAndLossPage = () => {
                 {/* Section 2: Transformer Info */}
                 {selectedTransformer && transformerInfo && (
                   <Card className="shadow-md">
-                    <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 border-b">
-                      <CardTitle className="text-lg font-semibold text-transformer-primary">ข้อมูลหม้อแปลง</CardTitle>
-                      <CardDescription>รายละเอียดของหม้อแปลงที่เลือก</CardDescription>
+                    <CardHeader className="bg-[#f0f8ff] border-b">
+                      <CardTitle className="text-lg font-semibold text-blue-800">ข้อมูลหม้อแปลง</CardTitle>
+                      <CardDescription className="text-blue-700">รายละเอียดของหม้อแปลงที่เลือก</CardDescription>
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="font-medium text-gray-700">Transformer Name:</span>
+                            <span className="font-medium text-blue-800">Transformer Name:</span>
                             <span className="text-gray-800">{transformerInfo.name}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="font-medium text-gray-700">MVA Rating:</span>
+                            <span className="font-medium text-blue-800">MVA Rating:</span>
                             <span className="text-gray-800">{transformerInfo.mvaRating}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="font-medium text-gray-700">First Energized:</span>
+                            <span className="font-medium text-blue-800">First Energized:</span>
                             <span className="text-gray-800">{transformerInfo.firstEnergized}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="font-medium text-gray-700">OLTC Manufacturer:</span>
+                            <span className="font-medium text-blue-800">OLTC Manufacturer:</span>
                             <span className="text-gray-800">{transformerInfo.oltcManufacturer}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="font-medium text-gray-700">Vector Group:</span>
+                            <span className="font-medium text-blue-800">Vector Group:</span>
                             <span className="text-gray-800">{transformerInfo.vectorGroup}</span>
                           </div>
                         </div>
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="font-medium text-gray-700">Equipment No:</span>
+                            <span className="font-medium text-blue-800">Equipment No:</span>
                             <span className="text-gray-800">{transformerInfo.equipmentNo}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="font-medium text-gray-700">HV Rating:</span>
+                            <span className="font-medium text-blue-800">HV Rating:</span>
                             <span className="text-gray-800">{transformerInfo.hvRating}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="font-medium text-gray-700">Manufacturer:</span>
+                            <span className="font-medium text-blue-800">Manufacturer:</span>
                             <span className="text-gray-800">{transformerInfo.manufacturer}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="font-medium text-gray-700">OLTC Type:</span>
+                            <span className="font-medium text-blue-800">OLTC Type:</span>
                             <span className="text-gray-800">{transformerInfo.oltcType}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="font-medium text-gray-700">Winding Type:</span>
+                            <span className="font-medium text-blue-800">Winding Type:</span>
                             <span className="text-gray-800">{transformerInfo.windingType}</span>
                           </div>
                         </div>
@@ -194,9 +194,9 @@ const TransformerPriceAndLossPage = () => {
 
                 {/* Section 3: Price and Loss Inputs */}
                 <Card className="shadow-md">
-                  <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 border-b">
-                    <CardTitle className="text-lg font-semibold text-transformer-primary">ค่าใช้จ่ายและ Loss</CardTitle>
-                    <CardDescription>ข้อมูลราคาและค่า Loss สำหรับการวิเคราะห์</CardDescription>
+                  <CardHeader className="bg-[#f0f8ff] border-b">
+                    <CardTitle className="text-lg font-semibold text-blue-800">ค่าใช้จ่ายและ Loss</CardTitle>
+                    <CardDescription className="text-blue-700">ข้อมูลราคาและค่า Loss สำหรับการวิเคราะห์</CardDescription>
                   </CardHeader>
                   <CardContent className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -205,7 +205,7 @@ const TransformerPriceAndLossPage = () => {
                         name="price"
                         render={({ field }) => (
                           <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                            <FormLabel className="font-medium text-transformer-primary">ราคาหม้อแปลง</FormLabel>
+                            <FormLabel className="font-medium text-blue-800">ราคาหม้อแปลง</FormLabel>
                             <div className="relative">
                               <FormControl>
                                 <Input 
@@ -229,7 +229,7 @@ const TransformerPriceAndLossPage = () => {
                         name="noLoadLoss"
                         render={({ field }) => (
                           <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                            <FormLabel className="font-medium text-transformer-primary">No-Load Loss</FormLabel>
+                            <FormLabel className="font-medium text-blue-800">No-Load Loss</FormLabel>
                             <div className="relative">
                               <FormControl>
                                 <Input 
@@ -253,7 +253,7 @@ const TransformerPriceAndLossPage = () => {
                         name="loadLoss"
                         render={({ field }) => (
                           <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                            <FormLabel className="font-medium text-transformer-primary">Load Loss</FormLabel>
+                            <FormLabel className="font-medium text-blue-800">Load Loss</FormLabel>
                             <div className="relative">
                               <FormControl>
                                 <Input 
@@ -279,7 +279,7 @@ const TransformerPriceAndLossPage = () => {
                 <div className="flex justify-center">
                   <Button 
                     type="submit" 
-                    className="bg-transformer-primary hover:bg-blue-700 text-white transition-colors duration-200 px-8 py-2"
+                    className="bg-blue-800 hover:bg-blue-900 text-white transition-colors duration-200 px-8 py-2"
                     disabled={!selectedTransformer}
                   >
                     วิเคราะห์ข้อมูล
@@ -292,29 +292,29 @@ const TransformerPriceAndLossPage = () => {
           {/* Results Section */}
           <div className="lg:col-span-1">
             <Card className="shadow-md h-full">
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 border-b">
-                <CardTitle className="text-lg font-semibold text-transformer-primary">ผลการวิเคราะห์</CardTitle>
-                <CardDescription>สรุปผลการวิเคราะห์ทางเศรษฐศาสตร์</CardDescription>
+              <CardHeader className="bg-[#f0f8ff] border-b">
+                <CardTitle className="text-lg font-semibold text-blue-800">ผลการวิเคราะห์</CardTitle>
+                <CardDescription className="text-blue-700">สรุปผลการวิเคราะห์ทางเศรษฐศาสตร์</CardDescription>
               </CardHeader>
               <CardContent className="p-6">
                 {calculationResult ? (
                   <div className="space-y-6">
                     <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                      <h3 className="font-medium text-blue-700 mb-2">ต้นทุนรวม</h3>
-                      <p className="text-2xl font-semibold text-blue-800">
+                      <h3 className="font-medium text-blue-800 mb-2">ต้นทุนรวม</h3>
+                      <p className="text-2xl font-semibold text-blue-900">
                         {calculationResult.totalPrice.toLocaleString()} บาท
                       </p>
                     </div>
                     
                     <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                      <h3 className="font-medium text-yellow-700 mb-2">Loss ต่อปี</h3>
+                      <h3 className="font-medium text-blue-800 mb-2">Loss ต่อปี</h3>
                       <p className="text-2xl font-semibold text-yellow-800">
                         {calculationResult.annualLoss.toLocaleString()} kWh
                       </p>
                     </div>
                     
                     <div className="p-4 rounded-lg border border-gray-200">
-                      <h3 className="font-medium text-gray-700 mb-2">สรุปผล</h3>
+                      <h3 className="font-medium text-blue-800 mb-2">สรุปผล</h3>
                       <p className="text-gray-600">
                         จากการวิเคราะห์ พบว่าหม้อแปลง {selectedTransformer} มีต้นทุนรวมตลอดอายุการใช้งานที่ {calculationResult.totalPrice.toLocaleString()} บาท และมี Loss ประมาณ {calculationResult.annualLoss.toLocaleString()} kWh ต่อปี
                       </p>

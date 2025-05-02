@@ -58,7 +58,7 @@ const FactorSettingPage = () => {
     <Layout>
       <div className="container mx-auto px-4 py-6">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-transformer-primary">การวิเคราะห์ทางเศรษฐศาสตร์ - Factor Setting</h1>
+          <h1 className="text-2xl font-bold text-blue-800">การวิเคราะห์ทางเศรษฐศาสตร์ - Factor Setting</h1>
           <p className="text-gray-600 mt-2">
             กรุณากรอกข้อมูลปัจจัยทางเศรษฐกิจและวิศวกรรมที่เกี่ยวข้องกับการวิเคราะห์หม้อแปลง
           </p>
@@ -66,16 +66,16 @@ const FactorSettingPage = () => {
         
         <Alert className="mb-6 bg-blue-50 border-blue-200">
           <Info className="h-5 w-5 text-blue-500" />
-          <AlertTitle className="text-blue-700">คำแนะนำการกรอกข้อมูล</AlertTitle>
-          <AlertDescription className="text-blue-600">
+          <AlertTitle className="text-blue-800">คำแนะนำการกรอกข้อมูล</AlertTitle>
+          <AlertDescription className="text-blue-700">
             ค่า Factor ที่กำหนดจะถูกใช้ในการวิเคราะห์ทางเศรษฐศาสตร์ของหม้อแปลงไฟฟ้า ซึ่งมีผลต่อการคำนวณต้นทุนและผลตอบแทนในระยะยาว
           </AlertDescription>
         </Alert>
         
-        <Card className="bg-white shadow-md border-t-4 border-t-transformer-primary">
-          <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 border-b">
-            <CardTitle className="text-xl text-transformer-primary">ตั้งค่าปัจจัยการวิเคราะห์</CardTitle>
-            <CardDescription>กรอกข้อมูลตัวแปรที่ใช้ในการวิเคราะห์เศรษฐศาสตร์สำหรับหม้อแปลง</CardDescription>
+        <Card className="bg-white shadow-md border-t-4 border-t-blue-800">
+          <CardHeader className="bg-[#f0f8ff] border-b">
+            <CardTitle className="text-xl text-blue-800">ตั้งค่าปัจจัยการวิเคราะห์</CardTitle>
+            <CardDescription className="text-blue-700">กรอกข้อมูลตัวแปรที่ใช้ในการวิเคราะห์เศรษฐศาสตร์สำหรับหม้อแปลง</CardDescription>
           </CardHeader>
           <CardContent className="p-6">
             <Form {...form}>
@@ -87,7 +87,7 @@ const FactorSettingPage = () => {
                     name="interestRate"
                     render={({ field }) => (
                       <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                        <FormLabel className="text-transformer-primary font-medium">อัตราดอกเบี้ย</FormLabel>
+                        <FormLabel className="text-blue-800 font-medium">อัตราดอกเบี้ย</FormLabel>
                         <div className="relative">
                           <FormControl>
                             <Input
@@ -114,7 +114,7 @@ const FactorSettingPage = () => {
                     name="inflationRate"
                     render={({ field }) => (
                       <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                        <FormLabel className="text-transformer-primary font-medium">อัตราเงินเฟ้อ</FormLabel>
+                        <FormLabel className="text-blue-800 font-medium">อัตราเงินเฟ้อ</FormLabel>
                         <div className="relative">
                           <FormControl>
                             <Input
@@ -141,7 +141,7 @@ const FactorSettingPage = () => {
                     name="averageLoadPercentage"
                     render={({ field }) => (
                       <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                        <FormLabel className="text-transformer-primary font-medium">% การจ่ายโหลดโดยเฉลี่ย</FormLabel>
+                        <FormLabel className="text-blue-800 font-medium">% การจ่ายโหลดโดยเฉลี่ย</FormLabel>
                         <div className="relative">
                           <FormControl>
                             <Input
@@ -169,7 +169,7 @@ const FactorSettingPage = () => {
                     name="transformerLossCost"
                     render={({ field }) => (
                       <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                        <FormLabel className="text-transformer-primary font-medium">ค่า Loss ของหม้อแปลง (no-load and load loss)</FormLabel>
+                        <FormLabel className="text-blue-800 font-medium">ค่า Loss ของหม้อแปลง (no-load and load loss)</FormLabel>
                         <div className="relative">
                           <FormControl>
                             <Input
@@ -196,7 +196,7 @@ const FactorSettingPage = () => {
                     name="newTransformerLifespan"
                     render={({ field }) => (
                       <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                        <FormLabel className="text-transformer-primary font-medium">อายุใช้งานของหม้อแปลงใหม่ (project life)</FormLabel>
+                        <FormLabel className="text-blue-800 font-medium">อายุใช้งานของหม้อแปลงใหม่ (project life)</FormLabel>
                         <div className="relative">
                           <FormControl>
                             <Input
@@ -223,7 +223,7 @@ const FactorSettingPage = () => {
                     name="zeroValueTransformerAge"
                     render={({ field }) => (
                       <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                        <FormLabel className="text-transformer-primary font-medium">อายุหม้อแปลงปีที่ซากเป็นศูนย์</FormLabel>
+                        <FormLabel className="text-blue-800 font-medium">อายุหม้อแปลงปีที่ซากเป็นศูนย์</FormLabel>
                         <div className="relative">
                           <FormControl>
                             <Input
@@ -250,7 +250,7 @@ const FactorSettingPage = () => {
                     name="unservedEnergyCost"
                     render={({ field }) => (
                       <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                        <FormLabel className="text-transformer-primary font-medium">ค่าพลังงานที่ไม่ได้จ่ายไฟ</FormLabel>
+                        <FormLabel className="text-blue-800 font-medium">ค่าพลังงานที่ไม่ได้จ่ายไฟ</FormLabel>
                         <div className="relative">
                           <FormControl>
                             <Input
@@ -277,7 +277,7 @@ const FactorSettingPage = () => {
                     name="unavailabilityPercentage"
                     render={({ field }) => (
                       <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                        <FormLabel className="text-transformer-primary font-medium">Unavailability (%)</FormLabel>
+                        <FormLabel className="text-blue-800 font-medium">Unavailability (%)</FormLabel>
                         <div className="relative">
                           <FormControl>
                             <Input
@@ -305,7 +305,7 @@ const FactorSettingPage = () => {
                     name="powerFactor"
                     render={({ field }) => (
                       <FormItem className="transition-all duration-200 hover:bg-gray-50 p-3 rounded-lg">
-                        <FormLabel className="text-transformer-primary font-medium">Power Factor</FormLabel>
+                        <FormLabel className="text-blue-800 font-medium">Power Factor</FormLabel>
                         <div className="relative">
                           <FormControl>
                             <Input
@@ -331,7 +331,7 @@ const FactorSettingPage = () => {
                 <div className="flex justify-center pt-4">
                   <Button 
                     type="submit" 
-                    className="w-full sm:w-auto bg-transformer-primary hover:bg-blue-700 text-white transition-colors duration-200 px-8 py-2"
+                    className="w-full sm:w-auto bg-blue-800 hover:bg-blue-900 text-white transition-colors duration-200 px-8 py-2"
                   >
                     บันทึกข้อมูล
                   </Button>
