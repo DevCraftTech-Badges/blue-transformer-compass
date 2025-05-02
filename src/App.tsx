@@ -53,6 +53,7 @@ import TransformerInspection from "./pages/TransformerInspection";
 import WeibullCalculationPage from "./pages/WeibullCalculation";
 import OilDeliveryTimePage from "./pages/OilDeliveryTime";
 import CalculationResultsPage from "./pages/CalculationResults";
+import ExpenseItemsPage from "./pages/ExpenseItems";
 
 const queryClient = new QueryClient();
 
@@ -111,6 +112,7 @@ const App = () => (
           <Route path="/weibull-calculation" element={<WeibullCalculationPage />} />
           <Route path="/oil-delivery-time" element={<OilDeliveryTimePage />} />
           <Route path="/calculation-results" element={<CalculationResultsPage />} />
+          <Route path="/expense-items" element={<ExpenseItemsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
