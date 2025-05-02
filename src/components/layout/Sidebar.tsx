@@ -57,14 +57,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       title: 'ข้อมูลบำรุงรักษาหม้อแปลง',
       icon: <Wrench size={20} />,
       dropdown: [
-        { title: 'ค้นหาข้อมูลบำรุงรักษาหม้อแปลง', link: '/transformer-maintenance-search' },
-        { title: 'Visual Inspection', link: '/visual-inspection' },
-        { title: 'ผลทดสอบน้ำมัน', link: '/oil-test' },
-        { title: 'ผลทดสอบทางไฟฟ้า', link: '/electrical-test-results' },
-        { title: 'บำรุงรักษา OLTC', link: '/oltc-maintenance' },
-        { title: 'ค่าฉนวนแกนเหล็ก', link: '/core-insulation-resistance' },
-        { title: 'ดูข้อมูลผลการทดสอบทั้งหมด', link: '/view-all-test-results' },
-        { title: 'ตรวจสอบสภาพหม้อแปลงไฟฟ้า', link: '/transformer-inspection' }
+        { title: 'ค่าฉนวนแกนเหล็ก', link: '/core-insulation-resistance' }
       ]
     },
     {
@@ -123,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'เปลี่ยนรหัสผ่าน', link: '/change-password' },
         { title: 'การจัดการผู้ใช้งาน', link: '/user-management' },
         { title: 'กำหนดข้อมูลพื้นฐานหม้อแปลง', link: '/transformer-config-management' },
-        { title: 'กำหนดข้อมูลความสำคัญหม้อแปลง', link: '/transformer-importance-config' },
+        { title: 'กำหนดข้อ��ูลความสำคัญหม้อแปลง', link: '/transformer-importance-config' },
         { title: 'กำหนดข้อมูลการทดสอบ', link: '#' },
         { title: 'หัวข้อ Visual Inspection', link: '/visual-inspection-topics' },
         { title: 'เกณฑ์ Visual Inspection', link: '/visual-inspection-criteria' },
