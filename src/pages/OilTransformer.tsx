@@ -7,7 +7,9 @@ const OilTransformerPage = () => {
   return (
     <Layout>
       <div className="container mx-auto">
-        <h1 className="text-2xl font-bold mb-6">น้ำมันหม้อแปลง</h1>
+        <h1 className="text-3xl font-bold mb-6 text-transformer-primary">
+          น้ำมันหม้อแปลง
+        </h1>
         <OilTransformerContent />
       </div>
     </Layout>

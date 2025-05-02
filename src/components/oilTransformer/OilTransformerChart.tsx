@@ -53,25 +53,52 @@ const OilTransformerChart = () => {
 
   return (
     <ChartContainer className="h-full" config={chartConfig}>
-      <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 20 }}>
-        <CartesianGrid strokeDasharray="3 3" />
+      <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 30 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
         <XAxis 
           dataKey="date" 
           label={{ value: 'วันที่', position: 'insideBottomRight', offset: -5 }}
           tickFormatter={(value) => new Date(value).toLocaleDateString('th-TH')}
+          stroke="#888"
+          tick={{ fill: '#666' }}
         />
         <YAxis 
-          label={{ value: 'ปริมาณน้ำมัน [ถัง]', angle: -90, position: 'insideLeft' }}
+          label={{ value: 'ปริมาณน้ำมัน [ถัง]', angle: -90, position: 'insideLeft', offset: -5 }}
+          stroke="#888"
+          tick={{ fill: '#666' }}
+          domain={[0, 'dataMax + 20']}
         />
         <Tooltip content={<ChartTooltipContent />} />
-        <Legend />
-        <ReferenceLine y={reorderLevel} stroke="var(--color-reorder)" strokeDasharray="3 3" label="Re-order Level" />
-        <ReferenceLine y={safetyStockLevel} stroke="var(--color-safety)" strokeDasharray="3 3" label="Safety Stock" />
+        <Legend verticalAlign="top" height={36} />
+        <ReferenceLine 
+          y={reorderLevel} 
+          stroke="var(--color-reorder)" 
+          strokeDasharray="3 3" 
+          label={{ 
+            position: 'right',
+            value: "Re-order Level",
+            fill: "#f59e0b",
+            fontSize: 12
+          }} 
+        />
+        <ReferenceLine 
+          y={safetyStockLevel} 
+          stroke="var(--color-safety)" 
+          strokeDasharray="3 3" 
+          label={{ 
+            position: 'right',
+            value: "Safety Stock",
+            fill: "#dc2626",
+            fontSize: 12
+          }} 
+        />
         <Line 
           type="monotone" 
           dataKey="amount" 
           stroke="var(--color-amount)" 
-          activeDot={{ r: 8 }}
+          strokeWidth={3}
+          activeDot={{ r: 8, fill: "#0284c7", stroke: "#fff", strokeWidth: 2 }}
+          dot={{ r: 6, fill: "#0284c7", stroke: "#fff", strokeWidth: 2 }}
           name="ปริมาณน้ำมัน"
         />
       </LineChart>
