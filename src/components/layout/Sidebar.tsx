@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -110,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'รายการค่าใช้จ่าย', link: '#' },
         { title: 'ผลการคำนวน', link: '#' },
         { title: 'ระยะเวลาได้รับน้ำมัน', link: '#' },
-        { title: 'Bushing, Arrester, OLCT', link: '#' }
+        { title: 'Bushing, Arrester, OLCT', link: '/weibull-calculation' }
       ]
     },
     {
