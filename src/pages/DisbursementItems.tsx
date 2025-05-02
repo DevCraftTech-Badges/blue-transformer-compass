@@ -21,7 +21,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash2, Package, Search, Calendar, User, FileText, TrendingDown, BarChart } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -253,9 +253,6 @@ const DisbursementItemsPage: React.FC = () => {
             <h1 className="text-2xl font-bold text-transformer-primary">รายการเบิกจ่าย</h1>
             <p className="text-muted-foreground">จัดการบันทึกการเบิกจ่ายน้ำมันหม้อแปลง</p>
           </div>
-          <Button onClick={() => setIsAddModalOpen(true)} className="whitespace-nowrap">
-            <Plus className="mr-1 h-4 w-4" /> เพิ่มรายการเบิกจ่าย
-          </Button>
         </div>
 
         <Card className="shadow-md border-t-4 border-t-transformer-primary">
@@ -272,11 +269,17 @@ const DisbursementItemsPage: React.FC = () => {
           <CardContent className="p-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="mb-4">
-                <TabsTrigger value="details" className="px-6">รายละเอียดแต่ละครั้ง</TabsTrigger>
-                <TabsTrigger value="yearly" className="px-6">สรุปรายปี [ถัง]</TabsTrigger>
+                <TabsTrigger value="details" className="px-10 min-w-32">รายละเอียดแต่ละครั้ง</TabsTrigger>
+                <TabsTrigger value="yearly" className="px-10 min-w-32">สรุปรายปี [ถัง]</TabsTrigger>
               </TabsList>
               
               <TabsContent value="details" className="space-y-4">
+                <div className="flex justify-end mb-4">
+                  <Button onClick={() => setIsAddModalOpen(true)} className="whitespace-nowrap">
+                    <Plus className="mr-1 h-4 w-4" /> เพิ่มรายการเบิกจ่าย
+                  </Button>
+                </div>
+                
                 <div className="flex flex-col sm:flex-row gap-4 mb-6">
                   <div className="relative flex-grow">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
