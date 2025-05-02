@@ -6,8 +6,8 @@ import TransformerImportanceForm from '@/components/transformerImportance/Transf
 const AddTransformerImportancePage = () => {
   return (
     <Layout>
-      <div className="space-y-6">
-        <h1 className="text-2xl font-semibold">เพิ่มรายการความสำคัญของหม้อแปลง</h1>
+      <div className="space-y-6 p-6">
+        <h1 className="text-2xl font-semibold text-blue-800">เพิ่มรายการความสำคัญของหม้อแปลง</h1>
         <TransformerImportanceForm />
       </div>
     </Layout>

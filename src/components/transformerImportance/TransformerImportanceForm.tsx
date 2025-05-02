@@ -16,6 +16,8 @@ const TransformerImportanceForm = () => {
     resolver: zodResolver(transformerImportanceSchema),
     defaultValues: {
       damageProperties: [],
+      mvaHV: "",
+      mvaLV: "",
       loadFactors: {
         below06: "0",
         from06to1: "0",
@@ -38,34 +40,34 @@ const TransformerImportanceForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <Card>
-          <CardHeader>
-            <CardTitle>ข้อมูลหม้อแปลง</CardTitle>
+          <CardHeader className="bg-[#f0f8ff]">
+            <CardTitle className="text-blue-800">ข้อมูลหม้อแปลง</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             <TransformerInfoSection form={form} />
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>ความเสียหายของทรัพย์สิน</CardTitle>
+          <CardHeader className="bg-[#f0f8ff]">
+            <CardTitle className="text-blue-800">ความเสียหายของทรัพย์สิน</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             <DamagePropertySection form={form} />
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Load Factor</CardTitle>
+          <CardHeader className="bg-[#f0f8ff]">
+            <CardTitle className="text-blue-800">Load Factor</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             <LoadFactorSection form={form} />
           </CardContent>
         </Card>
 
         <div className="flex justify-end pt-6">
-          <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+          <Button type="submit" className="bg-blue-800 hover:bg-blue-900 text-white">
             บันทึกข้อมูล
           </Button>
         </div>

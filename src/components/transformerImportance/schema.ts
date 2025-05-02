@@ -14,11 +14,17 @@ export const transformerImportanceSchema = z.object({
   systemFaultLevelHV: z.number({
     required_error: "กรุณาระบุระดับความผิดพลาดของระบบด้าน HV",
   }),
+  mvaHV: z.string({
+    required_error: "กรุณาระบุ MVA ด้าน HV",
+  }),
   busVoltageLV: z.string({
     required_error: "กรุณาเลือกแรงดันไฟฟ้าด้าน LV",
   }),
   systemFaultLevelLV: z.number({
     required_error: "กรุณาระบุระดับความผิดพลาดของระบบด้าน LV",
+  }),
+  mvaLV: z.string({
+    required_error: "กรุณาระบุ MVA ด้าน LV",
   }),
   probabilityOfForceOutage: z.string({
     required_error: "กรุณาเลือกความน่าจะเป็นของการดับไฟ",

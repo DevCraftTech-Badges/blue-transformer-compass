@@ -1,3 +1,4 @@
+
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -16,7 +17,7 @@ export const TransformerInfoSection = ({ form }) => {
         name="transformerName"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>ชื่อหม้อแปลง</FormLabel>
+            <FormLabel className="text-blue-800">ชื่อหม้อแปลง</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
                 <SelectTrigger>
@@ -26,6 +27,8 @@ export const TransformerInfoSection = ({ form }) => {
               <SelectContent>
                 <SelectItem value="transformer1">Transformer 1</SelectItem>
                 <SelectItem value="transformer2">Transformer 2</SelectItem>
+                <SelectItem value="transformer3">Transformer 3</SelectItem>
+                <SelectItem value="transformer4">Transformer 4</SelectItem>
               </SelectContent>
             </Select>
             <FormMessage />
@@ -38,7 +41,7 @@ export const TransformerInfoSection = ({ form }) => {
         name="recordedDate"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel>วันที่บันทึก</FormLabel>
+            <FormLabel className="text-blue-800">วันที่บันทึก</FormLabel>
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
@@ -76,13 +79,12 @@ export const TransformerInfoSection = ({ form }) => {
         )}
       />
 
-      {/* System parameters */}
       <FormField
         control={form.control}
         name="busVoltageHV"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Bus Voltage HV side [kV]</FormLabel>
+            <FormLabel className="text-blue-800">Bus Voltage HV side [kV]</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
                 <SelectTrigger>
@@ -105,7 +107,7 @@ export const TransformerInfoSection = ({ form }) => {
         name="systemFaultLevelHV"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>System Fault Level: HV side [kA]</FormLabel>
+            <FormLabel className="text-blue-800">System Fault Level: HV side [kA]</FormLabel>
             <FormControl>
               <Input type="number" {...field} onChange={(e) => field.onChange(parseFloat(e.target.value))} />
             </FormControl>
@@ -114,7 +116,254 @@ export const TransformerInfoSection = ({ form }) => {
         )}
       />
 
-      {/* Continue with similar patterns for other transformer info fields */}
+      <FormField
+        control={form.control}
+        name="mvaHV"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">[MVA] HV side</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="busVoltageLV"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">Bus Voltage LV side [kV]</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="เลือกแรงดันไฟฟ้า" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="22">22</SelectItem>
+                <SelectItem value="33">33</SelectItem>
+                <SelectItem value="115">115</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="systemFaultLevelLV"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">System Fault Level: LV side [kA]</FormLabel>
+            <FormControl>
+              <Input type="number" {...field} onChange={(e) => field.onChange(parseFloat(e.target.value))} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="mvaLV"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">[MVA] LV side</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="probabilityOfForceOutage"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">Probability Of Force Outage Per Year</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="เลือกความน่าจะเป็น" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="low">ต่ำ</SelectItem>
+                <SelectItem value="medium">ปานกลาง</SelectItem>
+                <SelectItem value="high">สูง</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="socialAspect"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">Social Aspect</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="เลือกด้านสังคม" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="low">ต่ำ</SelectItem>
+                <SelectItem value="medium">ปานกลาง</SelectItem>
+                <SelectItem value="high">สูง</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="loadShedding"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">Load Shedding</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="เลือกการจ่ายโหลด" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="low">ต่ำ</SelectItem>
+                <SelectItem value="medium">ปานกลาง</SelectItem>
+                <SelectItem value="high">สูง</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="publicImage"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">Public Image</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="เลือกภาพลักษณ์" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="low">ต่ำ</SelectItem>
+                <SelectItem value="medium">ปานกลาง</SelectItem>
+                <SelectItem value="high">สูง</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="nMinusOneCriteria"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">N-1 Criteria</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="เลือกเกณฑ์ N-1" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="low">ต่ำ</SelectItem>
+                <SelectItem value="medium">ปานกลาง</SelectItem>
+                <SelectItem value="high">สูง</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="applicationUse"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">Application Use</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="เลือกการใช้งาน" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="low">ต่ำ</SelectItem>
+                <SelectItem value="medium">ปานกลาง</SelectItem>
+                <SelectItem value="high">สูง</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="systemStability"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">System Stability</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="เลือกความเสถียรของระบบ" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="low">ต่ำ</SelectItem>
+                <SelectItem value="medium">ปานกลาง</SelectItem>
+                <SelectItem value="high">สูง</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="pollution"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="text-blue-800">Pollution</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="เลือกมลพิษ" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="low">ต่ำ</SelectItem>
+                <SelectItem value="medium">ปานกลาง</SelectItem>
+                <SelectItem value="high">สูง</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
-  )
-}
+  );
+};
