@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -107,7 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         { title: 'น้ำมันหม้อแปลง', link: '#' },
         { title: 'คลังรายการน้ำมันน', link: '#' },
         { title: 'รายการเบิกจ่าย', link: '#' },
-        { title: 'รายการสั่งซื้อ/รับน้ำมัน', link: '#' },
+        { title: 'รายการสั่งซื้อ/รับน้ำมัน', link: '/oil-purchase-orders' },
         { title: 'รายการค่าใช้จ่าย', link: '/expense-items' },
         { title: 'ผลการคำนวณ', link: '/calculation-results' },
         { title: 'ระยะเวลาได้รับน้ำมัน', link: '/oil-delivery-time' },
