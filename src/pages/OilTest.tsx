@@ -1,7 +1,7 @@
 
 import Layout from '@/components/layout/Layout';
 import { Card } from '@/components/ui/card';
-import { FileText, Droplets, Activity, Flask, Gauge, Settings } from 'lucide-react';
+import { FileText, Droplets, Activity, TestTube, Gauge, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -15,7 +15,7 @@ const oilTestTypes = [
   {
     title: 'Oil DGA',
     path: '/oil-dga',
-    icon: <Flask className="w-10 h-10 text-indigo-500 mb-4" />,
+    icon: <TestTube className="w-10 h-10 text-indigo-500 mb-4" />,
     description: 'วิเคราะห์ก๊าซละลายในน้ำมัน'
   },
   {
