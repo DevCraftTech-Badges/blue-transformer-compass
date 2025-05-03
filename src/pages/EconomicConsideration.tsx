@@ -1,8 +1,7 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion } from 'framer-motion';
-import { FileText, Info, Calculator, ChevronRight, ChevronsRight, TrendingUp } from 'lucide-react';
+import { FileText, Info, Calculator, ChevronRight, ChevronsRight, TrendingUp, Save, Trash2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -12,6 +11,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
+import { toast } from "sonner";
 
 interface TransformerData {
   name: string;
@@ -30,12 +30,24 @@ interface RepairData {
   opportunityCost: number;
   yearlyMaintenanceCost: number;
   demolitionCost: number;
+  // Existing repair fields
   windingRepairCost: number;
   windingRepairType: string;
   bushingRepairCost: number;
   bushingType: string;
   arresterRepairCost: number;
   arresterType: string;
+  // New repair fields
+  oltcRepairCost: number;
+  oltcType: string;
+  hotLineOilFilterCost: number;
+  hotLineOilFilterType: string;
+  coolingCost: number;
+  overhaulCost: number;
+  overhaulRefurbishCost: number;
+  replacingRubberBagCost: number;
+  replacingBctsOthersCost: number;
+  othersCost: number;
   notes?: string;
 }
 
@@ -67,6 +79,7 @@ const transformers: TransformerData[] = [
 const EconomicConsiderationPage: React.FC = () => {
   const [selectedTransformer, setSelectedTransformer] = useState<TransformerData>(transformers[0]);
   const [activeTab, setActiveTab] = useState('repair-info');
+  const [totalRepairCost, setTotalRepairCost] = useState(4508740);
 
   const form = useForm<RepairData>({
     defaultValues: {
@@ -74,12 +87,24 @@ const EconomicConsiderationPage: React.FC = () => {
       opportunityCost: 0,
       yearlyMaintenanceCost: 150000,
       demolitionCost: 0,
+      // Existing repair fields
       windingRepairCost: 0,
       windingRepairType: 'new',
       bushingRepairCost: 0,
       bushingType: 'oip',
       arresterRepairCost: 0,
       arresterType: 'gap',
+      // New repair fields
+      oltcRepairCost: 0,
+      oltcType: 'oil-1-chamber',
+      hotLineOilFilterCost: 0,
+      hotLineOilFilterType: '1-2-chamber',
+      coolingCost: 0,
+      overhaulCost: 0,
+      overhaulRefurbishCost: 0,
+      replacingRubberBagCost: 0,
+      replacingBctsOthersCost: 2508740,
+      othersCost: 2000000,
       notes: ''
     }
   });
@@ -91,9 +116,55 @@ const EconomicConsiderationPage: React.FC = () => {
     }
   };
 
+  // Calculate total repair cost when form values change
+  useEffect(() => {
+    const values = form.watch();
+    const total = 
+      (values.windingRepairCost || 0) +
+      (values.bushingRepairCost || 0) +
+      (values.arresterRepairCost || 0) +
+      (values.oltcRepairCost || 0) +
+      (values.hotLineOilFilterCost || 0) +
+      (values.coolingCost || 0) +
+      (values.overhaulCost || 0) +
+      (values.overhaulRefurbishCost || 0) +
+      (values.replacingRubberBagCost || 0) +
+      (values.replacingBctsOthersCost || 0) +
+      (values.othersCost || 0);
+    
+    setTotalRepairCost(total);
+  }, [form.watch()]);
+
   const onSubmit = (data: RepairData) => {
     console.log("Form data submitted:", data);
-    // Here you would handle form submission
+    toast.success("บันทึกข้อมูลสำเร็จ");
+  };
+
+  const handleClearData = () => {
+    form.reset({
+      transformerAge: 25,
+      opportunityCost: 0,
+      yearlyMaintenanceCost: 150000,
+      demolitionCost: 0,
+      windingRepairCost: 0,
+      windingRepairType: 'new',
+      bushingRepairCost: 0,
+      bushingType: 'oip',
+      arresterRepairCost: 0,
+      arresterType: 'gap',
+      oltcRepairCost: 0,
+      oltcType: 'oil-1-chamber',
+      hotLineOilFilterCost: 0,
+      hotLineOilFilterType: '1-2-chamber',
+      coolingCost: 0,
+      overhaulCost: 0,
+      overhaulRefurbishCost: 0,
+      replacingRubberBagCost: 0,
+      replacingBctsOthersCost: 0,
+      othersCost: 0,
+      notes: ''
+    });
+    toast.info("รีเซ็ตข้อมูลเรียบร้อย");
   };
 
   // Animation variants
@@ -316,7 +387,8 @@ const EconomicConsiderationPage: React.FC = () => {
 
                           <div className="mt-6">
                             <h3 className="text-base font-medium mb-3 border-b pb-2">รายการที่ต้องซ่อมหม้อแปลง (รวมค่าแรงและค่าของ)</h3>
-                            <div className="space-y-4 bg-gray-50 p-4 rounded-md">
+                            <div className="space-y-6 bg-gray-50 p-4 rounded-md">
+                              {/* First Row: Winding and Bushing */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                   <FormField
@@ -407,6 +479,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </div>
                               </div>
 
+                              {/* Arrester Section */}
                               <div>
                                 <FormField
                                   control={form.control}
@@ -456,6 +529,232 @@ const EconomicConsiderationPage: React.FC = () => {
                                   />
                                 </div>
                               </div>
+                              
+                              {/* OLTC Section - New */}
+                              <div>
+                                <FormField
+                                  control={form.control}
+                                  name="oltcRepairCost"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        <span className="flex items-center">
+                                          <span className="h-2 w-2 bg-orange-500 inline-block mr-2 rounded-full"></span>
+                                          OLTC [Baht]
+                                        </span>
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input type="number" {...field} className="bg-white" />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                                <div className="mt-2">
+                                  <FormField
+                                    control={form.control}
+                                    name="oltcType"
+                                    render={({ field }) => (
+                                      <FormItem>
+                                        <FormControl>
+                                          <RadioGroup
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            className="flex flex-wrap items-center gap-4"
+                                          >
+                                            <div className="flex items-center space-x-1">
+                                              <RadioGroupItem value="oil-1-chamber" id="oil-1-chamber" />
+                                              <label htmlFor="oil-1-chamber" className="text-sm cursor-pointer">Oil 1 Chamber</label>
+                                            </div>
+                                            <div className="flex items-center space-x-1">
+                                              <RadioGroupItem value="oil-2-chambers" id="oil-2-chambers" />
+                                              <label htmlFor="oil-2-chambers" className="text-sm cursor-pointer">Oil 2 Chambers</label>
+                                            </div>
+                                            <div className="flex items-center space-x-1">
+                                              <RadioGroupItem value="oil-3-chambers" id="oil-3-chambers" />
+                                              <label htmlFor="oil-3-chambers" className="text-sm cursor-pointer">Oil 3 Chambers</label>
+                                            </div>
+                                            <div className="flex items-center space-x-1">
+                                              <RadioGroupItem value="vacuum" id="vacuum" />
+                                              <label htmlFor="vacuum" className="text-sm cursor-pointer">Vacuum</label>
+                                            </div>
+                                            <div className="flex items-center space-x-1">
+                                              <RadioGroupItem value="others" id="others-oltc" />
+                                              <label htmlFor="others-oltc" className="text-sm cursor-pointer">Others</label>
+                                            </div>
+                                          </RadioGroup>
+                                        </FormControl>
+                                      </FormItem>
+                                    )}
+                                  />
+                                </div>
+                              </div>
+                              
+                              {/* Hot Line Oil Filter Section - New */}
+                              <div>
+                                <FormField
+                                  control={form.control}
+                                  name="hotLineOilFilterCost"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        <span className="flex items-center">
+                                          <span className="h-2 w-2 bg-red-500 inline-block mr-2 rounded-full"></span>
+                                          Hot Line Oil Filter [Baht]
+                                        </span>
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input type="number" {...field} className="bg-white" />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                                <div className="mt-2">
+                                  <FormField
+                                    control={form.control}
+                                    name="hotLineOilFilterType"
+                                    render={({ field }) => (
+                                      <FormItem>
+                                        <FormControl>
+                                          <RadioGroup
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            className="flex flex-wrap items-center gap-4"
+                                          >
+                                            <div className="flex items-center space-x-1">
+                                              <RadioGroupItem value="1-2-chamber" id="1-2-chamber" />
+                                              <label htmlFor="1-2-chamber" className="text-sm cursor-pointer">1-2 Chamber</label>
+                                            </div>
+                                            <div className="flex items-center space-x-1">
+                                              <RadioGroupItem value="3-chambers" id="3-chambers" />
+                                              <label htmlFor="3-chambers" className="text-sm cursor-pointer">3 Chambers</label>
+                                            </div>
+                                          </RadioGroup>
+                                        </FormControl>
+                                      </FormItem>
+                                    )}
+                                  />
+                                </div>
+                              </div>
+                              
+                              {/* Additional Costs - New */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="coolingCost"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        <span className="flex items-center">
+                                          <span className="h-2 w-2 bg-cyan-500 inline-block mr-2 rounded-full"></span>
+                                          Cooling [Baht]
+                                        </span>
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input type="number" {...field} className="bg-white" />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="overhaulCost"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        <span className="flex items-center">
+                                          <span className="h-2 w-2 bg-teal-500 inline-block mr-2 rounded-full"></span>
+                                          Overhaul [Baht]
+                                        </span>
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input type="number" {...field} className="bg-white" />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="overhaulRefurbishCost"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        <span className="flex items-center">
+                                          <span className="h-2 w-2 bg-indigo-500 inline-block mr-2 rounded-full"></span>
+                                          Overhaul and Refurbish [Baht]
+                                        </span>
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input type="number" {...field} className="bg-white" />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="replacingRubberBagCost"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        <span className="flex items-center">
+                                          <span className="h-2 w-2 bg-pink-500 inline-block mr-2 rounded-full"></span>
+                                          Replacing Rubber Bag [Baht]
+                                        </span>
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input type="number" {...field} className="bg-white" />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="replacingBctsOthersCost"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        <span className="flex items-center">
+                                          <span className="h-2 w-2 bg-amber-500 inline-block mr-2 rounded-full"></span>
+                                          Replacing BCTs, Others [Baht]
+                                        </span>
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input type="number" {...field} className="bg-white" />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={form.control}
+                                  name="othersCost"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>
+                                        <span className="flex items-center">
+                                          <span className="h-2 w-2 bg-gray-500 inline-block mr-2 rounded-full"></span>
+                                          Others [Baht]
+                                        </span>
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input type="number" {...field} className="bg-white" />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                              
+                              {/* Total Cost - New */}
+                              <div className="bg-blue-50 p-4 rounded-md border border-blue-200 mt-4">
+                                <div className="flex justify-between items-center">
+                                  <p className="font-medium text-blue-700">ค่าใช้จ่ายในการซ่อมหม้อแปลงที่เสียหาย (ค่าแรงและค่าของ):</p>
+                                  <p className="font-bold text-xl text-blue-800">{totalRepairCost.toLocaleString()} บาท</p>
+                                </div>
+                              </div>
                             </div>
                           </div>
 
@@ -475,6 +774,21 @@ const EconomicConsiderationPage: React.FC = () => {
                               </FormItem>
                             )}
                           />
+                          
+                          {/* Action Buttons - New */}
+                          <div className="flex justify-end space-x-3 mt-6 pt-4 border-t">
+                            <Button 
+                              type="button" 
+                              variant="outline" 
+                              onClick={handleClearData}
+                              className="bg-white"
+                            >
+                              <Trash2 className="mr-1 h-4 w-4" /> Clear Data
+                            </Button>
+                            <Button type="submit">
+                              <Save className="mr-1 h-4 w-4" /> Save
+                            </Button>
+                          </div>
                         </div>
                       </TabsContent>
                     </form>
@@ -485,123 +799,4 @@ const EconomicConsiderationPage: React.FC = () => {
                       <Info className="h-10 w-10 text-blue-500 mr-4 mt-1 flex-shrink-0" />
                       <div>
                         <h3 className="text-lg font-medium text-blue-700">Option 1 - การซ่อมบำรุง</h3>
-                        <p className="text-blue-700 mt-1 mb-4">ข้อมูลประกอบการพิจารณาทางเลือก Option 1</p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                          <div className="bg-white rounded-md p-3 shadow-sm">
-                            <p className="text-sm font-semibold">ค่าใช้จ่ายรวม</p>
-                            <p className="text-lg text-blue-600 font-bold">3,500,000 บาท</p>
-                          </div>
-                          <div className="bg-white rounded-md p-3 shadow-sm">
-                            <p className="text-sm font-semibold">อายุการใช้งานเพิ่ม</p>
-                            <p className="text-lg text-blue-600 font-bold">15 ปี</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="option-2" className="m-0 p-4 border rounded-md">
-                    <div className="bg-green-50 rounded-md p-6 flex items-start">
-                      <Info className="h-10 w-10 text-green-500 mr-4 mt-1 flex-shrink-0" />
-                      <div>
-                        <h3 className="text-lg font-medium text-green-700">Option 2 - การซ่อมแซมบางส่วน</h3>
-                        <p className="text-green-700 mt-1 mb-4">ข้อมูลประกอบการพิจารณาทางเลือก Option 2</p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                          <div className="bg-white rounded-md p-3 shadow-sm">
-                            <p className="text-sm font-semibold">ค่าใช้จ่ายรวม</p>
-                            <p className="text-lg text-green-600 font-bold">2,250,000 บาท</p>
-                          </div>
-                          <div className="bg-white rounded-md p-3 shadow-sm">
-                            <p className="text-sm font-semibold">อายุการใช้งานเพิ่ม</p>
-                            <p className="text-lg text-green-600 font-bold">8 ปี</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="option-3" className="m-0 p-4 border rounded-md">
-                    <div className="bg-purple-50 rounded-md p-6 flex items-start">
-                      <Info className="h-10 w-10 text-purple-500 mr-4 mt-1 flex-shrink-0" />
-                      <div>
-                        <h3 className="text-lg font-medium text-purple-700">Option 3 - เปลี่ยนหม้อแปลงใหม่</h3>
-                        <p className="text-purple-700 mt-1 mb-4">ข้อมูลประกอบการพิจารณาทางเลือก Option 3</p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                          <div className="bg-white rounded-md p-3 shadow-sm">
-                            <p className="text-sm font-semibold">ค่าใช้จ่ายรวม</p>
-                            <p className="text-lg text-purple-600 font-bold">6,750,000 บาท</p>
-                          </div>
-                          <div className="bg-white rounded-md p-3 shadow-sm">
-                            <p className="text-sm font-semibold">อายุการใช้งาน</p>
-                            <p className="text-lg text-purple-600 font-bold">30 ปี</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="summary" className="m-0 p-4 border rounded-md">
-                    <div className="bg-yellow-50 rounded-md p-6 flex items-start">
-                      <Info className="h-10 w-10 text-yellow-500 mr-4 mt-1 flex-shrink-0" />
-                      <div>
-                        <h3 className="text-lg font-medium text-yellow-700">สรุปทางเลือกที่เหมาะสม</h3>
-                        <p className="text-yellow-700 mt-1 mb-4">ผลการวิเคราะห์และสรุปทางเลือกที่เหมาะสมที่สุด</p>
-                        
-                        <div className="bg-white rounded-md p-4 shadow-sm mb-4">
-                          <div className="flex items-center mb-3">
-                            <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                              <ChevronsRight className="h-5 w-5 text-green-600" />
-                            </div>
-                            <h4 className="text-base font-medium">ทางเลือกที่เหมาะสมที่สุด: Option 2</h4>
-                          </div>
-                          <p className="text-sm text-gray-600 mb-2">
-                            จากข้อมูลการประเมินด้านต่างๆ พบว่าทางเลือกที่ 2 มีความเหมาะสมที่สุด เนื่องจาก:
-                          </p>
-                          <ul className="list-disc pl-5 text-sm text-gray-600">
-                            <li>มีความคุ้มค่าทางเศรษฐศาสตร์สูงสุด (NPV = 1.45 ล้านบาท)</li>
-                            <li>ระยะเวลาคืนทุนเร็วกว่าทางเลือกอื่น</li>
-                            <li>มีความเสี่ยงต่ำในการดำเนินการ</li>
-                          </ul>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <div className="bg-white rounded-md p-3 shadow-sm">
-                            <p className="text-xs font-medium text-gray-500">Option 1</p>
-                            <p className="text-sm font-medium">NPV: <span className="text-blue-600">0.98 ล้านบาท</span></p>
-                          </div>
-                          <div className="bg-white rounded-md p-3 shadow-sm border-2 border-green-300">
-                            <p className="text-xs font-medium text-gray-500">Option 2</p>
-                            <p className="text-sm font-medium">NPV: <span className="text-green-600">1.45 ล้านบาท</span></p>
-                          </div>
-                          <div className="bg-white rounded-md p-3 shadow-sm">
-                            <p className="text-xs font-medium text-gray-500">Option 3</p>
-                            <p className="text-sm font-medium">NPV: <span className="text-purple-600">1.12 ล้านบาท</span></p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              </div>
-              
-              {/* Calculator icon */}
-              <div className="flex items-center justify-center mb-6">
-                <div className="h-28 w-28 bg-gray-200 rounded-md flex items-center justify-center">
-                  <Calculator className="h-12 w-12 text-gray-400" />
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-end pt-4 pb-4 px-6 border-t mt-6">
-              <div className="flex gap-3">
-                <Button variant="outline">ยกเลิก</Button>
-                <Button>บันทึกข้อมูล</Button>
-              </div>
-            </CardFooter>
-          </Card>
-        </motion.div>
-      </motion.div>
-    </Layout>
-  );
-};
-
-export default EconomicConsiderationPage;
+                        <p className="text-blue-700 mt-1 mb-4">ข้อมูล
