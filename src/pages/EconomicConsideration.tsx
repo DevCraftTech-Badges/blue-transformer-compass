@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Layout from '@/components/layout/Layout';
-import { Save, ClearAll } from 'lucide-react';
+import { Save, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const EconomicConsideration = () => {
@@ -187,7 +187,7 @@ const EconomicConsideration = () => {
                       onClick={handleOption3Clear} 
                       variant="outline"
                     >
-                      <ClearAll className="w-4 h-4 mr-2" />
+                      <Trash2 className="w-4 h-4 mr-2" />
                       Clear Data
                     </Button>
                   </div>
