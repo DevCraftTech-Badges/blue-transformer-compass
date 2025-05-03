@@ -6,8 +6,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { X } from 'lucide-react';
 import TransformerImportanceForm from './TransformerImportanceForm';
 
 interface TransformerImportanceModalProps {
@@ -34,13 +32,6 @@ const TransformerImportanceModal = ({
             <DialogTitle className="text-xl font-semibold text-blue-800">
               {editingId ? 'แก้ไขข้อมูลความสำคัญของหม้อแปลง' : 'เพิ่มรายการความสำคัญของหม้อแปลง'}
             </DialogTitle>
-            <Button 
-              variant="ghost" 
-              className="h-8 w-8 p-0 rounded-full" 
-              onClick={onClose}
-            >
-              <X className="h-4 w-4" />
-            </Button>
           </div>
         </DialogHeader>
         <div className="py-4">
