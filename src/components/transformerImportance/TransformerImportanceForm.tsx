@@ -11,7 +11,12 @@ import { LoadFactorSection } from "./FormSections/LoadFactorSection"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowRight, Save } from "lucide-react"
 
-const TransformerImportanceForm = () => {
+interface TransformerImportanceFormProps {
+  onSubmit: (data: TransformerImportanceFormValues) => void;
+  editingId?: string;
+}
+
+const TransformerImportanceForm = ({ onSubmit, editingId }: TransformerImportanceFormProps) => {
   const { toast } = useToast()
   const form = useForm<TransformerImportanceFormValues>({
     resolver: zodResolver(transformerImportanceSchema),
@@ -29,17 +34,18 @@ const TransformerImportanceForm = () => {
     },
   })
 
-  const onSubmit = (values: TransformerImportanceFormValues) => {
+  const handleSubmit = (values: TransformerImportanceFormValues) => {
     toast({
       title: "บันทึกข้อมูลสำเร็จ",
       description: "ข้อมูลถูกบันทึกเรียบร้อยแล้ว",
     })
     console.log(values)
+    onSubmit(values);
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
         <Card className="border-blue-100 shadow-sm">
           <CardHeader className="bg-[#f0f8ff] border-b border-blue-100">
             <CardTitle className="text-blue-800 flex items-center gap-2">
