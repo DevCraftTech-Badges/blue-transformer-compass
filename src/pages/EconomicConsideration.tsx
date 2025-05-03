@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 import { motion } from 'framer-motion';
 import { FileText, Info, Calculator, ChevronRight, ChevronsRight, TrendingUp, Save, Trash2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
@@ -51,14 +51,14 @@ interface RepairData {
   notes?: string;
 }
 
-interface AlternativeRepairData {
-  repairCost: number;
+interface Option1Data {
+  repairPrice: number;
   noLoadLoss: number;
   loadLoss: number;
   opportunityCost: number;
   yearlyMaintenanceCost: number;
   demolitionCost: number;
-  // Repair fields
+  // Repair items
   windingRepairCost: number;
   windingRepairType: string;
   bushingRepairCost: number;
@@ -75,6 +75,16 @@ interface AlternativeRepairData {
   replacingRubberBagCost: number;
   replacingBctsOthersCost: number;
   othersCost: number;
+}
+
+interface Option2Data {
+  newTransformerPrice: number;
+  ratedPower: number;
+  noLoadLoss: number;
+  loadLoss: number;
+  opportunityCost: number;
+  yearlyMaintenanceCost: number;
+  demolitionCost: number;
 }
 
 const transformers: TransformerData[] = [
@@ -106,7 +116,7 @@ const EconomicConsiderationPage: React.FC = () => {
   const [selectedTransformer, setSelectedTransformer] = useState<TransformerData>(transformers[0]);
   const [activeTab, setActiveTab] = useState('repair-info');
   const [totalRepairCost, setTotalRepairCost] = useState(4508740);
-  const [totalAlternativeRepairCost, setTotalAlternativeRepairCost] = useState(3000000);
+  const [totalOption1Cost, setTotalOption1Cost] = useState(12000000);
 
   const form = useForm<RepairData>({
     defaultValues: {
@@ -136,14 +146,15 @@ const EconomicConsiderationPage: React.FC = () => {
     }
   });
 
-  const alternativeForm = useForm<AlternativeRepairData>({
+  const option1Form = useForm<Option1Data>({
     defaultValues: {
-      repairCost: 700000,
+      repairPrice: 700000,
       noLoadLoss: 85,
       loadLoss: 360,
       opportunityCost: 0,
       yearlyMaintenanceCost: 130000,
       demolitionCost: 0,
+      // Repair items
       windingRepairCost: 0,
       windingRepairType: 'new',
       bushingRepairCost: 0,
@@ -159,7 +170,19 @@ const EconomicConsiderationPage: React.FC = () => {
       overhaulRefurbishCost: 0,
       replacingRubberBagCost: 1000000,
       replacingBctsOthersCost: 1000000,
-      othersCost: 1000000,
+      othersCost: 1000000
+    }
+  });
+
+  const option2Form = useForm<Option2Data>({
+    defaultValues: {
+      newTransformerPrice: 20000000,
+      ratedPower: 50,
+      noLoadLoss: 80,
+      loadLoss: 320,
+      opportunityCost: 0,
+      yearlyMaintenanceCost: 110000,
+      demolitionCost: 0
     }
   });
 
@@ -189,9 +212,9 @@ const EconomicConsiderationPage: React.FC = () => {
     setTotalRepairCost(total);
   }, [form.watch()]);
 
-  // Calculate total alternative repair cost when alternative form values change
+  // Calculate Option 1 total cost
   useEffect(() => {
-    const values = alternativeForm.watch();
+    const values = option1Form.watch();
     const total = 
       (values.windingRepairCost || 0) +
       (values.bushingRepairCost || 0) +
@@ -205,17 +228,22 @@ const EconomicConsiderationPage: React.FC = () => {
       (values.replacingBctsOthersCost || 0) +
       (values.othersCost || 0);
     
-    setTotalAlternativeRepairCost(total);
-  }, [alternativeForm.watch()]);
+    setTotalOption1Cost(total);
+  }, [option1Form.watch()]);
 
   const onSubmit = (data: RepairData) => {
     console.log("Form data submitted:", data);
     toast.success("บันทึกข้อมูลสำเร็จ");
   };
 
-  const onAlternativeSubmit = (data: AlternativeRepairData) => {
-    console.log("Alternative form data submitted:", data);
-    toast.success("บันทึกข้อมูลสำเร็จ");
+  const onSubmitOption1 = (data: Option1Data) => {
+    console.log("Option 1 data submitted:", data);
+    toast.success("บันทึกข้อมูล Option 1 สำเร็จ");
+  };
+
+  const onSubmitOption2 = (data: Option2Data) => {
+    console.log("Option 2 data submitted:", data);
+    toast.success("บันทึกข้อมูล Option 2 สำเร็จ");
   };
 
   const handleClearData = () => {
@@ -245,13 +273,13 @@ const EconomicConsiderationPage: React.FC = () => {
     toast.info("รีเซ็ตข้อมูลเรียบร้อย");
   };
 
-  const handleClearAlternativeData = () => {
-    alternativeForm.reset({
-      repairCost: 700000,
-      noLoadLoss: 85,
-      loadLoss: 360,
+  const handleClearOption1Data = () => {
+    option1Form.reset({
+      repairPrice: 0,
+      noLoadLoss: 0,
+      loadLoss: 0,
       opportunityCost: 0,
-      yearlyMaintenanceCost: 130000,
+      yearlyMaintenanceCost: 0,
       demolitionCost: 0,
       windingRepairCost: 0,
       windingRepairType: 'new',
@@ -268,9 +296,22 @@ const EconomicConsiderationPage: React.FC = () => {
       overhaulRefurbishCost: 0,
       replacingRubberBagCost: 0,
       replacingBctsOthersCost: 0,
-      othersCost: 0,
+      othersCost: 0
     });
-    toast.info("รีเซ็ตข้อมูลเรียบร้อย");
+    toast.info("รีเซ็ตข้อมูล Option 1 เรียบร้อย");
+  };
+
+  const handleClearOption2Data = () => {
+    option2Form.reset({
+      newTransformerPrice: 0,
+      ratedPower: 0,
+      noLoadLoss: 0,
+      loadLoss: 0,
+      opportunityCost: 0,
+      yearlyMaintenanceCost: 0,
+      demolitionCost: 0
+    });
+    toast.info("รีเซ็ตข้อมูล Option 2 เรียบร้อย");
   };
 
   // Animation variants
@@ -430,18 +471,22 @@ const EconomicConsiderationPage: React.FC = () => {
                     </TabsTrigger>
                   </TabsList>
                     
-                  {/* First Tab: Repair Info */}
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                       <TabsContent value="repair-info" className="mt-0 p-4 border rounded-md">
                         <div className="space-y-4">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-blue-50 p-4 rounded-md border border-blue-200 mb-4">
+                            <h3 className="font-medium text-blue-800 mb-2">ข้อมูลพื้นฐานของหม้อแปลง</h3>
+                            <p className="text-sm text-blue-700">กรุณากรอกข้อมูลพื้นฐานของหม้อแปลงที่ต้องการซ่อม</p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <FormField
                               control={form.control}
                               name="transformerAge"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>อายุใช้งานหม้อแปลงที่ซ่อม [ปี]</FormLabel>
+                                  <FormLabel>อายุหม้อแปลง [ปี]</FormLabel>
                                   <FormControl>
                                     <Input type="number" {...field} className="bg-white" />
                                   </FormControl>
@@ -460,9 +505,6 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </FormItem>
                               )}
                             />
-                          </div>
-
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField
                               control={form.control}
                               name="yearlyMaintenanceCost"
@@ -475,6 +517,9 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </FormItem>
                               )}
                             />
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <FormField
                               control={form.control}
                               name="demolitionCost"
@@ -484,19 +529,17 @@ const EconomicConsiderationPage: React.FC = () => {
                                   <FormControl>
                                     <Input type="number" {...field} className="bg-white" />
                                   </FormControl>
-                                  <FormDescription className="text-xs italic">
-                                    การพิจารณาค่าทำลายได้ ให้ใส่เครื่องหมายลบหน้าตัวเลขที่กรอก
-                                  </FormDescription>
                                 </FormItem>
                               )}
                             />
                           </div>
-
+                          
                           <div className="mt-6">
-                            <h3 className="text-base font-medium mb-3 border-b pb-2">รายการที่ต้องซ่อมหม้อแปลง (รวมค่าแรงและค่าของ)</h3>
+                            <h3 className="text-base font-medium mb-3 border-b pb-2">รายการที่ต้องซ่อม (รวมค่าแรงและค่าของ)</h3>
                             <div className="space-y-6 bg-gray-50 p-4 rounded-md">
-                              {/* First Row: Winding and Bushing */}
+                              {/* First row: Winding and Bushing */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Winding */}
                                 <div>
                                   <FormField
                                     control={form.control}
@@ -539,6 +582,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                   </div>
                                 </div>
 
+                                {/* Bushing */}
                                 <div>
                                   <FormField
                                     control={form.control}
@@ -586,7 +630,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </div>
                               </div>
 
-                              {/* Arrester Section */}
+                              {/* Arrester */}
                               <div>
                                 <FormField
                                   control={form.control}
@@ -637,7 +681,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </div>
                               </div>
                               
-                              {/* OLTC Section - New */}
+                              {/* OLTC */}
                               <div>
                                 <FormField
                                   control={form.control}
@@ -696,7 +740,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </div>
                               </div>
                               
-                              {/* Hot Line Oil Filter Section - New */}
+                              {/* Hot Line Oil Filter */}
                               <div>
                                 <FormField
                                   control={form.control}
@@ -743,7 +787,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </div>
                               </div>
                               
-                              {/* Additional Costs - New */}
+                              {/* Additional costs row 1 */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <FormField
                                   control={form.control}
@@ -781,6 +825,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                 />
                               </div>
                               
+                              {/* Additional costs row 2 */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <FormField
                                   control={form.control}
@@ -818,6 +863,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                 />
                               </div>
                               
+                              {/* Additional costs row 3 */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <FormField
                                   control={form.control}
@@ -827,7 +873,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                       <FormLabel>
                                         <span className="flex items-center">
                                           <span className="h-2 w-2 bg-amber-500 inline-block mr-2 rounded-full"></span>
-                                          Replacing BCTs, Others [Baht]
+                                          Replacing BCT, others [Baht]
                                         </span>
                                       </FormLabel>
                                       <FormControl>
@@ -855,34 +901,37 @@ const EconomicConsiderationPage: React.FC = () => {
                                 />
                               </div>
                               
-                              {/* Total Cost - New */}
+                              {/* Notes */}
+                              <div>
+                                <FormField
+                                  control={form.control}
+                                  name="notes"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>หมายเหตุ</FormLabel>
+                                      <FormControl>
+                                        <Textarea 
+                                          placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)" 
+                                          className="resize-none bg-white" 
+                                          {...field} 
+                                        />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                              
+                              {/* Total cost */}
                               <div className="bg-blue-50 p-4 rounded-md border border-blue-200 mt-4">
                                 <div className="flex justify-between items-center">
-                                  <p className="font-medium text-blue-700">ค่าใช้จ่ายในการซ่อมหม้อแปลงที่เสียหาย (ค่าแรงและค่าของ):</p>
+                                  <p className="font-medium text-blue-700">ค่าใช้จ่ายในการซ่อมทั้งหมด (ค่าแรงและค่าของ):</p>
                                   <p className="font-bold text-xl text-blue-800">{totalRepairCost.toLocaleString()} บาท</p>
                                 </div>
                               </div>
                             </div>
                           </div>
-
-                          <FormField
-                            control={form.control}
-                            name="notes"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>หมายเหตุเพิ่มเติม</FormLabel>
-                                <FormControl>
-                                  <Textarea 
-                                    placeholder="กรอกข้อมูลเพิ่มเติม (ถ้ามี)" 
-                                    className="resize-none" 
-                                    {...field} 
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
                           
-                          {/* Action Buttons - New */}
+                          {/* Action buttons */}
                           <div className="flex justify-end space-x-3 mt-6 pt-4 border-t">
                             <Button 
                               type="button" 
@@ -901,19 +950,19 @@ const EconomicConsiderationPage: React.FC = () => {
                     </form>
                   </Form>
                   
-                  {/* Option 1 Tab: Alternative Transformer Repair */}
-                  <Form {...alternativeForm}>
-                    <form onSubmit={alternativeForm.handleSubmit(onAlternativeSubmit)}>
+                  <Form {...option1Form}>
+                    <form onSubmit={option1Form.handleSubmit(onSubmitOption1)}>
                       <TabsContent value="option-1" className="mt-0 p-4 border rounded-md">
-                        <div className="space-y-6">
-                          <div className="bg-blue-50 rounded-md p-4 mb-6">
-                            <h3 className="text-lg font-medium text-blue-700 mb-2">เลือกนำหม้อแปลงอื่นมาซ่อมเพื่อใช้ทดแทน</h3>
+                        <div className="space-y-4">
+                          <div className="bg-yellow-50 p-4 rounded-md border border-yellow-200 mb-4">
+                            <h3 className="font-medium text-yellow-800 mb-2">เลือกนำหม้อแปลงอื่นมาซ่อมเพื่อใช้ทดแทน</h3>
                           </div>
-
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          
+                          {/* First row of Option 1 */}
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <FormField
-                              control={alternativeForm.control}
-                              name="repairCost"
+                              control={option1Form.control}
+                              name="repairPrice"
                               render={({ field }) => (
                                 <FormItem>
                                   <FormLabel>ราคามื้อซ่อมหม้อแปลงตัวที่ 2 [บาท]</FormLabel>
@@ -923,9 +972,8 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </FormItem>
                               )}
                             />
-
                             <FormField
-                              control={alternativeForm.control}
+                              control={option1Form.control}
                               name="noLoadLoss"
                               render={({ field }) => (
                                 <FormItem>
@@ -936,11 +984,8 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </FormItem>
                               )}
                             />
-                          </div>
-
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <FormField
-                              control={alternativeForm.control}
+                              control={option1Form.control}
                               name="loadLoss"
                               render={({ field }) => (
                                 <FormItem>
@@ -951,9 +996,12 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </FormItem>
                               )}
                             />
-
+                          </div>
+                          
+                          {/* Cost data for Option 1 */}
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <FormField
-                              control={alternativeForm.control}
+                              control={option1Form.control}
                               name="opportunityCost"
                               render={({ field }) => (
                                 <FormItem>
@@ -964,11 +1012,8 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </FormItem>
                               )}
                             />
-                          </div>
-
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <FormField
-                              control={alternativeForm.control}
+                              control={option1Form.control}
                               name="yearlyMaintenanceCost"
                               render={({ field }) => (
                                 <FormItem>
@@ -979,9 +1024,8 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </FormItem>
                               )}
                             />
-
                             <FormField
-                              control={alternativeForm.control}
+                              control={option1Form.control}
                               name="demolitionCost"
                               render={({ field }) => (
                                 <FormItem>
@@ -993,15 +1037,17 @@ const EconomicConsiderationPage: React.FC = () => {
                               )}
                             />
                           </div>
-
-                          <div className="mt-8">
+                          
+                          {/* Repair items for the second transformer */}
+                          <div className="mt-6">
                             <h3 className="text-base font-medium mb-3 border-b pb-2">รายการที่ต้องซ่อมหม้อแปลงตัวที่ 2 (รวมค่าแรงและค่าของ)</h3>
                             <div className="space-y-6 bg-gray-50 p-4 rounded-md">
-                              {/* Winding and Bushing */}
+                              {/* First row: Winding and Bushing */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Winding */}
                                 <div>
                                   <FormField
-                                    control={alternativeForm.control}
+                                    control={option1Form.control}
                                     name="windingRepairCost"
                                     render={({ field }) => (
                                       <FormItem>
@@ -1019,7 +1065,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                   />
                                   <div className="mt-2">
                                     <FormField
-                                      control={alternativeForm.control}
+                                      control={option1Form.control}
                                       name="windingRepairType"
                                       render={({ field }) => (
                                         <FormItem>
@@ -1030,8 +1076,8 @@ const EconomicConsiderationPage: React.FC = () => {
                                               className="flex items-center space-x-2"
                                             >
                                               <div className="flex items-center space-x-1">
-                                                <RadioGroupItem value="new" id="new-alt" />
-                                                <label htmlFor="new-alt" className="text-sm cursor-pointer">New Repair</label>
+                                                <RadioGroupItem value="new" id="new-option1" />
+                                                <label htmlFor="new-option1" className="text-sm cursor-pointer">New Repair</label>
                                               </div>
                                             </RadioGroup>
                                           </FormControl>
@@ -1041,9 +1087,10 @@ const EconomicConsiderationPage: React.FC = () => {
                                   </div>
                                 </div>
 
+                                {/* Bushing */}
                                 <div>
                                   <FormField
-                                    control={alternativeForm.control}
+                                    control={option1Form.control}
                                     name="bushingRepairCost"
                                     render={({ field }) => (
                                       <FormItem>
@@ -1061,7 +1108,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                   />
                                   <div className="mt-2">
                                     <FormField
-                                      control={alternativeForm.control}
+                                      control={option1Form.control}
                                       name="bushingType"
                                       render={({ field }) => (
                                         <FormItem>
@@ -1072,12 +1119,12 @@ const EconomicConsiderationPage: React.FC = () => {
                                               className="flex items-center space-x-2"
                                             >
                                               <div className="flex items-center space-x-1">
-                                                <RadioGroupItem value="oip" id="oip-alt" />
-                                                <label htmlFor="oip-alt" className="text-sm cursor-pointer">OIP</label>
+                                                <RadioGroupItem value="oip" id="oip-option1" />
+                                                <label htmlFor="oip-option1" className="text-sm cursor-pointer">OIP</label>
                                               </div>
                                               <div className="flex items-center space-x-1">
-                                                <RadioGroupItem value="oir-rip" id="oir-rip-alt" />
-                                                <label htmlFor="oir-rip-alt" className="text-sm cursor-pointer">OIR RIP</label>
+                                                <RadioGroupItem value="oir-rip" id="oir-rip-option1" />
+                                                <label htmlFor="oir-rip-option1" className="text-sm cursor-pointer">OIR RIP</label>
                                               </div>
                                             </RadioGroup>
                                           </FormControl>
@@ -1088,10 +1135,10 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </div>
                               </div>
 
-                              {/* Arrester Section */}
+                              {/* Arrester */}
                               <div>
                                 <FormField
-                                  control={alternativeForm.control}
+                                  control={option1Form.control}
                                   name="arresterRepairCost"
                                   render={({ field }) => (
                                     <FormItem>
@@ -1109,7 +1156,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                 />
                                 <div className="mt-2">
                                   <FormField
-                                    control={alternativeForm.control}
+                                    control={option1Form.control}
                                     name="arresterType"
                                     render={({ field }) => (
                                       <FormItem>
@@ -1120,16 +1167,16 @@ const EconomicConsiderationPage: React.FC = () => {
                                             className="flex flex-wrap items-center gap-4"
                                           >
                                             <div className="flex items-center space-x-1">
-                                              <RadioGroupItem value="gap" id="gap-alt" />
-                                              <label htmlFor="gap-alt" className="text-sm cursor-pointer">Gap</label>
+                                              <RadioGroupItem value="gap" id="gap-option1" />
+                                              <label htmlFor="gap-option1" className="text-sm cursor-pointer">Gap</label>
                                             </div>
                                             <div className="flex items-center space-x-1">
-                                              <RadioGroupItem value="gapless-silicon" id="gapless-silicon-alt" />
-                                              <label htmlFor="gapless-silicon-alt" className="text-sm cursor-pointer">Gapless with silicon housing</label>
+                                              <RadioGroupItem value="gapless-silicon" id="gapless-silicon-option1" />
+                                              <label htmlFor="gapless-silicon-option1" className="text-sm cursor-pointer">Gapless with silicon housing</label>
                                             </div>
                                             <div className="flex items-center space-x-1">
-                                              <RadioGroupItem value="gapless-porcelain" id="gapless-porcelain-alt" />
-                                              <label htmlFor="gapless-porcelain-alt" className="text-sm cursor-pointer">Gapless with porcelain housing</label>
+                                              <RadioGroupItem value="gapless-porcelain" id="gapless-porcelain-option1" />
+                                              <label htmlFor="gapless-porcelain-option1" className="text-sm cursor-pointer">Gapless with porcelain housing</label>
                                             </div>
                                           </RadioGroup>
                                         </FormControl>
@@ -1139,10 +1186,10 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </div>
                               </div>
                               
-                              {/* OLTC Section */}
+                              {/* OLTC */}
                               <div>
                                 <FormField
-                                  control={alternativeForm.control}
+                                  control={option1Form.control}
                                   name="oltcRepairCost"
                                   render={({ field }) => (
                                     <FormItem>
@@ -1160,7 +1207,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                 />
                                 <div className="mt-2">
                                   <FormField
-                                    control={alternativeForm.control}
+                                    control={option1Form.control}
                                     name="oltcType"
                                     render={({ field }) => (
                                       <FormItem>
@@ -1171,24 +1218,24 @@ const EconomicConsiderationPage: React.FC = () => {
                                             className="flex flex-wrap items-center gap-4"
                                           >
                                             <div className="flex items-center space-x-1">
-                                              <RadioGroupItem value="oil-1-chamber" id="oil-1-chamber-alt" />
-                                              <label htmlFor="oil-1-chamber-alt" className="text-sm cursor-pointer">Oil 1 Chamber</label>
+                                              <RadioGroupItem value="oil-1-chamber" id="oil-1-chamber-option1" />
+                                              <label htmlFor="oil-1-chamber-option1" className="text-sm cursor-pointer">Oil 1 Chamber</label>
                                             </div>
                                             <div className="flex items-center space-x-1">
-                                              <RadioGroupItem value="oil-2-chambers" id="oil-2-chambers-alt" />
-                                              <label htmlFor="oil-2-chambers-alt" className="text-sm cursor-pointer">Oil 2 Chambers</label>
+                                              <RadioGroupItem value="oil-2-chambers" id="oil-2-chambers-option1" />
+                                              <label htmlFor="oil-2-chambers-option1" className="text-sm cursor-pointer">Oil 2 Chambers</label>
                                             </div>
                                             <div className="flex items-center space-x-1">
-                                              <RadioGroupItem value="oil-3-chambers" id="oil-3-chambers-alt" />
-                                              <label htmlFor="oil-3-chambers-alt" className="text-sm cursor-pointer">Oil 3 Chambers</label>
+                                              <RadioGroupItem value="oil-3-chambers" id="oil-3-chambers-option1" />
+                                              <label htmlFor="oil-3-chambers-option1" className="text-sm cursor-pointer">Oil 3 Chambers</label>
                                             </div>
                                             <div className="flex items-center space-x-1">
-                                              <RadioGroupItem value="vacuum" id="vacuum-alt" />
-                                              <label htmlFor="vacuum-alt" className="text-sm cursor-pointer">Vacuum</label>
+                                              <RadioGroupItem value="vacuum" id="vacuum-option1" />
+                                              <label htmlFor="vacuum-option1" className="text-sm cursor-pointer">Vacuum</label>
                                             </div>
                                             <div className="flex items-center space-x-1">
-                                              <RadioGroupItem value="others" id="others-oltc-alt" />
-                                              <label htmlFor="others-oltc-alt" className="text-sm cursor-pointer">Others</label>
+                                              <RadioGroupItem value="others" id="others-oltc-option1" />
+                                              <label htmlFor="others-oltc-option1" className="text-sm cursor-pointer">Others</label>
                                             </div>
                                           </RadioGroup>
                                         </FormControl>
@@ -1198,10 +1245,10 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </div>
                               </div>
                               
-                              {/* Hot Line Oil Filter Section */}
+                              {/* Hot Line Oil Filter */}
                               <div>
                                 <FormField
-                                  control={alternativeForm.control}
+                                  control={option1Form.control}
                                   name="hotLineOilFilterCost"
                                   render={({ field }) => (
                                     <FormItem>
@@ -1219,7 +1266,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                 />
                                 <div className="mt-2">
                                   <FormField
-                                    control={alternativeForm.control}
+                                    control={option1Form.control}
                                     name="hotLineOilFilterType"
                                     render={({ field }) => (
                                       <FormItem>
@@ -1230,12 +1277,12 @@ const EconomicConsiderationPage: React.FC = () => {
                                             className="flex flex-wrap items-center gap-4"
                                           >
                                             <div className="flex items-center space-x-1">
-                                              <RadioGroupItem value="1-2-chamber" id="1-2-chamber-alt" />
-                                              <label htmlFor="1-2-chamber-alt" className="text-sm cursor-pointer">1-2 Chamber</label>
+                                              <RadioGroupItem value="1-2-chamber" id="1-2-chamber-option1" />
+                                              <label htmlFor="1-2-chamber-option1" className="text-sm cursor-pointer">1-2 Chamber</label>
                                             </div>
                                             <div className="flex items-center space-x-1">
-                                              <RadioGroupItem value="3-chambers" id="3-chambers-alt" />
-                                              <label htmlFor="3-chambers-alt" className="text-sm cursor-pointer">3 Chambers</label>
+                                              <RadioGroupItem value="3-chambers" id="3-chambers-option1" />
+                                              <label htmlFor="3-chambers-option1" className="text-sm cursor-pointer">3 Chambers</label>
                                             </div>
                                           </RadioGroup>
                                         </FormControl>
@@ -1245,10 +1292,10 @@ const EconomicConsiderationPage: React.FC = () => {
                                 </div>
                               </div>
                               
-                              {/* Additional Costs */}
+                              {/* Additional costs row 1 */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <FormField
-                                  control={alternativeForm.control}
+                                  control={option1Form.control}
                                   name="coolingCost"
                                   render={({ field }) => (
                                     <FormItem>
@@ -1265,7 +1312,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                   )}
                                 />
                                 <FormField
-                                  control={alternativeForm.control}
+                                  control={option1Form.control}
                                   name="overhaulCost"
                                   render={({ field }) => (
                                     <FormItem>
@@ -1283,9 +1330,10 @@ const EconomicConsiderationPage: React.FC = () => {
                                 />
                               </div>
                               
+                              {/* Additional costs row 2 */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <FormField
-                                  control={alternativeForm.control}
+                                  control={option1Form.control}
                                   name="overhaulRefurbishCost"
                                   render={({ field }) => (
                                     <FormItem>
@@ -1302,7 +1350,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                   )}
                                 />
                                 <FormField
-                                  control={alternativeForm.control}
+                                  control={option1Form.control}
                                   name="replacingRubberBagCost"
                                   render={({ field }) => (
                                     <FormItem>
@@ -1320,9 +1368,10 @@ const EconomicConsiderationPage: React.FC = () => {
                                 />
                               </div>
                               
+                              {/* Additional costs row 3 */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <FormField
-                                  control={alternativeForm.control}
+                                  control={option1Form.control}
                                   name="replacingBctsOthersCost"
                                   render={({ field }) => (
                                     <FormItem>
@@ -1339,7 +1388,7 @@ const EconomicConsiderationPage: React.FC = () => {
                                   )}
                                 />
                                 <FormField
-                                  control={alternativeForm.control}
+                                  control={option1Form.control}
                                   name="othersCost"
                                   render={({ field }) => (
                                     <FormItem>
@@ -1357,22 +1406,22 @@ const EconomicConsiderationPage: React.FC = () => {
                                 />
                               </div>
                               
-                              {/* Total Cost */}
+                              {/* Total cost */}
                               <div className="bg-blue-50 p-4 rounded-md border border-blue-200 mt-4">
                                 <div className="flex justify-between items-center">
                                   <p className="font-medium text-blue-700">ค่าใช้จ่ายในการซ่อมหม้อแปลงตัวที่ 2 (ค่าแรงและค่าของ):</p>
-                                  <p className="font-bold text-xl text-blue-800">{totalAlternativeRepairCost.toLocaleString()} บาท</p>
+                                  <p className="font-bold text-xl text-blue-800">{totalOption1Cost.toLocaleString()} บาท</p>
                                 </div>
                               </div>
                             </div>
                           </div>
                           
-                          {/* Action Buttons */}
+                          {/* Action buttons */}
                           <div className="flex justify-end space-x-3 mt-6 pt-4 border-t">
                             <Button 
                               type="button" 
                               variant="outline" 
-                              onClick={handleClearAlternativeData}
+                              onClick={handleClearOption1Data}
                               className="bg-white"
                             >
                               <Trash2 className="mr-1 h-4 w-4" /> Clear Data
@@ -1386,32 +1435,145 @@ const EconomicConsiderationPage: React.FC = () => {
                     </form>
                   </Form>
                   
-                  <TabsContent value="option-2" className="m-0 p-4 border rounded-md">
-                    <div className="bg-green-50 rounded-md p-6 flex items-start">
-                      <Info className="h-10 w-10 text-green-500 mr-4 mt-1 flex-shrink-0" />
-                      <div>
-                        <h3 className="text-lg font-medium text-green-700">Option 2 - ทางเลือกที่ 2</h3>
-                        <p className="text-green-700 mt-1 mb-4">รายละเอียดทางเลือกที่ 2</p>
-                      </div>
-                    </div>
-                  </TabsContent>
+                  <Form {...option2Form}>
+                    <form onSubmit={option2Form.handleSubmit(onSubmitOption2)}>
+                      <TabsContent value="option-2" className="mt-0 p-4 border rounded-md">
+                        <div className="space-y-4">
+                          <div className="bg-green-50 p-4 rounded-md border border-green-200 mb-4">
+                            <h3 className="font-medium text-green-800 mb-2">เลือกซื้อหม้อแปลงใหม่เมื่อสิ้นสุดใช้งานหม้อแปลงตัวเดิม</h3>
+                          </div>
+                          
+                          {/* First row of Option 2 */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <FormField
+                              control={option2Form.control}
+                              name="newTransformerPrice"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>ราคาหม้อแปลงใหม่ [Baht]</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" {...field} className="bg-white" />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={option2Form.control}
+                              name="ratedPower"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Rated Power [MVA]</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" {...field} className="bg-white" />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+                          {/* Second row of Option 2 */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <FormField
+                              control={option2Form.control}
+                              name="noLoadLoss"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>No-Load Loss [kW]</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" {...field} className="bg-white" />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={option2Form.control}
+                              name="loadLoss"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Load Loss [kW]</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" {...field} className="bg-white" />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+                          {/* Third row of Option 2 */}
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <FormField
+                              control={option2Form.control}
+                              name="opportunityCost"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>ค่าเสียโอกาสในการจ่ายไฟเนื่องจาก PM [Baht/year]</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" {...field} className="bg-white" />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={option2Form.control}
+                              name="yearlyMaintenanceCost"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>ค่าซ่อมบำรุงเฉลี่ยรายปี [Baht/year]</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" {...field} className="bg-white" />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={option2Form.control}
+                              name="demolitionCost"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>ค่าทำลายหรือรื้อถอน [Baht]</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" {...field} className="bg-white" />
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+                          {/* Action buttons */}
+                          <div className="flex justify-end space-x-3 mt-8 pt-4 border-t">
+                            <Button 
+                              type="button" 
+                              variant="outline" 
+                              onClick={handleClearOption2Data}
+                              className="bg-white"
+                            >
+                              <Trash2 className="mr-1 h-4 w-4" /> Clear Data
+                            </Button>
+                            <Button type="submit">
+                              <Save className="mr-1 h-4 w-4" /> Save
+                            </Button>
+                          </div>
+                        </div>
+                      </TabsContent>
+                    </form>
+                  </Form>
                   
                   <TabsContent value="option-3" className="m-0 p-4 border rounded-md">
-                    <div className="bg-purple-50 rounded-md p-6 flex items-start">
-                      <Info className="h-10 w-10 text-purple-500 mr-4 mt-1 flex-shrink-0" />
+                    <div className="bg-blue-50 rounded-md p-6 flex items-start">
+                      <Info className="h-10 w-10 text-blue-500 mr-4 mt-1 flex-shrink-0" />
                       <div>
-                        <h3 className="text-lg font-medium text-purple-700">Option 3 - ทางเลือกที่ 3</h3>
-                        <p className="text-purple-700 mt-1 mb-4">รายละเอียดทางเลือกที่ 3</p>
+                        <h3 className="text-lg font-medium text-blue-700">Option 3</h3>
+                        <p className="text-blue-700 mt-1">ยังไม่มีข้อมูลในส่วนนี้</p>
                       </div>
                     </div>
                   </TabsContent>
                   
                   <TabsContent value="summary" className="m-0 p-4 border rounded-md">
-                    <div className="bg-orange-50 rounded-md p-6 flex items-start">
-                      <Calculator className="h-10 w-10 text-orange-500 mr-4 mt-1 flex-shrink-0" />
+                    <div className="bg-blue-50 rounded-md p-6 flex items-start">
+                      <Info className="h-10 w-10 text-blue-500 mr-4 mt-1 flex-shrink-0" />
                       <div>
-                        <h3 className="text-lg font-medium text-orange-700">สรุปผลการประเมิน</h3>
-                        <p className="text-orange-700 mt-1 mb-4">สรุปผลการประเมินและการวิเคราะห์ทางเศรษฐศาสตร์</p>
+                        <h3 className="text-lg font-medium text-blue-700">สรุป</h3>
+                        <p className="text-blue-700 mt-1">ข้อมูลสรุปการเปรียบเทียบตัวเลือกทั้งหมด</p>
                       </div>
                     </div>
                   </TabsContent>
