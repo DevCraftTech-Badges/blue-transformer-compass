@@ -107,6 +107,12 @@ const App = () => (
           <Route path="/transformer-relocation" element={<TransformerRelocation />} />
           <Route path="/transformer-abnormality" element={<TransformerAbnormality />} />
           <Route path="/oil-test" element={<OilTest />} />
+          <Route path="/oil-aging" element={<NotFound />} />
+          <Route path="/oil-dga" element={<NotFound />} />
+          <Route path="/oil-furan" element={<NotFound />} />
+          <Route path="/oil-contamination" element={<NotFound />} />
+          <Route path="/oltc-dga" element={<NotFound />} />
+          <Route path="/oltc-oil-contamination" element={<NotFound />} />
           <Route path="/oltc-maintenance" element={<OltcMaintenance />} />
           <Route path="/oil-contact" element={<OilContact />} />
           <Route path="/view-all-test-results" element={<ViewAllTestResults />} />
@@ -127,4 +133,3 @@ const App = () => (
 );
 
 export default App;
-
