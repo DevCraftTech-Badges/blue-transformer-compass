@@ -30,9 +30,17 @@ const mockData = [
   },
 ];
 
-const TransformerImportanceTable = () => {
+interface TransformerImportanceTableProps {
+  onEdit?: (id: string) => void;
+}
+
+const TransformerImportanceTable: React.FC<TransformerImportanceTableProps> = ({ onEdit }) => {
   const handleEdit = (id: string) => {
-    console.log('Edit transformer importance with ID:', id);
+    if (onEdit) {
+      onEdit(id);
+    } else {
+      console.log('Edit transformer importance with ID:', id);
+    }
   };
 
   const handleDelete = (id: string) => {
