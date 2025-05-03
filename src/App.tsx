@@ -17,7 +17,7 @@ import OilTestUploadPage from "./pages/OilTestUpload";
 import ElectricalTestUploadPage from "./pages/ElectricalTestUpload";
 import ActivateTestResultsPage from "./pages/ActivateTestResults";
 import TransformerConfigManagementPage from "./pages/TransformerConfigManagement";
-import TransformerImportancePage from "./pages/TransformerImportance";
+import TransformerImportancePage from "./pages/transformer-importance/index";
 import VisualInspectionTopicsPage from "./pages/VisualInspectionTopics";
 import VisualInspectionCriteriaPage from "./pages/VisualInspectionCriteria";
 import ScorePercentageHIPage from "./pages/ScorePercentageHI";
@@ -37,7 +37,6 @@ import OilTest from "./pages/OilTest";
 import OltcMaintenance from "./pages/OltcMaintenance";
 import OilContact from "./pages/OilContact";
 import ViewAllTestResults from "@/pages/ViewAllTestResults";
-import AddTransformerImportancePage from "./pages/transformer-importance/AddTransformerImportance";
 import CoreInsulationResistancePage from "./pages/CoreInsulationResistance";
 import ExcitingCurrentMeasurementPage from "./pages/ExcitingCurrentMeasurement";
 import DCResistanceMeasurementPage from "./pages/DCResistanceMeasurement";
@@ -111,7 +110,6 @@ const App = () => (
           <Route path="/oltc-maintenance" element={<OltcMaintenance />} />
           <Route path="/oil-contact" element={<OilContact />} />
           <Route path="/view-all-test-results" element={<ViewAllTestResults />} />
-          <Route path="/transformer-importance/add" element={<AddTransformerImportancePage />} />
           <Route path="/transformer-inspection" element={<TransformerInspection />} />
           <Route path="/weibull-calculation" element={<WeibullCalculationPage />} />
           <Route path="/oil-delivery-time" element={<OilDeliveryTimePage />} />
@@ -129,3 +127,4 @@ const App = () => (
 );
 
 export default App;
+
