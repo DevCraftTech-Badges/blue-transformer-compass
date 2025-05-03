@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import TableRowActions from './TableRowActions';
+import { motion } from 'framer-motion';
 
 interface InspectionItem {
   id: number;
@@ -46,31 +47,37 @@ const InspectionTable: React.FC<InspectionTableProps> = ({
   };
 
   return (
-    <div className="border rounded-lg overflow-hidden">
+    <div className="border rounded-lg overflow-hidden border-blue-100">
       <Table>
         <TableHeader>
-          <TableRow className="bg-muted/70">
-            <TableHead className="w-[60px] text-center">No</TableHead>
-            <TableHead>หม้อแปลงไฟฟ้า</TableHead>
-            <TableHead>EGAT S/N</TableHead>
-            <TableHead>รูปแบบการทดสอบ</TableHead>
-            <TableHead>วันที่เริ่มทดสอบ</TableHead>
-            <TableHead>เวลาที่เริ่มปฏิบัติงาน</TableHead>
-            <TableHead>ผู้ตรวจสอบ</TableHead>
-            <TableHead>จัดการ</TableHead>
+          <TableRow className="bg-blue-50">
+            <TableHead className="w-[60px] text-center font-semibold text-blue-800">No</TableHead>
+            <TableHead className="font-semibold text-blue-800">หม้อแปลงไฟฟ้า</TableHead>
+            <TableHead className="font-semibold text-blue-800">EGAT S/N</TableHead>
+            <TableHead className="font-semibold text-blue-800">รูปแบบการทดสอบ</TableHead>
+            <TableHead className="font-semibold text-blue-800">วันที่เริ่มทดสอบ</TableHead>
+            <TableHead className="font-semibold text-blue-800">เวลาที่เริ่มปฏิบัติงาน</TableHead>
+            <TableHead className="font-semibold text-blue-800">ผู้ตรวจสอบ</TableHead>
+            <TableHead className="font-semibold text-blue-800 text-center">จัดการ</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {items.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={8} className="text-center py-4">
-                ไม่พบข้อมูล
+              <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                ไม่พบข้อมูล กรุณาเพิ่มรายการใหม่
               </TableCell>
             </TableRow>
           ) : (
             items.map((item, index) => (
-              <TableRow key={item.id}>
-                <TableCell className="text-center">{index + 1}</TableCell>
+              <motion.tr 
+                key={item.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: index * 0.05 }}
+                className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50/30'} border-b border-blue-100`}
+              >
+                <TableCell className="text-center font-medium">{index + 1}</TableCell>
                 <TableCell>{item.transformerName}</TableCell>
                 <TableCell>{item.egatSN}</TableCell>
                 <TableCell>{item.testType}</TableCell>
@@ -80,12 +87,12 @@ const InspectionTable: React.FC<InspectionTableProps> = ({
                 <TableCell>
                   <TableRowActions 
                     item={item}
-                    onView={onView}
+                    onView={() => handleViewDetails(item)}
                     onEdit={onEdit}
                     onDelete={onDelete}
                   />
                 </TableCell>
-              </TableRow>
+              </motion.tr>
             ))
           )}
         </TableBody>

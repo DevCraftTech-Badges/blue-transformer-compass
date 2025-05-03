@@ -2,20 +2,19 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, Search } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import InspectionTable from './InspectionTable';
 import { useToast } from '@/hooks/use-toast';
 import VisualInspectionModal from './VisualInspectionModal';
 import { InspectionItem, Category } from './types';
-import { useNavigate } from 'react-router-dom';
 
 interface VisualInspectionSectionProps {
   title: string;
   description?: string;
   transformerName?: string;
   egatSN?: string;
-  category?: Category; // Add this prop
+  category?: Category;
 }
 
 const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
@@ -26,7 +25,6 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
   category,
 }) => {
   const { toast } = useToast();
-  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [items, setItems] = useState<InspectionItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<InspectionItem | null>(null);
@@ -56,6 +54,7 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
       toast({
         title: 'บันทึกข้อมูลสำเร็จ',
         description: 'แก้ไขข้อมูลเรียบร้อยแล้ว',
+        variant: 'default',
       });
     } else {
       // Add new item
@@ -67,6 +66,7 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
       toast({
         title: 'บันทึกข้อมูลสำเร็จ',
         description: 'เพิ่มข้อมูลเรียบร้อยแล้ว',
+        variant: 'default',
       });
     }
     setIsModalOpen(false);
@@ -78,16 +78,8 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
     toast({
       title: 'ลบข้อมูลสำเร็จ',
       description: 'ลบข้อมูลเรียบร้อยแล้ว',
+      variant: 'default',
     });
-  };
-
-  const handleViewDetails = (item: InspectionItem) => {
-    if (title === 'Thermo Scan') {
-      navigate('/not-found-thermo-scan');
-    } else {
-      // Handle other item types
-      console.log('View details for item:', item);
-    }
   };
 
   const filteredItems = items.filter((item) =>
@@ -97,26 +89,27 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
   );
 
   return (
-    <Card className="w-full shadow-sm bg-white">
+    <Card className="w-full shadow-sm bg-white border-0">
       <CardHeader className="pb-3">
         <div className="flex flex-row justify-between items-center">
           <div>
-            <CardTitle className="text-xl font-bold">{title}</CardTitle>
+            <CardTitle className="text-xl font-bold text-blue-800">{title}</CardTitle>
             {description && <p className="text-gray-500 text-sm mt-1">{description}</p>}
           </div>
           <Button
             onClick={handleOpenModal}
-            className="bg-transformer-primary hover:bg-blue-700 text-white"
+            className="bg-blue-600 hover:bg-blue-700 text-white"
           >
             <PlusCircle className="mr-2 h-4 w-4" /> เพิ่มรายการใหม่
           </Button>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
-            placeholder="ค้นหา..."
+            placeholder="ค้นหารายการ..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="max-w-md"
+            className="pl-10 border-blue-200 focus-visible:ring-blue-400"
           />
         </div>
       </CardHeader>
@@ -125,8 +118,8 @@ const VisualInspectionSection: React.FC<VisualInspectionSectionProps> = ({
           items={filteredItems}
           onEdit={handleEditItem}
           onDelete={handleDeleteItem}
-          onView={handleViewDetails}
-          onViewDetails={handleViewDetails}
+          onView={() => {}}
+          onViewDetails={() => {}}
         />
       </CardContent>
       <VisualInspectionModal

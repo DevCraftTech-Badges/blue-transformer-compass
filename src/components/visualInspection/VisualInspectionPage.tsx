@@ -1,21 +1,22 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Settings, Disc, Zap, Box, Filter, Fan, 
   Server, CircuitBoard, Sliders, ThermometerSun,
-  ArrowLeft
+  ArrowLeft, Search
 } from 'lucide-react';
-import VisualInspectionSection from './VisualInspectionSection';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Category } from './types';
+import VisualInspectionSection from './VisualInspectionSection';
+import { motion } from 'framer-motion';
 
 const inspectionCategories: Category[] = [
   {
     id: 'general-condition',
     title: 'General Condition',
-    icon: <Settings className="h-8 w-8 text-transformer-primary" />,
+    icon: <Settings className="h-8 w-8 text-blue-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -33,7 +34,7 @@ const inspectionCategories: Category[] = [
   {
     id: 'bushing',
     title: 'Bushing',
-    icon: <Disc className="h-8 w-8 text-blue-600" />,
+    icon: <Disc className="h-8 w-8 text-purple-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -45,7 +46,7 @@ const inspectionCategories: Category[] = [
   {
     id: 'lightning-arrester',
     title: 'Lightning Arrester',
-    icon: <Zap className="h-8 w-8 text-blue-600" />,
+    icon: <Zap className="h-8 w-8 text-yellow-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -57,7 +58,7 @@ const inspectionCategories: Category[] = [
   {
     id: 'conservator-tank',
     title: 'Conservator Tank',
-    icon: <Box className="h-8 w-8 text-blue-600" />,
+    icon: <Box className="h-8 w-8 text-green-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -69,7 +70,7 @@ const inspectionCategories: Category[] = [
   {
     id: 'main-tank',
     title: 'Main Tank',
-    icon: <Box className="h-8 w-8 text-blue-600" />,
+    icon: <Box className="h-8 w-8 text-indigo-600" />,
     fields: [
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -176,8 +177,24 @@ const inspectionCategories: Category[] = [
   }
 ];
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+};
+
 const VisualInspectionPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   const handleCategoryClick = (categoryId: string) => {
@@ -189,54 +206,100 @@ const VisualInspectionPage: React.FC = () => {
     }
   };
 
+  const filteredCategories = inspectionCategories.filter(category => 
+    category.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="space-y-6 p-6 animate-fade-in">
-      <div>
-        <h1 className="text-2xl font-bold text-transformer-dark">
-          ข้อมูลบำรุงรักษาหม้อแปลง - ผลการทดสอบ Visual Inspection
-        </h1>
-        <p className="text-muted-foreground">ข้อมูลผลการตรวจสอบด้วยสายตาของหม้อแปลง</p>
+      <div className="flex items-center space-x-2 mb-6">
+        <div className="h-10 w-1.5 bg-blue-600 rounded-full"></div>
+        <div>
+          <h1 className="text-2xl font-bold text-blue-800">
+            ข้อมูลบำรุงรักษาหม้อแ���ลง - Visual Inspection
+          </h1>
+          <p className="text-muted-foreground">ข้อมูลผลการตรวจสอบด้วยสายตาของหม้อแปลง</p>
+        </div>
       </div>
 
       {activeCategory ? (
         <div className="space-y-6">
-          <div className="mb-4">
+          <div className="mb-4 flex justify-between items-center">
             <Button 
               variant="outline" 
               onClick={() => setActiveCategory(null)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 hover:bg-blue-50 border-blue-200"
             >
               <ArrowLeft className="h-4 w-4" /> 
-              ย้อนกลับ
+              ย้อนกลับไปยังหมวดหมู่
             </Button>
+            
+            <div className="text-xl font-semibold text-blue-700">
+              {inspectionCategories.find(c => c.id === activeCategory)?.title}
+            </div>
           </div>
           
-          <div className="bg-white rounded-lg shadow-sm p-6 border">
+          <motion.div 
+            className="bg-white rounded-lg shadow-sm p-6 border border-blue-100"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             {activeCategory && (
               <VisualInspectionSection 
                 title={inspectionCategories.find(c => c.id === activeCategory)?.title || ""}
                 category={inspectionCategories.find(c => c.id === activeCategory)}
               />
             )}
-          </div>
+          </motion.div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {inspectionCategories.map((category) => (
-            <Card 
-              key={category.id}
-              className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-white group cursor-pointer"
-              onClick={() => handleCategoryClick(category.id)}
-            >
-              <CardContent className="p-0 flex items-center space-x-3">
-                <div className="h-10 w-10 rounded-full bg-transformer-primary/10 flex items-center justify-center group-hover:bg-transformer-primary/20 transition-colors">
-                  {category.icon}
-                </div>
-                <div className="font-medium">{category.title}</div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <>
+          <div className="mb-6">
+            <div className="relative">
+              <Input
+                type="text"
+                placeholder="ค้นหาหมวดหมู่การตรวจสอบ..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 border-blue-200 focus:border-blue-400 pr-4 py-2"
+              />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-500" />
+            </div>
+          </div>
+
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            variants={container}
+            initial="hidden"
+            animate="show"
+          >
+            {filteredCategories.map((category) => (
+              <motion.div key={category.id} variants={item}>
+                <Card 
+                  className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-white group cursor-pointer hover:border-blue-300"
+                  onClick={() => handleCategoryClick(category.id)}
+                >
+                  <CardContent className="p-0 flex items-center space-x-4">
+                    <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                      {category.icon}
+                    </div>
+                    <div className="font-medium group-hover:text-blue-700 transition-colors">{category.title}</div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+          
+          <div className="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border border-blue-100">
+            <h2 className="text-lg font-medium text-blue-800 mb-4">เกี่ยวกับ Visual Inspection</h2>
+            <p className="text-gray-600">
+              การตรวจสอบด้��ยสายตา (Visual Inspection) เป็นส่วนสำคัญในการบำรุงรักษาหม้อแปลง 
+              ช่วยให้ทราบถึงสภาพทั่วไปและความผิดปกติที่อาจเกิดขึ้น ทำให้สามารถวางแผนการซ่อมบำรุงได้อย่างมีประสิทธิภาพ
+              และป้องกันความเสียหายที่อาจเกิดขึ้นในอนาคต
+            </p>
+          </div>
+        </>
       )}
     </div>
   );
