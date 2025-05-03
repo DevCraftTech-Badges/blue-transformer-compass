@@ -95,7 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       dropdown: [
         { title: 'Factor Setting', link: '/factor-setting' },
         { title: 'ราคาและ Loss ของหม้อแลง', link: '/transformer-price-and-loss' },
-        { title: 'ข้อมูลที่จำเป็นในการพิจารณา', link: '#' }
+        { title: 'ข้อมูลที่จำเป็นในการพิจารณา', link: '/economic-consideration' }
       ]
     },
     {

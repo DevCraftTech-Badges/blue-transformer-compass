@@ -57,6 +57,7 @@ import OilPurchaseOrdersPage from "./pages/OilPurchaseOrders";
 import DisbursementItemsPage from "./pages/DisbursementItems";
 import OilInventoryPage from "./pages/OilInventory";
 import OilTransformerPage from "./pages/OilTransformer";
+import EconomicConsiderationPage from "./pages/EconomicConsideration";
 
 const queryClient = new QueryClient();
 
@@ -103,6 +104,7 @@ const App = () => (
           <Route path="/not-found-thermo-scan" element={<NotFoundThermoScan />} />
           <Route path="/factor-setting" element={<FactorSettingPage />} />
           <Route path="/transformer-price-and-loss" element={<TransformerPriceAndLossPage />} />
+          <Route path="/economic-consideration" element={<EconomicConsiderationPage />} />
           <Route path="/transformer-information" element={<TransformerInformationPage />} />
           <Route path="/transformer-relocation" element={<TransformerRelocation />} />
           <Route path="/transformer-abnormality" element={<TransformerAbnormality />} />
