@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion } from 'framer-motion';
@@ -799,4 +800,48 @@ const EconomicConsiderationPage: React.FC = () => {
                       <Info className="h-10 w-10 text-blue-500 mr-4 mt-1 flex-shrink-0" />
                       <div>
                         <h3 className="text-lg font-medium text-blue-700">Option 1 - การซ่อมบำรุง</h3>
-                        <p className="text-blue-700 mt-1 mb-4">ข้อมูล
+                        <p className="text-blue-700 mt-1 mb-4">ข้อมูลการซ่อมบำรุงเพิ่มเติม</p>
+                      </div>
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="option-2" className="m-0 p-4 border rounded-md">
+                    <div className="bg-green-50 rounded-md p-6 flex items-start">
+                      <Info className="h-10 w-10 text-green-500 mr-4 mt-1 flex-shrink-0" />
+                      <div>
+                        <h3 className="text-lg font-medium text-green-700">Option 2 - ทางเลือกที่ 2</h3>
+                        <p className="text-green-700 mt-1 mb-4">รายละเอียดทางเลือกที่ 2</p>
+                      </div>
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="option-3" className="m-0 p-4 border rounded-md">
+                    <div className="bg-purple-50 rounded-md p-6 flex items-start">
+                      <Info className="h-10 w-10 text-purple-500 mr-4 mt-1 flex-shrink-0" />
+                      <div>
+                        <h3 className="text-lg font-medium text-purple-700">Option 3 - ทางเลือกที่ 3</h3>
+                        <p className="text-purple-700 mt-1 mb-4">รายละเอียดทางเลือกที่ 3</p>
+                      </div>
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="summary" className="m-0 p-4 border rounded-md">
+                    <div className="bg-orange-50 rounded-md p-6 flex items-start">
+                      <Calculator className="h-10 w-10 text-orange-500 mr-4 mt-1 flex-shrink-0" />
+                      <div>
+                        <h3 className="text-lg font-medium text-orange-700">สรุปผลการประเมิน</h3>
+                        <p className="text-orange-700 mt-1 mb-4">สรุปผลการประเมินและการวิเคราะห์ทางเศรษฐศาสตร์</p>
+                      </div>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </motion.div>
+    </Layout>
+  );
+};
+
+export default EconomicConsiderationPage;
