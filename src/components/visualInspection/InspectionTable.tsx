@@ -66,7 +66,7 @@ const InspectionTable: React.FC<InspectionTableProps> = ({
 
   return (
     <motion.div 
-      className="rounded-lg overflow-hidden shadow-sm border border-blue-100"
+      className="rounded-lg overflow-hidden shadow border border-blue-100"
       variants={tableContainerVariants}
       initial="hidden"
       animate="visible"
@@ -88,18 +88,26 @@ const InspectionTable: React.FC<InspectionTableProps> = ({
           <TableBody>
             {items.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={8} className="text-center py-12 text-gray-500">
-                  <div className="flex flex-col items-center justify-center space-y-2">
-                    <svg 
-                      className="w-12 h-12 text-gray-300" 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      fill="none" 
-                      viewBox="0 0 24 24" 
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <p>ไม่พบข้อมูล กรุณาเพิ่มรายการใหม่</p>
+                <TableCell colSpan={8} className="text-center py-16 text-gray-500">
+                  <div className="flex flex-col items-center justify-center space-y-3">
+                    <div className="relative">
+                      <svg 
+                        className="w-16 h-16 text-gray-200" 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        fill="none" 
+                        viewBox="0 0 24 24" 
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      <div className="absolute -top-1 -right-1 bg-gray-100 text-gray-500 p-1 rounded-full">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </div>
+                    </div>
+                    <p className="text-lg font-medium">ไม่พบข้อมูล</p>
+                    <p className="text-sm text-gray-400">กรุณาเพิ่มรายการใหม่เพื่อเริ่มต้น</p>
                   </div>
                 </TableCell>
               </TableRow>
@@ -108,9 +116,10 @@ const InspectionTable: React.FC<InspectionTableProps> = ({
                 <motion.tr 
                   key={item.id}
                   variants={tableRowVariants}
-                  className={`border-b border-blue-100 hover:bg-blue-50/50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-blue-50/30'}`}
+                  className={`border-b border-blue-100 hover:bg-blue-50/40 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-blue-50/20'}`}
                   onClick={() => handleViewDetails(item)}
                   style={{ cursor: 'pointer' }}
+                  whileHover={{ backgroundColor: 'rgba(219, 234, 254, 0.3)' }}
                 >
                   <TableCell className="text-center font-medium">{index + 1}</TableCell>
                   <TableCell className="font-medium text-blue-800">{item.transformerName}</TableCell>
@@ -143,22 +152,22 @@ const InspectionTable: React.FC<InspectionTableProps> = ({
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious href="#" />
+                <PaginationPrevious href="#" className="hover:bg-blue-50 hover:text-blue-700 transition-colors" />
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#" isActive>1</PaginationLink>
+                <PaginationLink href="#" isActive className="bg-blue-600">1</PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#">2</PaginationLink>
+                <PaginationLink href="#" className="hover:bg-blue-50 hover:text-blue-700 transition-colors">2</PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
+                <PaginationLink href="#" className="hover:bg-blue-50 hover:text-blue-700 transition-colors">3</PaginationLink>
               </PaginationItem>
               <PaginationItem>
                 <PaginationEllipsis />
               </PaginationItem>
               <PaginationItem>
-                <PaginationNext href="#" />
+                <PaginationNext href="#" className="hover:bg-blue-50 hover:text-blue-700 transition-colors" />
               </PaginationItem>
             </PaginationContent>
           </Pagination>

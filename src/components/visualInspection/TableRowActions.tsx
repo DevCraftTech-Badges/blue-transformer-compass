@@ -54,7 +54,7 @@ const TableRowActions: React.FC<TableRowActionsProps> = ({
               <span className="sr-only">แสดงข้อมูล</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="top" className="bg-blue-600 text-white border-blue-700">
+          <TooltipContent side="top" className="bg-gradient-to-r from-blue-600 to-blue-700 text-white border-blue-700 shadow-lg">
             <p>แสดงข้อมูล</p>
           </TooltipContent>
         </Tooltip>
@@ -71,7 +71,7 @@ const TableRowActions: React.FC<TableRowActionsProps> = ({
               <span className="sr-only">แก้ไขข้อมูล</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="top" className="bg-amber-600 text-white border-amber-700">
+          <TooltipContent side="top" className="bg-gradient-to-r from-amber-600 to-amber-700 text-white border-amber-700 shadow-lg">
             <p>แก้ไขข้อมูล</p>
           </TooltipContent>
         </Tooltip>
@@ -88,7 +88,7 @@ const TableRowActions: React.FC<TableRowActionsProps> = ({
               <span className="sr-only">ลบข้อมูล</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="top" className="bg-red-600 text-white border-red-700">
+          <TooltipContent side="top" className="bg-gradient-to-r from-red-600 to-red-700 text-white border-red-700 shadow-lg">
             <p>ลบข้อมูล</p>
           </TooltipContent>
         </Tooltip>
