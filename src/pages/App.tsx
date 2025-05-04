@@ -47,6 +47,7 @@ import OilPurchaseOrdersPage from "@/pages/OilPurchaseOrders";
 import ExpenseItemsPage from "@/pages/ExpenseItems";
 import CalculationResultsPage from "@/pages/CalculationResults";
 import OilDeliveryTimePage from "@/pages/OilDeliveryTime";
+import DesignPage from "@/pages/Design";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/electrical-test-results" element={<ElectricalTestResultsPage />} />
+          <Route path="/electrical-test-results/core-insulation-resistance" element={<CoreInsulationResistancePage />} />
           <Route path="/dp-limit" element={<DPLimitPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/user-management" element={<UserManagementPage />} />
@@ -90,7 +92,6 @@ const App = () => (
           <Route path="/oltc-maintenance" element={<OltcMaintenance />} />
           <Route path="/oil-contact" element={<OilContact />} />
           <Route path="/view-all-test-results" element={<ViewAllTestResults />} />
-          <Route path="/core-insulation-resistance" element={<CoreInsulationResistancePage />} />
           <Route path="/weibull-calculation" element={<WeibullCalculationPage />} />
           <Route path="/oil-transformer" element={<OilTransformerPage />} />
           <Route path="/oil-inventory" element={<OilInventoryPage />} />
@@ -99,6 +100,7 @@ const App = () => (
           <Route path="/expense-items" element={<ExpenseItemsPage />} />
           <Route path="/calculation-results" element={<CalculationResultsPage />} />
           <Route path="/oil-delivery-time" element={<OilDeliveryTimePage />} />
+          <Route path="/design" element={<DesignPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
