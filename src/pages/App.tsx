@@ -18,6 +18,7 @@ import ElectricalTestUploadPage from "@/pages/ElectricalTestUpload";
 import ActivateTestResultsPage from "@/pages/ActivateTestResults";
 import TransformerConfigManagementPage from "@/pages/TransformerConfigManagement";
 import TransformerImportancePage from "@/pages/TransformerImportance";
+import TransformerImportanceConfigPage from "@/pages/TransformerImportanceConfig";
 import VisualInspectionTopicsPage from "@/pages/VisualInspectionTopics";
 import VisualInspectionCriteriaPage from "@/pages/VisualInspectionCriteria";
 import ScorePercentageHIPage from "@/pages/ScorePercentageHI";
@@ -61,6 +62,7 @@ const App = () => (
           <Route path="/activate-test-results" element={<ActivateTestResultsPage />} />
           <Route path="/transformer-config-management" element={<TransformerConfigManagementPage />} />
           <Route path="/transformer-importance" element={<TransformerImportancePage />} />
+          <Route path="/transformer-importance-config" element={<TransformerImportanceConfigPage />} />
           <Route path="/visual-inspection-topics" element={<VisualInspectionTopicsPage />} />
           <Route path="/visual-inspection-criteria" element={<VisualInspectionCriteriaPage />} />
           <Route path="/score-percentage-hi" element={<ScorePercentageHIPage />} />
