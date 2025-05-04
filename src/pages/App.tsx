@@ -40,6 +40,7 @@ import OilContact from "@/pages/OilContact";
 import ViewAllTestResults from "@/pages/ViewAllTestResults";
 import CoreInsulationResistancePage from "@/pages/CoreInsulationResistance";
 import WeibullCalculationPage from "@/pages/WeibullCalculation";
+import OilTransformerPage from "@/pages/OilTransformer";
 
 const queryClient = new QueryClient();
 
@@ -85,6 +86,7 @@ const App = () => (
           <Route path="/view-all-test-results" element={<ViewAllTestResults />} />
           <Route path="/core-insulation-resistance" element={<CoreInsulationResistancePage />} />
           <Route path="/weibull-calculation" element={<WeibullCalculationPage />} />
+          <Route path="/oil-transformer" element={<OilTransformerPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
