@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -216,7 +217,7 @@ const VisualInspectionPage: React.FC = () => {
         <div className="h-10 w-1.5 bg-blue-600 rounded-full"></div>
         <div>
           <h1 className="text-2xl font-bold text-blue-800">
-            ข้อมูลบำรุงรักษาหม้อแ���ลง - Visual Inspection
+            ข้อมูลบำรุงรักษาหม้อแปลง - Visual Inspection
           </h1>
           <p className="text-muted-foreground">ข้อมูลผลการตรวจสอบด้วยสายตาของหม้อแปลง</p>
         </div>
@@ -294,7 +295,7 @@ const VisualInspectionPage: React.FC = () => {
           <div className="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border border-blue-100">
             <h2 className="text-lg font-medium text-blue-800 mb-4">เกี่ยวกับ Visual Inspection</h2>
             <p className="text-gray-600">
-              การตรวจสอบด้��ยสายตา (Visual Inspection) เป็นส่วนสำคัญในการบำรุงรักษาหม้อแปลง 
+              การตรวจสอบด้วยสายตา (Visual Inspection) เป็นส่วนสำคัญในการบำรุงรักษาหม้อแปลง 
               ช่วยให้ทราบถึงสภาพทั่วไปและความผิดปกติที่อาจเกิดขึ้น ทำให้สามารถวางแผนการซ่อมบำรุงได้อย่างมีประสิทธิภาพ
               และป้องกันความเสียหายที่อาจเกิดขึ้นในอนาคต
             </p>
