@@ -42,6 +42,7 @@ import CoreInsulationResistancePage from "@/pages/CoreInsulationResistance";
 import WeibullCalculationPage from "@/pages/WeibullCalculation";
 import OilTransformerPage from "@/pages/OilTransformer";
 import OilInventoryPage from "@/pages/OilInventory";
+import DisbursementItemsPage from "@/pages/DisbursementItems";
 
 const queryClient = new QueryClient();
 
@@ -89,6 +90,7 @@ const App = () => (
           <Route path="/weibull-calculation" element={<WeibullCalculationPage />} />
           <Route path="/oil-transformer" element={<OilTransformerPage />} />
           <Route path="/oil-inventory" element={<OilInventoryPage />} />
+          <Route path="/disbursement-items" element={<DisbursementItemsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
