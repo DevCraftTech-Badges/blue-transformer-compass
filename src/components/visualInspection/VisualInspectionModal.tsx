@@ -132,24 +132,245 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
         <ScrollArea className="flex-grow overflow-y-auto px-2 pb-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6 py-4">
-              {getFieldChunks().map((chunk, chunkIndex) => (
+              {/* Grid Layout 2x2 for 4 sections */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                {/* กลุ่ม 1: Bushing (ข้อมูลทั่วไป) – ซ้ายบน */}
                 <motion.div 
-                  key={chunkIndex} 
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                  className="space-y-4 p-4 border border-blue-200 rounded-lg bg-blue-50/30"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: chunkIndex * 0.05 }}
+                  transition={{ delay: 0.1 }}
                 >
-                  {chunk.map((field, fieldIndex) => field && (
-                    <FormItem key={fieldIndex} className="space-y-1.5">
-                      <FormLabel className="text-blue-800">{field.name}</FormLabel>
-                      <FormControl>
-                        {getFormField(field)}
-                      </FormControl>
-                    </FormItem>
+                  <h3 className="text-lg font-semibold text-blue-800 mb-3">ข้อมูลทั่วไป</h3>
+                  
+                  <FormField
+                    control={form.control}
+                    name="transformerName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-blue-800">หม้อแปลงไฟฟ้า</FormLabel>
+                        <FormControl>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                              <SelectValue placeholder="เลือกหม้อแปลงไฟฟ้า" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="TR-001">TR-001</SelectItem>
+                              <SelectItem value="TR-002">TR-002</SelectItem>
+                              <SelectItem value="TR-003">TR-003</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="egatSN"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-blue-800">EGAT S/N</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="text" 
+                            className="border-blue-200 focus-visible:ring-blue-400"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="testType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-blue-800">รูปแบบการทดสอบ</FormLabel>
+                        <FormControl>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                              <SelectValue placeholder="เลือกรูปแบบการทดสอบ" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Weekly Test">Weekly Test</SelectItem>
+                              <SelectItem value="Monthly Test">Monthly Test</SelectItem>
+                              <SelectItem value="Annual Test">Annual Test</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="testDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-blue-800">วันที่ตรวจสอบ</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="date" 
+                            className="border-blue-200 focus-visible:ring-blue-400"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="workOrderNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-blue-800">เลขที่คำสั่งปฏิบัติงาน</FormLabel>
+                        <FormControl>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                              <SelectValue placeholder="เลือกเลขที่คำสั่ง" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="WO-001">WO-001</SelectItem>
+                              <SelectItem value="WO-002">WO-002</SelectItem>
+                              <SelectItem value="WO-003">WO-003</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="inspector"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-blue-800">ผู้ตรวจสอบ</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="text" 
+                            className="border-blue-200 focus-visible:ring-blue-400"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
+                {/* กลุ่ม 2: LV Bushing (แรงดันต่ำ) – ขวาบน */}
+                <motion.div 
+                  className="space-y-4 p-4 border border-green-200 rounded-lg bg-green-50/30"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <h3 className="text-lg font-semibold text-green-800 mb-3">LV Bushing (แรงดันต่ำ)</h3>
+                  
+                  {['สภาพ Porcelain', 'ความสะอาดของ Porcelain', 'การรั่วซึมของน้ำมัน', 'ระดับน้ำมัน', 'สีของน้ำมัน'].map((fieldName, index) => (
+                    <FormField
+                      key={`lv_${index}`}
+                      control={form.control}
+                      name={`lv${fieldName.replace(/\s/g, '')}`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-green-800">{fieldName}</FormLabel>
+                          <FormControl>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <SelectTrigger className="border-green-200 focus:ring-green-400">
+                                <SelectValue placeholder="เลือก" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Normal">Normal</SelectItem>
+                                <SelectItem value="Abnormal">Abnormal</SelectItem>
+                                <SelectItem value="Good">Good</SelectItem>
+                                <SelectItem value="Poor">Poor</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
                   ))}
                 </motion.div>
-              ))}
+
+                {/* กลุ่ม 3: HV Bushing (แรงดันสูง) – ซ้ายล่าง */}
+                <motion.div 
+                  className="space-y-4 p-4 border border-red-200 rounded-lg bg-red-50/30"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <h3 className="text-lg font-semibold text-red-800 mb-3">HV Bushing (แรงดันสูง)</h3>
+                  
+                  {['สภาพ Porcelain', 'ความสะอาดของ Porcelain', 'การรั่วซึมของน้ำมัน', 'ระดับน้ำมัน', 'สีของน้ำมัน'].map((fieldName, index) => (
+                    <FormField
+                      key={`hv_${index}`}
+                      control={form.control}
+                      name={`hv${fieldName.replace(/\s/g, '')}`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-red-800">{fieldName}</FormLabel>
+                          <FormControl>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <SelectTrigger className="border-red-200 focus:ring-red-400">
+                                <SelectValue placeholder="เลือก" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Normal">Normal</SelectItem>
+                                <SelectItem value="Abnormal">Abnormal</SelectItem>
+                                <SelectItem value="Good">Good</SelectItem>
+                                <SelectItem value="Poor">Poor</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  ))}
+                </motion.div>
+
+                {/* กลุ่ม 4: TV Bushing (แรงดันกลาง) – ขวาล่าง */}
+                <motion.div 
+                  className="space-y-4 p-4 border border-purple-200 rounded-lg bg-purple-50/30"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <h3 className="text-lg font-semibold text-purple-800 mb-3">TV Bushing (แรงดันกลาง)</h3>
+                  
+                  {['สภาพ Porcelain', 'ความสะอาดของ Porcelain', 'การรั่วซึมของน้ำมัน', 'ระดับน้ำมัน', 'สีของน้ำมัน'].map((fieldName, index) => (
+                    <FormField
+                      key={`tv_${index}`}
+                      control={form.control}
+                      name={`tv${fieldName.replace(/\s/g, '')}`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-purple-800">{fieldName}</FormLabel>
+                          <FormControl>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <SelectTrigger className="border-purple-200 focus:ring-purple-400">
+                                <SelectValue placeholder="เลือก" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Normal">Normal</SelectItem>
+                                <SelectItem value="Abnormal">Abnormal</SelectItem>
+                                <SelectItem value="Good">Good</SelectItem>
+                                <SelectItem value="Poor">Poor</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  ))}
+                </motion.div>
+
+              </div>
             </form>
           </Form>
         </ScrollArea>
