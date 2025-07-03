@@ -373,6 +373,274 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                   </motion.div>
 
                 </div>
+              ) : category?.id === 'lightning-arrester' ? (
+                // Lightning Arrester Form Layout - 4 Sections
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  
+                  {/* กลุ่ม 1: Lightning Arrester (ด้านซ้ายบน) */}
+                  <motion.div 
+                    className="space-y-4 p-4 border border-yellow-200 rounded-lg bg-yellow-50/30"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    <h3 className="text-lg font-semibold text-yellow-800 mb-3">Lightning Arrester</h3>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="electricalSystemType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-yellow-800">ประเภทระบบไฟฟ้า</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-yellow-200 focus:ring-yellow-400">
+                                  <SelectValue placeholder="เลือกประเภทระบบ" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="AC">AC</SelectItem>
+                                  <SelectItem value="DC">DC</SelectItem>
+                                  <SelectItem value="Mixed">Mixed</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="testType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-yellow-800">รูปแบบการทดสอบ</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-yellow-200 focus:ring-yellow-400">
+                                  <SelectValue placeholder="เลือกรูปแบบการทดสอบ" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Weekly Test">Weekly Test</SelectItem>
+                                  <SelectItem value="Monthly Test">Monthly Test</SelectItem>
+                                  <SelectItem value="Annual Test">Annual Test</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="testCenter"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-yellow-800">เลือกศูนย์ทดสอบ</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-yellow-200 focus:ring-yellow-400">
+                                  <SelectValue placeholder="เลือกศูนย์ทดสอบ" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Center-001">ศูนย์ทดสอบ 001</SelectItem>
+                                  <SelectItem value="Center-002">ศูนย์ทดสอบ 002</SelectItem>
+                                  <SelectItem value="Center-003">ศูนย์ทดสอบ 003</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="egatSN"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-yellow-800">EGAT S/N</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-yellow-200 focus-visible:ring-yellow-400"
+                                placeholder="กรอก EGAT S/N"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="testDate"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-yellow-800">วันที่ตรวจสอบ 📅</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="date" 
+                                className="border-yellow-200 focus-visible:ring-yellow-400"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="inspector"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-yellow-800">ผู้ตรวจสอบ</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-yellow-200 focus-visible:ring-yellow-400"
+                                placeholder="กรอกชื่อผู้ตรวจสอบ"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="documentNumber"
+                        render={({ field }) => (
+                          <FormItem className="sm:col-span-2">
+                            <FormLabel className="text-yellow-800">เลขที่หนังสือ/บันทึก</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-yellow-200 focus-visible:ring-yellow-400"
+                                placeholder="กรอกเลขที่หนังสือ/บันทึก"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </motion.div>
+
+                  {/* กลุ่ม 2: LV Arrester (ด้านขวาบน) */}
+                  <motion.div 
+                    className="space-y-4 p-4 border border-green-200 rounded-lg bg-green-50/30"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <h3 className="text-lg font-semibold text-green-800 mb-3">LV Arrester</h3>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {['สภาพ Porcelain', 'ความสะอาดของ Porcelain', 'สภาพ Grounding Connector', 'Surge Counter'].map((fieldName, index) => (
+                        <FormField
+                          key={`lv_arrester_${index}`}
+                          control={form.control}
+                          name={`lvArrester${fieldName.replace(/\s/g, '')}`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-green-800">{fieldName}</FormLabel>
+                              <FormControl>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <SelectTrigger className="border-green-200 focus:ring-green-400">
+                                    <SelectValue placeholder="เลือก" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="Normal">Normal</SelectItem>
+                                    <SelectItem value="Abnormal">Abnormal</SelectItem>
+                                    <SelectItem value="Good">Good</SelectItem>
+                                    <SelectItem value="Poor">Poor</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* กลุ่ม 3: HV Arrester (ด้านซ้ายล่าง) */}
+                  <motion.div 
+                    className="space-y-4 p-4 border border-red-200 rounded-lg bg-red-50/30"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <h3 className="text-lg font-semibold text-red-800 mb-3">HV Arrester</h3>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {['สภาพ Porcelain', 'ความสะอาดของ Porcelain', 'สภาพ Grounding Connector', 'Surge Counter'].map((fieldName, index) => (
+                        <FormField
+                          key={`hv_arrester_${index}`}
+                          control={form.control}
+                          name={`hvArrester${fieldName.replace(/\s/g, '')}`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-red-800">{fieldName}</FormLabel>
+                              <FormControl>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <SelectTrigger className="border-red-200 focus:ring-red-400">
+                                    <SelectValue placeholder="เลือก" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="Normal">Normal</SelectItem>
+                                    <SelectItem value="Abnormal">Abnormal</SelectItem>
+                                    <SelectItem value="Good">Good</SelectItem>
+                                    <SelectItem value="Poor">Poor</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* กลุ่ม 4: TV Arrester (ด้านขวาล่าง) */}
+                  <motion.div 
+                    className="space-y-4 p-4 border border-purple-200 rounded-lg bg-purple-50/30"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <h3 className="text-lg font-semibold text-purple-800 mb-3">TV Arrester</h3>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {['สภาพ Porcelain', 'ความสะอาดของ Porcelain', 'สภาพ Grounding Connector', 'Surge Counter'].map((fieldName, index) => (
+                        <FormField
+                          key={`tv_arrester_${index}`}
+                          control={form.control}
+                          name={`tvArrester${fieldName.replace(/\s/g, '')}`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-purple-800">{fieldName}</FormLabel>
+                              <FormControl>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <SelectTrigger className="border-purple-200 focus:ring-purple-400">
+                                    <SelectValue placeholder="เลือก" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="Normal">Normal</SelectItem>
+                                    <SelectItem value="Abnormal">Abnormal</SelectItem>
+                                    <SelectItem value="Good">Good</SelectItem>
+                                    <SelectItem value="Poor">Poor</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
+
+                </div>
               ) : (
                 // General Condition Form Layout - 2 Column Layout (for other categories)
                 <motion.div 
