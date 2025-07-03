@@ -28,6 +28,19 @@ import ScoreWeightTestingPage from "@/pages/ScoreWeightTesting";
 import MainEquipmentWeightPage from "@/pages/MainEquipmentWeight";
 import TransformerMaintenanceSearchPage from "@/pages/TransformerMaintenanceSearch";
 import VisualInspectionPage from "@/pages/VisualInspection";
+import GeneralConditionPage from "@/pages/visualInspection/GeneralCondition";
+import BushingPage from "@/pages/visualInspection/Bushing";
+import LightningArresterPage from "@/pages/visualInspection/LightningArrester";
+import ConservatorTankPage from "@/pages/visualInspection/ConservatorTank";
+import MainTankPage from "@/pages/visualInspection/MainTank";
+import HotLineOilFilterPage from "@/pages/visualInspection/HotLineOilFilter";
+import RadiatorCoolingSystemPage from "@/pages/visualInspection/RadiatorCoolingSystem";
+import TransformerControlCabinetPage from "@/pages/visualInspection/TransformerControlCabinet";
+import NGRPage from "@/pages/visualInspection/NGR";
+import RegulatingPTPage from "@/pages/visualInspection/RegulatingPT";
+import OLTCCompartmentPage from "@/pages/visualInspection/OLTCCompartment";
+import OLTCControlCabinetPage from "@/pages/visualInspection/OLTCControlCabinet";
+import ThermoScanPage from "@/pages/visualInspection/ThermoScan";
 import NotFoundThermoScan from "@/pages/NotFoundThermoScan";
 import FactorSettingPage from "@/pages/FactorSetting";
 import TransformerPriceAndLossPage from "@/pages/TransformerPriceAndLoss";
@@ -83,6 +96,19 @@ const App = () => (
           <Route path="/main-equipment-weight" element={<MainEquipmentWeightPage />} />
           <Route path="/transformer-maintenance-search" element={<TransformerMaintenanceSearchPage />} />
           <Route path="/visual-inspection" element={<VisualInspectionPage />} />
+          <Route path="/visual-inspection/general-condition" element={<GeneralConditionPage />} />
+          <Route path="/visual-inspection/bushing" element={<BushingPage />} />
+          <Route path="/visual-inspection/lightning-arrester" element={<LightningArresterPage />} />
+          <Route path="/visual-inspection/conservator-tank" element={<ConservatorTankPage />} />
+          <Route path="/visual-inspection/main-tank" element={<MainTankPage />} />
+          <Route path="/visual-inspection/hot-line-oil-filter" element={<HotLineOilFilterPage />} />
+          <Route path="/visual-inspection/radiator-and-cooling-system" element={<RadiatorCoolingSystemPage />} />
+          <Route path="/visual-inspection/transformer-control-cabinet" element={<TransformerControlCabinetPage />} />
+          <Route path="/visual-inspection/ngr" element={<NGRPage />} />
+          <Route path="/visual-inspection/regulating-pt" element={<RegulatingPTPage />} />
+          <Route path="/visual-inspection/oltc-compartment" element={<OLTCCompartmentPage />} />
+          <Route path="/visual-inspection/oltc-control-cabinet" element={<OLTCControlCabinetPage />} />
+          <Route path="/visual-inspection/thermo-scan" element={<ThermoScanPage />} />
           <Route path="/not-found-thermo-scan" element={<NotFoundThermoScan />} />
           <Route path="/factor-setting" element={<FactorSettingPage />} />
           <Route path="/transformer-price-and-loss" element={<TransformerPriceAndLossPage />} />
