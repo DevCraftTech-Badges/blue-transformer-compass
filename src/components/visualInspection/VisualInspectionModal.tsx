@@ -1639,6 +1639,224 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
                   </div>
                 </motion.div>
+              ) : category?.id === 'oltc-control-cabinet' ? (
+                // OLTC Control Cabinet Form Layout - Vertical 2 Section Layout
+                <div className="space-y-6">
+                  {/* Top Section - OLTC Control Cabinet */}
+                  <motion.div 
+                    className="p-4 border border-blue-200 rounded-lg bg-blue-50/30"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    <h3 className="text-lg font-semibold text-blue-800 mb-4">OLTC Control Cabinet</h3>
+                    
+                    <div className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="transformerName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">เลือกหน่วยแปลงไฟฟ้า</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกหน่วยแปลงไฟฟ้า" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="TR-001">TR-001</SelectItem>
+                                  <SelectItem value="TR-002">TR-002</SelectItem>
+                                  <SelectItem value="TR-003">TR-003</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="testType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">เลือกรูปแบบการตลอด</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกรูปแบบการตลอด" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Weekly Test">Weekly Test</SelectItem>
+                                  <SelectItem value="Monthly Test">Monthly Test</SelectItem>
+                                  <SelectItem value="Annual Test">Annual Test</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="workOrderNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">เลขที่ท าสั่งปฏิบัติงาน</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอกเลขที่สั่งปฏิบัติงาน"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="bindingConnection"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">ความผูกต้อง</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอกความผูกต้อง"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="submissionToControl"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">ความยื่นใบสู่ control</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอกความยื่นใบสู่ control"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="writingControl"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">Writing Control</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอก Writing Control"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </motion.div>
+
+                  {/* Divider */}
+                  <div className="border-t border-gray-300 my-6"></div>
+
+                  {/* Bottom Section - EGAT S/N */}
+                  <motion.div 
+                    className="p-4 border border-green-200 rounded-lg bg-green-50/30"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <h3 className="text-lg font-semibold text-green-800 mb-4">EGAT S/N</h3>
+                    
+                    <div className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="testDate"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-green-800">วันที่ตรวจสอบ</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="date" 
+                                className="border-green-200 focus-visible:ring-green-400"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="inspector"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-green-800">ผู้ตรวจสอบ</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-green-200 focus-visible:ring-green-400"
+                                placeholder="กรอกชื่อผู้ตรวจสอบ"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="mediaCode"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-green-800">สื่อรักเรือ</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-green-200 focus-visible:ring-green-400"
+                                placeholder="กรอกสื่อรักเรือ"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="personIssues"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-green-800">ประเด็นของผู้</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-green-200 focus-visible:ring-green-400"
+                                placeholder="กรอกประเด็นของผู้"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </motion.div>
+
+                </div>
               ) : category?.id === 'transformer-control-cabinet' ? (
                 // Transformer Control Cabinet Form Layout - 2 Column Layout
                 <motion.div 
