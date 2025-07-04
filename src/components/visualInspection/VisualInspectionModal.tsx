@@ -1277,6 +1277,185 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
                   </div>
                 </motion.div>
+              ) : category?.id === 'oltc-compartment' ? (
+                // OLTC Compartment Form Layout - 2 Column Layout
+                <motion.div 
+                  className="p-4 border border-blue-200 rounded-lg bg-blue-50/30"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <h3 className="text-lg font-semibold text-blue-800 mb-4">OLTC Compartment</h3>
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    {/* Left Column - 4 Fields */}
+                    <div className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="transformerName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">หม้อแปลงไฟฟ้า</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกหม้อแปลงไฟฟ้า" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="TR-001">TR-001</SelectItem>
+                                  <SelectItem value="TR-002">TR-002</SelectItem>
+                                  <SelectItem value="TR-003">TR-003</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="testType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">รูปแบบการทดสอบ</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกรูปแบบการทดสอบ" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Weekly Test">Weekly Test</SelectItem>
+                                  <SelectItem value="Monthly Test">Monthly Test</SelectItem>
+                                  <SelectItem value="Annual Test">Annual Test</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="workOrderNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">เลขที่คำสั่งปฏิบัติงาน</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอกเลขที่คำสั่งปฏิบัติงาน"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="corrosion"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">ความผุกร่อน</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกความผุกร่อน" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Normal">Normal</SelectItem>
+                                  <SelectItem value="Minor">Minor</SelectItem>
+                                  <SelectItem value="Severe">Severe</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {/* Right Column - 4 Fields */}
+                    <div className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="egatSN"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">EGAT S/N</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอก EGAT S/N"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="testDate"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">วันที่ตรวจสอบ 📅</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="date" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="inspector"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">ผู้ตรวจสอบ</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอกชื่อผู้ตรวจสอบ"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="oilLeakage"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">การรั่วซึมของน้ำมัน</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกสภาพการรั่วซึม" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="None">None</SelectItem>
+                                  <SelectItem value="Minor">Minor</SelectItem>
+                                  <SelectItem value="Major">Major</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                  </div>
+                </motion.div>
               ) : category?.id === 'hot-line-oil-filter' ? (
                 // Hot Line Oil Filter Form Layout - 2 Column Layout
                 <motion.div 
