@@ -1426,11 +1426,11 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="animalNesting"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">สัตว์ที่รัง</FormLabel>
+                            <FormLabel className="text-blue-800">สัตว์ทำรัง</FormLabel>
                             <FormControl>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <SelectTrigger className="border-blue-200 focus:ring-blue-400">
-                                  <SelectValue placeholder="เลือกสัตว์ที่รัง" />
+                                  <SelectValue placeholder="เลือกสัตว์ทำรัง" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="None">None</SelectItem>
