@@ -1308,11 +1308,11 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="corrosion"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">ความผุกร่อน</FormLabel>
+                            <FormLabel className="text-blue-800">ความยุ่ยร่วน</FormLabel>
                             <FormControl>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <SelectTrigger className="border-blue-200 focus:ring-blue-400">
-                                  <SelectValue placeholder="เลือกความผุกร่อน" />
+                                  <SelectValue placeholder="เลือกความยุ่ยร่วน" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="Normal">Normal</SelectItem>
@@ -1330,12 +1330,12 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="controlCabinetType"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">ประเภทของตู้ control</FormLabel>
+                            <FormLabel className="text-blue-800">ความมั่นคงของตู้ control</FormLabel>
                             <FormControl>
                               <Input 
                                 type="text" 
                                 className="border-blue-200 focus-visible:ring-blue-400"
-                                placeholder="กรอกประเภทของตู้ control"
+                                placeholder="กรอกความมั่นคงของตู้ control"
                                 {...field}
                               />
                             </FormControl>
@@ -1426,11 +1426,11 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="animalNesting"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">สัตว์ทำรัง</FormLabel>
+                            <FormLabel className="text-blue-800">สัตว์ที่รัง</FormLabel>
                             <FormControl>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <SelectTrigger className="border-blue-200 focus:ring-blue-400">
-                                  <SelectValue placeholder="เลือกสัตว์ทำรัง" />
+                                  <SelectValue placeholder="เลือกสัตว์ที่รัง" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="None">None</SelectItem>
@@ -1449,11 +1449,11 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="cabinetGasket"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">ประเก็นของตู้</FormLabel>
+                            <FormLabel className="text-blue-800">ประเภทของตู้</FormLabel>
                             <FormControl>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <SelectTrigger className="border-blue-200 focus:ring-blue-400">
-                                  <SelectValue placeholder="เลือกประเก็นของตู้" />
+                                  <SelectValue placeholder="เลือกประเภทของตู้" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="Good">Good</SelectItem>
