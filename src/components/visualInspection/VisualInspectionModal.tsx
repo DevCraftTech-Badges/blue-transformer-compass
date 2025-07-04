@@ -1640,24 +1640,25 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                   </div>
                 </motion.div>
               ) : category?.id === 'oltc-control-cabinet' ? (
-                // OLTC Control Cabinet Form Layout - Vertical 2 Section Layout
-                <div className="space-y-6">
-                  {/* Top Section - OLTC Control Cabinet */}
-                  <motion.div 
-                    className="p-4 border border-blue-200 rounded-lg bg-blue-50/30"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                  >
-                    <h3 className="text-lg font-semibold text-blue-800 mb-4">OLTC Control Cabinet</h3>
+                // OLTC Control Cabinet Form Layout - 2 Column Layout
+                <motion.div 
+                  className="p-4 border border-blue-200 rounded-lg bg-blue-50/30"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <h3 className="text-lg font-semibold text-blue-800 mb-4">OLTC Control Cabinet</h3>
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     
+                    {/* Left Column - 6 Fields */}
                     <div className="space-y-4">
                       <FormField
                         control={form.control}
                         name="transformerName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">เลือกหน่วยแปลงไฟฟ้า</FormLabel>
+                            <FormLabel className="text-blue-800">หน่วยแปลงไฟฟ้า</FormLabel>
                             <FormControl>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <SelectTrigger className="border-blue-200 focus:ring-blue-400">
@@ -1679,11 +1680,11 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="testType"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">เลือกรูปแบบการตลอด</FormLabel>
+                            <FormLabel className="text-blue-800">รูปแบบการทดสอบ</FormLabel>
                             <FormControl>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <SelectTrigger className="border-blue-200 focus:ring-blue-400">
-                                  <SelectValue placeholder="เลือกรูปแบบการตลอด" />
+                                  <SelectValue placeholder="เลือกรูปแบบการทดสอบ" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="Weekly Test">Weekly Test</SelectItem>
@@ -1701,12 +1702,12 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="workOrderNumber"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">เลขที่ท าสั่งปฏิบัติงาน</FormLabel>
+                            <FormLabel className="text-blue-800">เลขที่คำสั่งปฏิบัติงาน</FormLabel>
                             <FormControl>
                               <Input 
                                 type="text" 
                                 className="border-blue-200 focus-visible:ring-blue-400"
-                                placeholder="กรอกเลขที่สั่งปฏิบัติงาน"
+                                placeholder="กรอกเลขที่คำสั่งปฏิบัติงาน"
                                 {...field}
                               />
                             </FormControl>
@@ -1716,15 +1717,15 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
                       <FormField
                         control={form.control}
-                        name="bindingConnection"
+                        name="turbulence"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">ความผูกต้อง</FormLabel>
+                            <FormLabel className="text-blue-800">ความยุ่งร้อน</FormLabel>
                             <FormControl>
                               <Input 
                                 type="text" 
                                 className="border-blue-200 focus-visible:ring-blue-400"
-                                placeholder="กรอกความผูกต้อง"
+                                placeholder="กรอกความยุ่งร้อน"
                                 {...field}
                               />
                             </FormControl>
@@ -1734,15 +1735,15 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
                       <FormField
                         control={form.control}
-                        name="submissionToControl"
+                        name="humidityInCabinet"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">ความยื่นใบสู่ control</FormLabel>
+                            <FormLabel className="text-blue-800">ความชื้นในตู้ control</FormLabel>
                             <FormControl>
                               <Input 
                                 type="text" 
                                 className="border-blue-200 focus-visible:ring-blue-400"
-                                placeholder="กรอกความยื่นใบสู่ control"
+                                placeholder="กรอกความชื้นในตู้ control"
                                 {...field}
                               />
                             </FormControl>
@@ -1752,47 +1753,57 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
                       <FormField
                         control={form.control}
-                        name="writingControl"
+                        name="wiringControl"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">Writing Control</FormLabel>
+                            <FormLabel className="text-blue-800">Wiring Control</FormLabel>
                             <FormControl>
-                              <Input 
-                                type="text" 
-                                className="border-blue-200 focus-visible:ring-blue-400"
-                                placeholder="กรอก Writing Control"
-                                {...field}
-                              />
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือก Wiring Control" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Good">Good</SelectItem>
+                                  <SelectItem value="Fair">Fair</SelectItem>
+                                  <SelectItem value="Poor">Poor</SelectItem>
+                                </SelectContent>
+                              </Select>
                             </FormControl>
                           </FormItem>
                         )}
                       />
                     </div>
-                  </motion.div>
 
-                  {/* Divider */}
-                  <div className="border-t border-gray-300 my-6"></div>
-
-                  {/* Bottom Section - EGAT S/N */}
-                  <motion.div 
-                    className="p-4 border border-green-200 rounded-lg bg-green-50/30"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <h3 className="text-lg font-semibold text-green-800 mb-4">EGAT S/N</h3>
-                    
+                    {/* Right Column - 5 Fields */}
                     <div className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="egatSN"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">EGAT S/N</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอก EGAT S/N"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
                       <FormField
                         control={form.control}
                         name="testDate"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-green-800">วันที่ตรวจสอบ</FormLabel>
+                            <FormLabel className="text-blue-800">วันที่ตรวจสอบ 📅</FormLabel>
                             <FormControl>
                               <Input 
                                 type="date" 
-                                className="border-green-200 focus-visible:ring-green-400"
+                                className="border-blue-200 focus-visible:ring-blue-400"
                                 {...field}
                               />
                             </FormControl>
@@ -1805,11 +1816,11 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="inspector"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-green-800">ผู้ตรวจสอบ</FormLabel>
+                            <FormLabel className="text-blue-800">ผู้ตรวจสอบ</FormLabel>
                             <FormControl>
                               <Input 
                                 type="text" 
-                                className="border-green-200 focus-visible:ring-green-400"
+                                className="border-blue-200 focus-visible:ring-blue-400"
                                 placeholder="กรอกชื่อผู้ตรวจสอบ"
                                 {...field}
                               />
@@ -1820,17 +1831,22 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
                       <FormField
                         control={form.control}
-                        name="mediaCode"
+                        name="animalPower"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-green-800">สื่อรักเรือ</FormLabel>
+                            <FormLabel className="text-blue-800">สัตว์กำลัง</FormLabel>
                             <FormControl>
-                              <Input 
-                                type="text" 
-                                className="border-green-200 focus-visible:ring-green-400"
-                                placeholder="กรอกสื่อรักเรือ"
-                                {...field}
-                              />
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกสัตว์กำลัง" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="None">None</SelectItem>
+                                  <SelectItem value="Low">Low</SelectItem>
+                                  <SelectItem value="Medium">Medium</SelectItem>
+                                  <SelectItem value="High">High</SelectItem>
+                                </SelectContent>
+                              </Select>
                             </FormControl>
                           </FormItem>
                         )}
@@ -1838,25 +1854,29 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
                       <FormField
                         control={form.control}
-                        name="personIssues"
+                        name="cabinetIssues"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-green-800">ประเด็นของผู้</FormLabel>
+                            <FormLabel className="text-blue-800">ประเด็นของตู้</FormLabel>
                             <FormControl>
-                              <Input 
-                                type="text" 
-                                className="border-green-200 focus-visible:ring-green-400"
-                                placeholder="กรอกประเด็นของผู้"
-                                {...field}
-                              />
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกประเด็นของตู้" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Normal">Normal</SelectItem>
+                                  <SelectItem value="Minor Issue">Minor Issue</SelectItem>
+                                  <SelectItem value="Major Issue">Major Issue</SelectItem>
+                                </SelectContent>
+                              </Select>
                             </FormControl>
                           </FormItem>
                         )}
                       />
                     </div>
-                  </motion.div>
 
-                </div>
+                  </div>
+                </motion.div>
               ) : category?.id === 'transformer-control-cabinet' ? (
                 // Transformer Control Cabinet Form Layout - 2 Column Layout
                 <motion.div 
