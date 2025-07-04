@@ -1942,11 +1942,11 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="corrosion"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">ความยุ่ยร่วน</FormLabel>
-                            <FormControl>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
-                                  <SelectValue placeholder="เลือกความยุ่ยร่วน" />
+                             <FormLabel className="text-blue-800">ความผุกร่อน</FormLabel>
+                             <FormControl>
+                               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                 <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                   <SelectValue placeholder="เลือกความผุกร่อน" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="Normal">Normal</SelectItem>
