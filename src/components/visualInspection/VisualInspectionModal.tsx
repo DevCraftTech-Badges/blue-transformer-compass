@@ -1720,12 +1720,12 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="turbulence"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">ความยุ่งร้อน</FormLabel>
+                            <FormLabel className="text-blue-800">ความผุกร่อน</FormLabel>
                             <FormControl>
                               <Input 
                                 type="text" 
                                 className="border-blue-200 focus-visible:ring-blue-400"
-                                placeholder="กรอกความยุ่งร้อน"
+                                placeholder="กรอกความผุกร่อน"
                                 {...field}
                               />
                             </FormControl>
