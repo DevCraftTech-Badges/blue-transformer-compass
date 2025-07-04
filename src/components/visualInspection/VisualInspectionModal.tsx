@@ -939,19 +939,19 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
                       <FormField
                         control={form.control}
-                        name="temperature"
+                        name="corrosion"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">ความศุกร้อน</FormLabel>
+                            <FormLabel className="text-blue-800">ความผุกร่อน</FormLabel>
                             <FormControl>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <SelectTrigger className="border-blue-200 focus:ring-blue-400">
-                                  <SelectValue placeholder="เลือกความศุกร้อน ▼" />
+                                  <SelectValue placeholder="เลือกความผุกร่อน ▼" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="Normal">Normal</SelectItem>
-                                  <SelectItem value="High">High</SelectItem>
-                                  <SelectItem value="Low">Low</SelectItem>
+                                  <SelectItem value="Minor">Minor</SelectItem>
+                                  <SelectItem value="Severe">Severe</SelectItem>
                                 </SelectContent>
                               </Select>
                             </FormControl>
