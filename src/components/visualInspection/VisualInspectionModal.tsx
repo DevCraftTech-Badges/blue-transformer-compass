@@ -1964,12 +1964,12 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="controlCabinetType"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">ความมั่นคงของตู้ control</FormLabel>
-                            <FormControl>
-                              <Input 
-                                type="text" 
-                                className="border-blue-200 focus-visible:ring-blue-400"
-                                placeholder="กรอกความมั่นคงของตู้ control"
+                             <FormLabel className="text-blue-800">ความชื้นของตู้ control</FormLabel>
+                             <FormControl>
+                               <Input 
+                                 type="text" 
+                                 className="border-blue-200 focus-visible:ring-blue-400"
+                                 placeholder="กรอกความชื้นของตู้ control"
                                 {...field}
                               />
                             </FormControl>
