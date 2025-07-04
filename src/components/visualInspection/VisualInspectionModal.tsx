@@ -826,7 +826,7 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                     <h3 className="text-lg font-semibold text-orange-800 mb-3">OLTC</h3>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {['ความศุกร้อน', 'ระดับน้ำมัน', 'Breather', 'การรั่วซึมของน้ำมัน', 'สีของ Silica Gel'].map((fieldName, index) => (
+                      {['ความผุกร่อน', 'ระดับน้ำมัน', 'Breather', 'การรั่วซึมของน้ำมัน', 'สีของ Silica Gel'].map((fieldName, index) => (
                         <FormField
                           key={`oltc_${index}`}
                           control={form.control}
