@@ -121,7 +121,7 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={`${category?.id === 'conservator-tank' ? 'sm:max-w-4xl' : 'sm:max-w-xl'} max-h-[90vh] flex flex-col bg-white`}>
+      <DialogContent className={`${category?.id === 'conservator-tank' || category?.id === 'lightning-arrester' ? 'sm:max-w-4xl' : 'sm:max-w-xl'} max-h-[90vh] flex flex-col bg-white`}>
         <DialogHeader>
           <DialogTitle className="text-blue-800">
             {item ? 'แก้ไขข้อมูล' : 'สร้างรายการใหม่'} - {category?.title || ''}
