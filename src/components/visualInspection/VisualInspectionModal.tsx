@@ -1857,11 +1857,11 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                         name="cabinetIssues"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-blue-800">ประเด็นของตู้</FormLabel>
+                            <FormLabel className="text-blue-800">ปะเก็นของตู้</FormLabel>
                             <FormControl>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <SelectTrigger className="border-blue-200 focus:ring-blue-400">
-                                  <SelectValue placeholder="เลือกประเด็นของตู้" />
+                                  <SelectValue placeholder="เลือกปะเก็นของตู้" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="Normal">Normal</SelectItem>
