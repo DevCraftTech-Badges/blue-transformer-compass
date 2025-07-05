@@ -1341,6 +1341,265 @@ const VisualInspectionModal: React.FC<VisualInspectionModalProps> = ({
                     </div>
                   </div>
                 </motion.div>
+              ) : category?.id === 'thermo-scan' ? (
+                // Thermo Scan Form Layout - 6 Rows
+                <motion.div 
+                  className="p-4 border border-blue-200 rounded-lg bg-blue-50/30"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <h3 className="text-lg font-semibold text-blue-800 mb-4">Thermo Scan</h3>
+                  
+                  <div className="space-y-4">
+                    {/* แถวที่ 1 */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="หน่วยแปลงไฟฟ้า"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">หน่วยแปลงไฟฟ้า</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกหน่วยแปลงไฟฟ้า" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="TR-001">TR-001</SelectItem>
+                                  <SelectItem value="TR-002">TR-002</SelectItem>
+                                  <SelectItem value="TR-003">TR-003</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="egatSN"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">EGAT S/N</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอก EGAT S/N"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {/* แถวที่ 2 */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="รูปแบบการทดสอบ"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">รูปแบบการทดสอบ</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกรูปแบบการทดสอบ" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Weekly Test">Weekly Test</SelectItem>
+                                  <SelectItem value="Monthly Test">Monthly Test</SelectItem>
+                                  <SelectItem value="Annual Test">Annual Test</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="วันที่ตรวจสอบ"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">วันที่ตรวจสอบ 📅</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="date" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {/* แถวที่ 3 */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="เลขที่คำสั่งปฏิบัติงาน"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">เลขที่คำสั่งปฏิบัติงาน</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกเลขที่คำสั่งปฏิบัติงาน" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="WO-001">WO-001</SelectItem>
+                                  <SelectItem value="WO-002">WO-002</SelectItem>
+                                  <SelectItem value="WO-003">WO-003</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="ผู้ตรวจสอบ"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">ผู้ตรวจสอบ</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอกชื่อผู้ตรวจสอบ"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {/* แถวที่ 4 */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="loadPercentage"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">%Load ขณะตรวจสอบ</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอก %Load"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="tempRiseDeltaT"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">Temp. Rise Above Normal Temp. (Delta T)</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอก Delta T"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {/* แถวที่ 5 */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="remark"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">Remark</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอกหมายเหตุ"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="groundingConnector"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">Grounding Connector</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกสภาพ Grounding Connector" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Normal">Normal</SelectItem>
+                                  <SelectItem value="Abnormal">Abnormal</SelectItem>
+                                  <SelectItem value="Good">Good</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {/* แถวที่ 6 */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="foundation"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">Foundation</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="text" 
+                                className="border-blue-200 focus-visible:ring-blue-400"
+                                placeholder="กรอกข้อมูล Foundation"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="animalProtection"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800">Animal Protection</FormLabel>
+                            <FormControl>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="border-blue-200 focus:ring-blue-400">
+                                  <SelectValue placeholder="เลือกสภาพ Animal Protection" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Normal">Normal</SelectItem>
+                                  <SelectItem value="Abnormal">Abnormal</SelectItem>
+                                  <SelectItem value="Good">Good</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
               ) : category?.id === 'main-tank' ? (
                 // Main Tank Form Layout - 2 Column Layout
                 <motion.div 

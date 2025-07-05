@@ -10,11 +10,18 @@ const thermoScanCategory: Category = {
   id: 'thermo-scan',
   title: 'Thermo Scan',
   fields: [
-    { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
+    { name: 'หน่วยแปลงไฟฟ้า', type: 'select' },
+    { name: 'EGAT S/N', type: 'text' },
     { name: 'รูปแบบการทดสอบ', type: 'select' },
     { name: 'วันที่ตรวจสอบ', type: 'date' },
+    { name: 'เลขที่คำสั่งปฏิบัติงาน', type: 'select' },
     { name: 'ผู้ตรวจสอบ', type: 'text' },
-    { name: 'เลขที่คำสั่งปฏิบัติงาน', type: 'text' }
+    { name: '%Load ขณะตรวจสอบ', type: 'text' },
+    { name: 'Temp. Rise Above Normal Temp. (Delta T)', type: 'text' },
+    { name: 'Remark', type: 'text' },
+    { name: 'Grounding Connector', type: 'select' },
+    { name: 'Foundation', type: 'text' },
+    { name: 'Animal Protection', type: 'select' }
   ]
 };
 
