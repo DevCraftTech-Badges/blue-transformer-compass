@@ -102,7 +102,7 @@ const App = () => (
           <Route path="/visual-inspection/conservator-tank" element={<ConservatorTankPage />} />
           <Route path="/visual-inspection/main-tank" element={<MainTankPage />} />
           <Route path="/visual-inspection/hot-line-oil-filter" element={<HotLineOilFilterPage />} />
-          <Route path="/visual-inspection/radiator-and-cooling-system" element={<RadiatorCoolingSystemPage />} />
+          <Route path="/visual-inspection/radiator-cooling-system" element={<RadiatorCoolingSystemPage />} />
           <Route path="/visual-inspection/transformer-control-cabinet" element={<TransformerControlCabinetPage />} />
           <Route path="/visual-inspection/ngr" element={<NGRPage />} />
           <Route path="/visual-inspection/regulating-pt" element={<RegulatingPTPage />} />
