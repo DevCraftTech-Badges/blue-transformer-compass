@@ -9,19 +9,17 @@ const radiatorCoolingSystemCategory: Category = {
   id: 'radiator-cooling-system',
   title: 'Radiator and Cooling System',
   fields: [
-    // ฟิลด์พื้นฐาน
-    { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
+    { name: 'หน่วยแปลงไฟฟ้า', type: 'select' },
+    { name: 'EGAT S/N', type: 'text' },
     { name: 'รูปแบบการทดสอบ', type: 'select' },
     { name: 'วันที่ตรวจสอบ', type: 'date' },
-    { name: 'ผู้ตรวจสอบ', type: 'text' },
     { name: 'เลขที่คำสั่งปฏิบัติงาน', type: 'text' },
-    // ฟิลด์การตรวจสอบเฉพาะ
-    { name: 'Max. Load ของหม้อแปลง', type: 'select' },
-    { name: 'เสียงของหม้อแปลง', type: 'select' },
-    { name: 'การสั่นสะเทือน', type: 'select' },
-    { name: 'Grounding Connector', type: 'select' },
-    { name: 'Foundation', type: 'select' },
-    { name: 'Animal Protection', type: 'select' }
+    { name: 'ผู้ตรวจสอบ', type: 'text' },
+    { name: 'ความร้อน', type: 'select' },
+    { name: 'การวัดอัตราการไหลน้ำมัน', type: 'select' },
+    { name: 'ระดับเสียงของพัดลม', type: 'select' },
+    { name: 'ทดสอบการทำงาน Oil Pump', type: 'select' },
+    { name: 'สัตว์ที่รัง', type: 'text' }
   ]
 };
 
