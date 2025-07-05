@@ -108,8 +108,7 @@ const App = () => (
           <Route path="/visual-inspection/regulating-pt" element={<RegulatingPTPage />} />
           <Route path="/visual-inspection/oltc-compartment" element={<OLTCCompartmentPage />} />
           <Route path="/visual-inspection/oltc-control-cabinet" element={<OLTCControlCabinetPage />} />
-          <Route path="/visual-inspection/thermo-scan" element={<ThermoScanPage />} />
-          <Route path="/not-found-thermo-scan" element={<NotFoundThermoScan />} />
+          <Route path="/visual-inspection/thermo-scan" element={<NotFoundThermoScan />} />
           <Route path="/factor-setting" element={<FactorSettingPage />} />
           <Route path="/transformer-price-and-loss" element={<TransformerPriceAndLossPage />} />
           <Route path="/transformer-information" element={<TransformerInformationPage />} />
