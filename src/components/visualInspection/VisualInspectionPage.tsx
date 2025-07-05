@@ -206,13 +206,8 @@ const VisualInspectionPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleCategoryClick = (categoryId: string) => {
-    if (categoryId === 'thermo-scan') {
-      // Navigate to 404 page for Thermo Scan
-      navigate('/not-found-thermo-scan');
-    } else {
-      // Navigate to specific sub-route
-      navigate(`/visual-inspection/${categoryId}`);
-    }
+    // Navigate to specific sub-route
+    navigate(`/visual-inspection/${categoryId}`);
   };
 
   const filteredCategories = inspectionCategories.filter(category => 
