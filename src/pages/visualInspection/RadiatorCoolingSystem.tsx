@@ -68,45 +68,6 @@ const RadiatorCoolingSystemPage: React.FC = () => {
       {/* Main Content */}
       <div className="container mx-auto px-6 py-8">
         <div className="max-w-7xl mx-auto">
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-500 text-sm font-medium">รายการทั้งหมด</p>
-                  <p className="text-2xl font-bold text-blue-600">0</p>
-                </div>
-                <div className="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                  <div className="h-6 w-6 bg-blue-500 rounded-md"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-500 text-sm font-medium">ตรวจสอบแล้ว</p>
-                  <p className="text-2xl font-bold text-green-600">0</p>
-                </div>
-                <div className="h-12 w-12 bg-green-100 rounded-xl flex items-center justify-center">
-                  <div className="h-6 w-6 bg-green-500 rounded-md"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-amber-500 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-500 text-sm font-medium">รอดำเนินการ</p>
-                  <p className="text-2xl font-bold text-amber-600">0</p>
-                </div>
-                <div className="h-12 w-12 bg-amber-100 rounded-xl flex items-center justify-center">
-                  <div className="h-6 w-6 bg-amber-500 rounded-md"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Main Data Section */}
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
             <div className="bg-gradient-to-r from-gray-50 to-blue-50 px-8 py-6 border-b border-gray-200">
