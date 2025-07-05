@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import VisualInspectionSection from '@/components/visualInspection/VisualInspectionSection';
 import { Category } from '@/components/visualInspection/types';
 
-const radiatorCoolingSystemCategory: Category = {
-  id: 'radiator-cooling-system',
-  title: 'Radiator and Cooling System',
+const generalConditionCategory: Category = {
+  id: 'general-condition',
+  title: 'General Condition',
   fields: [
     { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
     { name: 'รูปแบบการทดสอบ', type: 'select' },
@@ -27,9 +27,9 @@ const RadiatorCoolingSystemPage: React.FC = () => {
           <div className="h-10 w-1.5 bg-cyan-600 rounded-full"></div>
           <div>
             <h1 className="text-2xl font-bold text-cyan-800">
-              Visual Inspection - Radiator and Cooling System
+              Visual Inspection - General Condition
             </h1>
-            <p className="text-muted-foreground">การตรวจสอบระบบหม้อน้ำและระบบระบายความร้อน</p>
+            <p className="text-muted-foreground">การตรวจสอบสภาพทั่วไป</p>
           </div>
         </div>
         
@@ -45,8 +45,8 @@ const RadiatorCoolingSystemPage: React.FC = () => {
 
       <div className="bg-white rounded-lg shadow-sm p-6 border border-cyan-100">
         <VisualInspectionSection 
-          title="Radiator and Cooling System"
-          category={radiatorCoolingSystemCategory}
+          title="General Condition"
+          category={generalConditionCategory}
         />
       </div>
     </div>
