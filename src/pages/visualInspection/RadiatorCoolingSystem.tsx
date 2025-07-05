@@ -29,7 +29,7 @@ const RadiatorCoolingSystemPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
+    <div className="min-h-screen">
       {/* Header Section with Gradient Background */}
       <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-cyan-600 text-white">
         <div className="container mx-auto px-6 py-8">
