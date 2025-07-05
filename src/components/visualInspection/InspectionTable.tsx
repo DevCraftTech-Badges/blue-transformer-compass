@@ -80,7 +80,7 @@ const InspectionTable: React.FC<InspectionTableProps> = ({
               <TableHead className="font-semibold text-blue-800">EGAT S/N</TableHead>
               <TableHead className="font-semibold text-blue-800">รูปแบบการทดสอบ</TableHead>
               <TableHead className="font-semibold text-blue-800">วันที่เริ่มทดสอบ</TableHead>
-              <TableHead className="font-semibold text-blue-800">เวลาที่เริ่มปฏิบัติงาน</TableHead>
+              <TableHead className="font-semibold text-blue-800">เวลาเริ่มปฏิบัติงาน</TableHead>
               <TableHead className="font-semibold text-blue-800">ผู้ตรวจสอบ</TableHead>
               <TableHead className="font-semibold text-blue-800 text-center">จัดการ</TableHead>
             </TableRow>
