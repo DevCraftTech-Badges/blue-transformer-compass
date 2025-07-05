@@ -5,15 +5,23 @@ import { useNavigate } from 'react-router-dom';
 import VisualInspectionSection from '@/components/visualInspection/VisualInspectionSection';
 import { Category } from '@/components/visualInspection/types';
 
-const generalConditionCategory: Category = {
-  id: 'general-condition',
-  title: 'General Condition',
+const radiatorCoolingSystemCategory: Category = {
+  id: 'radiator-cooling-system',
+  title: 'Radiator and Cooling System',
   fields: [
+    // ฟิลด์พื้นฐาน
     { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
     { name: 'รูปแบบการทดสอบ', type: 'select' },
     { name: 'วันที่ตรวจสอบ', type: 'date' },
     { name: 'ผู้ตรวจสอบ', type: 'text' },
-    { name: 'เลขที่คำสั่งปฏิบัติงาน', type: 'text' }
+    { name: 'เลขที่คำสั่งปฏิบัติงาน', type: 'text' },
+    // ฟิลด์การตรวจสอบเฉพาะ
+    { name: 'Max. Load ของหม้อแปลง', type: 'select' },
+    { name: 'เสียงของหม้อแปลง', type: 'select' },
+    { name: 'การสั่นสะเทือน', type: 'select' },
+    { name: 'Grounding Connector', type: 'select' },
+    { name: 'Foundation', type: 'select' },
+    { name: 'Animal Protection', type: 'select' }
   ]
 };
 
@@ -35,9 +43,9 @@ const RadiatorCoolingSystemPage: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-3xl font-bold mb-1">
-                  Visual Inspection - General Condition
+                  Visual Inspection - Radiator and Cooling System
                 </h1>
-                <p className="text-blue-100 text-lg">การตรวจสอบสภาพทั่วไป</p>
+                <p className="text-blue-100 text-lg">การตรวจสอบระบบหม้อน้ำและระบายความร้อน</p>
                 <div className="flex items-center mt-2 text-sm text-blue-200">
                   <div className="h-1 w-1 bg-blue-300 rounded-full mr-2"></div>
                   ระบบตรวจสอบสภาพหม้อแปลงไฟฟ้า
@@ -106,14 +114,14 @@ const RadiatorCoolingSystemPage: React.FC = () => {
                 <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
                   <div className="h-4 w-4 bg-white rounded-sm"></div>
                 </div>
-                <h2 className="text-xl font-semibold text-gray-800">รายการตรวจสอบสภาพทั่วไป</h2>
+                <h2 className="text-xl font-semibold text-gray-800">รายการตรวจสอบระบบหม้อน้ำและระบายความร้อน</h2>
               </div>
             </div>
             
             <div className="p-8">
               <VisualInspectionSection 
-                title="General Condition"
-                category={generalConditionCategory}
+                title="Radiator and Cooling System"
+                category={radiatorCoolingSystemCategory}
               />
             </div>
           </div>

@@ -97,11 +97,19 @@ const inspectionCategories: Category[] = [
     title: 'Radiator and Cooling System',
     icon: <Fan className="h-8 w-8 text-blue-600" />,
     fields: [
+      // ฟิลด์พื้นฐาน
       { name: 'หม้อแปลงไฟฟ้า', type: 'select' },
       { name: 'รูปแบบการทดสอบ', type: 'select' },
       { name: 'วันที่ตรวจสอบ', type: 'date' },
       { name: 'ผู้ตรวจสอบ', type: 'text' },
-      { name: 'เลขที่คำสั่งปฏิบัติงาน', type: 'text' }
+      { name: 'เลขที่คำสั่งปฏิบัติงาน', type: 'text' },
+      // ฟิลด์การตรวจสอบเฉพาะ
+      { name: 'Max. Load ของหม้อแปลง', type: 'select' },
+      { name: 'เสียงของหม้อแปลง', type: 'select' },
+      { name: 'การสั่นสะเทือน', type: 'select' },
+      { name: 'Grounding Connector', type: 'select' },
+      { name: 'Foundation', type: 'select' },
+      { name: 'Animal Protection', type: 'select' }
     ]
   },
   {
