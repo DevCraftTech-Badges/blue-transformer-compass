@@ -29,7 +29,7 @@ import MainEquipmentWeightPage from "@/pages/MainEquipmentWeight";
 import TransformerMaintenanceSearchPage from "@/pages/TransformerMaintenanceSearch";
 import VisualInspectionPage from "@/pages/VisualInspection";
 import GeneralConditionPage from "@/pages/visualInspection/GeneralCondition";
-import BushingPage from "@/pages/visualInspection/Bushing";
+import VisualInspectionBushingPage from "@/pages/visualInspection/Bushing";
 import LightningArresterPage from "@/pages/visualInspection/LightningArrester";
 import ConservatorTankPage from "@/pages/visualInspection/ConservatorTank";
 import MainTankPage from "@/pages/visualInspection/MainTank";
@@ -61,6 +61,7 @@ import TwoWindingInsulationMeasurementPage from "@/pages/TwoWindingInsulationMea
 import RatioMeasurementPage from "@/pages/RatioMeasurement";
 import InsulatingOilPage from "@/pages/InsulatingOil";
 import ArresterPage from "@/pages/Arrester";
+import BushingTestPage from "@/pages/Bushing";
 import WeibullCalculationPage from "@/pages/WeibullCalculation";
 import OilTransformerPage from "@/pages/OilTransformer";
 import OilInventoryPage from "@/pages/OilInventory";
@@ -93,6 +94,7 @@ const App = () => (
           <Route path="/electrical-test-results/ratio-measurement" element={<RatioMeasurementPage />} />
           <Route path="/electrical-test-results/insulating-oil" element={<InsulatingOilPage />} />
           <Route path="/electrical-test-results/arrester" element={<ArresterPage />} />
+          <Route path="/electrical-test-results/bushing" element={<BushingTestPage />} />
           <Route path="/dp-limit" element={<DPLimitPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/user-management" element={<UserManagementPage />} />
@@ -115,7 +117,7 @@ const App = () => (
           <Route path="/transformer-maintenance-search" element={<TransformerMaintenanceSearchPage />} />
           <Route path="/visual-inspection" element={<VisualInspectionPage />} />
           <Route path="/visual-inspection/general-condition" element={<GeneralConditionPage />} />
-          <Route path="/visual-inspection/bushing" element={<BushingPage />} />
+          <Route path="/visual-inspection/bushing" element={<VisualInspectionBushingPage />} />
           <Route path="/visual-inspection/lightning-arrester" element={<LightningArresterPage />} />
           <Route path="/visual-inspection/conservator-tank" element={<ConservatorTankPage />} />
           <Route path="/visual-inspection/main-tank" element={<MainTankPage />} />
