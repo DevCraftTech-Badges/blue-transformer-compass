@@ -66,9 +66,21 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
 }) => {
   const [formData, setFormData] = useState<ExcitingCurrentMeasurementFormData>(
     initialData || {
-      lvWdg: [{ terminal: 'L1-L0', acVolt: '', acMa: '', n: '', remark: '' }],
-      tvWdg: [{ terminal: 'T1-T0', acVolt: '', acMa: '', n: '', remark: '' }],
-      hvWdg: [{ terminal: 'H1-H0', acVolt: '', acMa: '', n: '', remark: '' }],
+      lvWdg: [
+        { terminal: 'X1X0/X1X2', acVolt: '', acMa: '', n: '', remark: '' },
+        { terminal: 'X2X0/X2X3', acVolt: '', acMa: '', n: '', remark: '' },
+        { terminal: 'X3X0/X3X1', acVolt: '', acMa: '', n: '', remark: '' }
+      ],
+      tvWdg: [
+        { terminal: 'Y1Y2', acVolt: '', acMa: '', n: '', remark: '' },
+        { terminal: 'Y2Y3', acVolt: '', acMa: '', n: '', remark: '' },
+        { terminal: 'Y3Y1', acVolt: '', acMa: '', n: '', remark: '' }
+      ],
+      hvWdg: [
+        { terminal: 'H1H0/H1H2', acVolt: '', acMa: '', n: '', remark: '' },
+        { terminal: 'H2H0/H2H3', acVolt: '', acMa: '', n: '', remark: '' },
+        { terminal: 'H3H0/H3H1', acVolt: '', acMa: '', n: '', remark: '' }
+      ],
       hvWdgPositions: [
         { position: '12R', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
         { position: '11R', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
