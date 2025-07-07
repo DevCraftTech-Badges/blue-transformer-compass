@@ -153,17 +153,6 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
         </div>
       </div>
 
-      {/* Remarks */}
-      <div className="space-y-2">
-        <Label htmlFor="remark">REMARK</Label>
-        <Textarea
-          id="remark"
-          value={formData.remark || ''}
-          onChange={(e) => handleInputChange('remark', e.target.value)}
-          placeholder="หมายเหตุ"
-          rows={3}
-        />
-      </div>
 
       {/* Form Actions */}
       <div className="flex justify-end gap-3 pt-4">
