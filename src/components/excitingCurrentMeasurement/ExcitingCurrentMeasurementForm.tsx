@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import GeneralInformationSection from './GeneralInformationSection';
 import MeasurementTablesSection from './MeasurementTablesSection';
 import PositionTableSection from './PositionTableSection';
@@ -128,14 +126,14 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-h-[80vh] overflow-y-auto">
+    <form onSubmit={handleSubmit} className="space-y-8">
       {/* General Information */}
       <GeneralInformationSection formData={formData} onInputChange={handleInputChange} />
 
       {/* Two Column Layout for Tables */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
         {/* Left Column - LV, TV, HV Tables */}
-        <div className="lg:col-span-2">
+        <div className="xl:col-span-3">
           <MeasurementTablesSection
             lvWdg={formData.lvWdg}
             tvWdg={formData.tvWdg}
@@ -145,7 +143,7 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
         </div>
 
         {/* Right Column - HV WDG Position Table */}
-        <div>
+        <div className="xl:col-span-1">
           <PositionTableSection
             hvWdgPositions={formData.hvWdgPositions}
             onUpdateTableData={updateTableData}
@@ -153,13 +151,12 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
         </div>
       </div>
 
-
       {/* Form Actions */}
-      <div className="flex justify-end gap-3 pt-4">
-        <Button type="button" variant="outline" onClick={onCancel}>
+      <div className="flex justify-end gap-4 pt-6 border-t">
+        <Button type="button" variant="outline" onClick={onCancel} size="lg">
           ยกเลิก
         </Button>
-        <Button type="submit">
+        <Button type="submit" size="lg">
           บันทึก
         </Button>
       </div>

@@ -300,27 +300,31 @@ const ExcitingCurrentMeasurementTable: React.FC = () => {
 
       {/* Form Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-6xl max-h-[90vh]">
-          <DialogHeader>
-            <DialogTitle>
-              {editRecord?.viewOnly 
-                ? "ข้อมูล Exciting Current Measurement" 
-                : editRecord 
-                  ? "แก้ไข Exciting Current Measurement" 
-                  : "เพิ่ม Exciting Current Measurement"}
-            </DialogTitle>
-            <DialogDescription>
-              กรอกข้อมูลการทดสอบกระแสกระตุ้น
-            </DialogDescription>
-          </DialogHeader>
-          <ExcitingCurrentMeasurementForm 
-            initialData={editRecord}
-            onSubmit={handleCreateOrUpdate}
-            onCancel={() => {
-              setOpenModal(false);
-              setEditRecord(null);
-            }}
-          />
+        <DialogContent className="max-w-[95vw] max-h-[95vh] overflow-hidden">
+          <div className="flex flex-col h-full">
+            <DialogHeader className="flex-shrink-0">
+              <DialogTitle>
+                {editRecord?.viewOnly 
+                  ? "ข้อมูล Exciting Current Measurement" 
+                  : editRecord 
+                    ? "แก้ไข Exciting Current Measurement" 
+                    : "เพิ่ม Exciting Current Measurement"}
+              </DialogTitle>
+              <DialogDescription>
+                กรอกข้อมูลการทดสอบกระแสกระตุ้น
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex-1 overflow-y-auto p-1">
+              <ExcitingCurrentMeasurementForm
+                initialData={editRecord}
+                onSubmit={handleCreateOrUpdate}
+                onCancel={() => {
+                  setOpenModal(false);
+                  setEditRecord(null);
+                }}
+              />
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
 
