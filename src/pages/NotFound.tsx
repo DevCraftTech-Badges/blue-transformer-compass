@@ -4,17 +4,33 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, FileType } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+// Temporary placeholder component
+const ExcitingCurrentMeasurementTable = () => {
+  return (
+    <div className="bg-white p-6 rounded-lg shadow">
+      <div className="text-center text-muted-foreground py-10">
+        ข้อมูลผลทดสอบกระแสกระตุ้นจะแสดงที่นี่
+      </div>
+    </div>
+  );
+};
+
 const NotFound = () => {
   return (
     <Layout>
       <div className="p-6 space-y-6 animate-fade-in">
         {/* Header Section with Animation */}
-        <motion.div className="flex flex-col space-y-2">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="flex flex-col space-y-2"
+        >
           {/* Breadcrumb Navigation */}
           <div className="flex items-center text-sm text-muted-foreground mb-2">
             <Link to="/electrical-test-results" className="hover:text-transformer-primary transition-colors">ผลทดสอบทางไฟฟ้า</Link>
             <ChevronRight className="h-4 w-4 mx-1" />
-            <span>Core Insulation Resistance</span>
+            <span>Exciting Current Measurement</span>
           </div>
           
           {/* Page Title with Icon */}
@@ -30,12 +46,12 @@ const NotFound = () => {
         </motion.div>
         
         {/* Main Content Section */}
-        <motion.div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <div className="text-center text-muted-foreground py-10">
-              ข้อมูลผลทดสอบกระแสกระตุ้นจะแสดงที่นี่
-            </div>
-          </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <ExcitingCurrentMeasurementTable />
         </motion.div>
       </div>
     </Layout>
