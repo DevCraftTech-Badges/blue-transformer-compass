@@ -58,6 +58,7 @@ import SinglePhaseImpedanceMeasurementPage from "@/pages/SinglePhaseImpedanceMea
 import ThreePhaseImpedanceMeasurementPage from "@/pages/ThreePhaseImpedanceMeasurement";
 import AutoTransformerInsulationMeasurementPage from "@/pages/AutoTransformerInsulationMeasurement";
 import TwoWindingInsulationMeasurementPage from "@/pages/TwoWindingInsulationMeasurement";
+import RatioMeasurementPage from "@/pages/RatioMeasurement";
 import WeibullCalculationPage from "@/pages/WeibullCalculation";
 import OilTransformerPage from "@/pages/OilTransformer";
 import OilInventoryPage from "@/pages/OilInventory";
@@ -87,6 +88,7 @@ const App = () => (
           <Route path="/electrical-test-results/three-phase-impedance-measurement" element={<ThreePhaseImpedanceMeasurementPage />} />
           <Route path="/electrical-test-results/auto-transformer-insulation-measurement" element={<AutoTransformerInsulationMeasurementPage />} />
           <Route path="/electrical-test-results/two-winding-insulation-measurement" element={<TwoWindingInsulationMeasurementPage />} />
+          <Route path="/electrical-test-results/ratio-measurement" element={<RatioMeasurementPage />} />
           <Route path="/dp-limit" element={<DPLimitPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/user-management" element={<UserManagementPage />} />
