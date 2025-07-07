@@ -55,6 +55,7 @@ import CoreInsulationResistancePage from "@/pages/CoreInsulationResistance";
 import ExcitingCurrentMeasurementPage from "@/pages/ExcitingCurrentMeasurement";
 import DCResistanceMeasurementPage from "@/pages/DCResistanceMeasurement";
 import SinglePhaseImpedanceMeasurementPage from "@/pages/SinglePhaseImpedanceMeasurement";
+import ThreePhaseImpedanceMeasurementPage from "@/pages/ThreePhaseImpedanceMeasurement";
 import WeibullCalculationPage from "@/pages/WeibullCalculation";
 import OilTransformerPage from "@/pages/OilTransformer";
 import OilInventoryPage from "@/pages/OilInventory";
@@ -81,6 +82,7 @@ const App = () => (
           <Route path="/electrical-test-results/exciting-current-measurement" element={<ExcitingCurrentMeasurementPage />} />
           <Route path="/electrical-test-results/dc-resistance-measurement" element={<DCResistanceMeasurementPage />} />
           <Route path="/electrical-test-results/single-phase-impedance-measurement" element={<SinglePhaseImpedanceMeasurementPage />} />
+          <Route path="/electrical-test-results/three-phase-impedance-measurement" element={<ThreePhaseImpedanceMeasurementPage />} />
           <Route path="/dp-limit" element={<DPLimitPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/user-management" element={<UserManagementPage />} />
