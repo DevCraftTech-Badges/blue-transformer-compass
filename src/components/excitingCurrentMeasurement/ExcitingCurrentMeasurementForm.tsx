@@ -26,32 +26,34 @@ interface ExcitingCurrentMeasurementFormData {
   lvWdg?: {
     terminal: string;
     acVolt?: string;
-    acKv?: string;
     acMa?: string;
     n?: string;
+    remark?: string;
   }[];
   // TV WDG measurements  
   tvWdg?: {
     terminal: string;
     acVolt?: string;
-    acKv?: string;
     acMa?: string;
     n?: string;
+    remark?: string;
   }[];
   // HV WDG measurements
   hvWdg?: {
     terminal: string;
     acVolt?: string;
-    acKv?: string;
     acMa?: string;
     n?: string;
+    remark?: string;
   }[];
   // HV WDG Position measurements (12R to 12L)
   hvWdgPositions?: {
     position: string;
+    acVolt?: string;
     hh0hh1?: string;
-    h1h0?: string;
+    h2h0h2h3?: string;
     h3h0h3h1?: string;
+    remark?: string;
   }[];
 }
 
@@ -68,25 +70,25 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
 }) => {
   const [formData, setFormData] = useState<ExcitingCurrentMeasurementFormData>(
     initialData || {
-      lvWdg: [{ terminal: 'L1-L0', acVolt: '', acKv: '', acMa: '', n: '' }],
-      tvWdg: [{ terminal: 'T1-T0', acVolt: '', acKv: '', acMa: '', n: '' }],
-      hvWdg: [{ terminal: 'H1-H0', acVolt: '', acKv: '', acMa: '', n: '' }],
+      lvWdg: [{ terminal: 'L1-L0', acVolt: '', acMa: '', n: '', remark: '' }],
+      tvWdg: [{ terminal: 'T1-T0', acVolt: '', acMa: '', n: '', remark: '' }],
+      hvWdg: [{ terminal: 'H1-H0', acVolt: '', acMa: '', n: '', remark: '' }],
       hvWdgPositions: [
-        { position: '12R', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '11R', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '10R', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '9R', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '8R', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '7R', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '6R', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: 'N', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '6L', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '7L', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '8L', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '9L', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '10L', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '11L', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
-        { position: '12L', hh0hh1: '', h1h0: '', h3h0h3h1: '' },
+        { position: '12R', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '11R', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '10R', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '9R', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '8R', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '7R', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '6R', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: 'N', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '6L', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '7L', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '8L', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '9L', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '10L', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '11L', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
+        { position: '12L', acVolt: '', hh0hh1: '', h2h0h2h3: '', h3h0h3h1: '', remark: '' },
       ]
     }
   );
@@ -260,9 +262,9 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                   <tr className="bg-gray-100">
                     <th className="border border-gray-300 px-3 py-2 text-sm">Terminal</th>
                     <th className="border border-gray-300 px-3 py-2 text-sm">AC(VOLT)</th>
-                    <th className="border border-gray-300 px-3 py-2 text-sm">AC(kV)</th>
                     <th className="border border-gray-300 px-3 py-2 text-sm">AC(mA)</th>
                     <th className="border border-gray-300 px-3 py-2 text-sm">N</th>
+                    <th className="border border-gray-300 px-3 py-2 text-sm">Remark</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -284,13 +286,6 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                       </td>
                       <td className="border border-gray-300 px-2 py-1">
                         <Input
-                          value={row.acKv || ''}
-                          onChange={(e) => updateTableData('lvWdg', index, 'acKv', e.target.value)}
-                          className="text-sm"
-                        />
-                      </td>
-                      <td className="border border-gray-300 px-2 py-1">
-                        <Input
                           value={row.acMa || ''}
                           onChange={(e) => updateTableData('lvWdg', index, 'acMa', e.target.value)}
                           className="text-sm"
@@ -300,6 +295,13 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                         <Input
                           value={row.n || ''}
                           onChange={(e) => updateTableData('lvWdg', index, 'n', e.target.value)}
+                          className="text-sm"
+                        />
+                      </td>
+                      <td className="border border-gray-300 px-2 py-1">
+                        <Input
+                          value={row.remark || ''}
+                          onChange={(e) => updateTableData('lvWdg', index, 'remark', e.target.value)}
                           className="text-sm"
                         />
                       </td>
@@ -319,9 +321,9 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                   <tr className="bg-gray-100">
                     <th className="border border-gray-300 px-3 py-2 text-sm">Terminal</th>
                     <th className="border border-gray-300 px-3 py-2 text-sm">AC(VOLT)</th>
-                    <th className="border border-gray-300 px-3 py-2 text-sm">AC(kV)</th>
                     <th className="border border-gray-300 px-3 py-2 text-sm">AC(mA)</th>
                     <th className="border border-gray-300 px-3 py-2 text-sm">N</th>
+                    <th className="border border-gray-300 px-3 py-2 text-sm">Remark</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -343,13 +345,6 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                       </td>
                       <td className="border border-gray-300 px-2 py-1">
                         <Input
-                          value={row.acKv || ''}
-                          onChange={(e) => updateTableData('tvWdg', index, 'acKv', e.target.value)}
-                          className="text-sm"
-                        />
-                      </td>
-                      <td className="border border-gray-300 px-2 py-1">
-                        <Input
                           value={row.acMa || ''}
                           onChange={(e) => updateTableData('tvWdg', index, 'acMa', e.target.value)}
                           className="text-sm"
@@ -359,6 +354,13 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                         <Input
                           value={row.n || ''}
                           onChange={(e) => updateTableData('tvWdg', index, 'n', e.target.value)}
+                          className="text-sm"
+                        />
+                      </td>
+                      <td className="border border-gray-300 px-2 py-1">
+                        <Input
+                          value={row.remark || ''}
+                          onChange={(e) => updateTableData('tvWdg', index, 'remark', e.target.value)}
                           className="text-sm"
                         />
                       </td>
@@ -378,9 +380,9 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                   <tr className="bg-gray-100">
                     <th className="border border-gray-300 px-3 py-2 text-sm">Terminal</th>
                     <th className="border border-gray-300 px-3 py-2 text-sm">AC(VOLT)</th>
-                    <th className="border border-gray-300 px-3 py-2 text-sm">AC(kV)</th>
                     <th className="border border-gray-300 px-3 py-2 text-sm">AC(mA)</th>
                     <th className="border border-gray-300 px-3 py-2 text-sm">N</th>
+                    <th className="border border-gray-300 px-3 py-2 text-sm">Remark</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -402,13 +404,6 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                       </td>
                       <td className="border border-gray-300 px-2 py-1">
                         <Input
-                          value={row.acKv || ''}
-                          onChange={(e) => updateTableData('hvWdg', index, 'acKv', e.target.value)}
-                          className="text-sm"
-                        />
-                      </td>
-                      <td className="border border-gray-300 px-2 py-1">
-                        <Input
                           value={row.acMa || ''}
                           onChange={(e) => updateTableData('hvWdg', index, 'acMa', e.target.value)}
                           className="text-sm"
@@ -418,6 +413,13 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                         <Input
                           value={row.n || ''}
                           onChange={(e) => updateTableData('hvWdg', index, 'n', e.target.value)}
+                          className="text-sm"
+                        />
+                      </td>
+                      <td className="border border-gray-300 px-2 py-1">
+                        <Input
+                          value={row.remark || ''}
+                          onChange={(e) => updateTableData('hvWdg', index, 'remark', e.target.value)}
                           className="text-sm"
                         />
                       </td>
@@ -437,9 +439,11 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
               <thead>
                 <tr className="bg-gray-100">
                   <th className="border border-gray-300 px-2 py-2 text-xs">Position</th>
+                  <th className="border border-gray-300 px-2 py-2 text-xs">AC(VOLT)</th>
                   <th className="border border-gray-300 px-2 py-2 text-xs">HH0/HH1</th>
-                  <th className="border border-gray-300 px-2 py-2 text-xs">H1H0</th>
+                  <th className="border border-gray-300 px-2 py-2 text-xs">H2H0/H2H3</th>
                   <th className="border border-gray-300 px-2 py-2 text-xs">H3H0/H3H1</th>
+                  <th className="border border-gray-300 px-2 py-2 text-xs">Remark</th>
                 </tr>
               </thead>
               <tbody>
@@ -450,6 +454,13 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                     </td>
                     <td className="border border-gray-300 px-1 py-1">
                       <Input
+                        value={row.acVolt || ''}
+                        onChange={(e) => updateTableData('hvWdgPositions', index, 'acVolt', e.target.value)}
+                        className="text-xs h-8"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-1 py-1">
+                      <Input
                         value={row.hh0hh1 || ''}
                         onChange={(e) => updateTableData('hvWdgPositions', index, 'hh0hh1', e.target.value)}
                         className="text-xs h-8"
@@ -457,8 +468,8 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                     </td>
                     <td className="border border-gray-300 px-1 py-1">
                       <Input
-                        value={row.h1h0 || ''}
-                        onChange={(e) => updateTableData('hvWdgPositions', index, 'h1h0', e.target.value)}
+                        value={row.h2h0h2h3 || ''}
+                        onChange={(e) => updateTableData('hvWdgPositions', index, 'h2h0h2h3', e.target.value)}
                         className="text-xs h-8"
                       />
                     </td>
@@ -466,6 +477,13 @@ const ExcitingCurrentMeasurementForm: React.FC<ExcitingCurrentMeasurementFormPro
                       <Input
                         value={row.h3h0h3h1 || ''}
                         onChange={(e) => updateTableData('hvWdgPositions', index, 'h3h0h3h1', e.target.value)}
+                        className="text-xs h-8"
+                      />
+                    </td>
+                    <td className="border border-gray-300 px-1 py-1">
+                      <Input
+                        value={row.remark || ''}
+                        onChange={(e) => updateTableData('hvWdgPositions', index, 'remark', e.target.value)}
                         className="text-xs h-8"
                       />
                     </td>
