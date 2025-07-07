@@ -3,6 +3,14 @@ import { Plus, Search, Eye, Edit, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
 import {
   Pagination,
   PaginationContent,
@@ -11,13 +19,15 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import ExcitingCurrentMeasurementForm from './ExcitingCurrentMeasurementForm';
 
 const ExcitingCurrentMeasurementTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
-  // Mock data for demonstration
-  const mockData = [
+  const [openModal, setOpenModal] = useState(false);
+  const [editRecord, setEditRecord] = useState<any>(null);
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+  const [records, setRecords] = useState([
     {
       id: 1,
       transformer: "TR-001",
@@ -63,11 +73,11 @@ const ExcitingCurrentMeasurementTable: React.FC = () => {
       workOrderNo: "WO-2024-005",
       inspector: "นาย E จอห์นสัน"
     }
-  ];
+  ]);
 
   const ITEMS_PER_PAGE = 5;
 
-  const filteredRecords = mockData.filter((record) => 
+  const filteredRecords = records.filter((record) => 
     record.transformer.toLowerCase().includes(searchTerm.toLowerCase()) ||
     record.egatSN.toLowerCase().includes(searchTerm.toLowerCase()) ||
     record.testType.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -80,19 +90,44 @@ const ExcitingCurrentMeasurementTable: React.FC = () => {
   const paginatedRecords = filteredRecords.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handleCreateNew = () => {
-    console.log("Create new record");
+    setEditRecord(null);
+    setOpenModal(true);
+  };
+
+  const handleCreateOrUpdate = (formData: any) => {
+    if (editRecord) {
+      setRecords(records.map(record => 
+        record.id === editRecord.id ? { ...record, ...formData } : record
+      ));
+    } else {
+      const newRecord = {
+        id: records.length + 1,
+        transformer: formData.transformer || '',
+        egatSN: `EGAT-2024-${String(records.length + 1).padStart(3, '0')}`,
+        testType: formData.testType || '',
+        inspectionDate: formData.inspectionDate ? formData.inspectionDate.toISOString().split('T')[0] : '',
+        workOrderNo: formData.workOrderNo || '',
+        inspector: formData.inspector || ''
+      };
+      setRecords([...records, newRecord]);
+    }
+    setOpenModal(false);
+    setEditRecord(null);
   };
 
   const handleView = (record: any) => {
-    console.log("View record:", record);
+    setEditRecord({ ...record, viewOnly: true });
+    setOpenModal(true);
   };
 
   const handleEdit = (record: any) => {
-    console.log("Edit record:", record);
+    setEditRecord(record);
+    setOpenModal(true);
   };
 
-  const handleDelete = (record: any) => {
-    console.log("Delete record:", record);
+  const handleDelete = (id: number) => {
+    setRecords(records.filter(record => record.id !== id));
+    setConfirmDelete(null);
   };
 
   const handleChangePage = (page: number) => {
@@ -153,7 +188,7 @@ const ExcitingCurrentMeasurementTable: React.FC = () => {
         </div>
         
         {/* Create Button */}
-        <Button onClick={() => handleCreateNew()} className="w-full sm:w-auto">
+        <Button onClick={handleCreateNew} className="w-full sm:w-auto">
           <Plus className="mr-2 h-4 w-4" />
           สร้างรายการใหม่
         </Button>
@@ -200,7 +235,7 @@ const ExcitingCurrentMeasurementTable: React.FC = () => {
                         <Button variant="ghost" size="sm" onClick={() => handleEdit(record)}>
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="sm" onClick={() => handleDelete(record)}>
+                        <Button variant="ghost" size="sm" onClick={() => setConfirmDelete(record.id)}>
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
@@ -262,6 +297,52 @@ const ExcitingCurrentMeasurementTable: React.FC = () => {
           </PaginationContent>
         </Pagination>
       )}
+
+      {/* Form Modal */}
+      <Dialog open={openModal} onOpenChange={setOpenModal}>
+        <DialogContent className="max-w-6xl max-h-[90vh]">
+          <DialogHeader>
+            <DialogTitle>
+              {editRecord?.viewOnly 
+                ? "ข้อมูล Exciting Current Measurement" 
+                : editRecord 
+                  ? "แก้ไข Exciting Current Measurement" 
+                  : "เพิ่ม Exciting Current Measurement"}
+            </DialogTitle>
+            <DialogDescription>
+              กรอกข้อมูลการทดสอบกระแสกระตุ้น
+            </DialogDescription>
+          </DialogHeader>
+          <ExcitingCurrentMeasurementForm 
+            initialData={editRecord}
+            onSubmit={handleCreateOrUpdate}
+            onCancel={() => {
+              setOpenModal(false);
+              setEditRecord(null);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={confirmDelete !== null} onOpenChange={() => setConfirmDelete(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
+            <DialogDescription>
+              คุณต้องการลบข้อมูลการทดสอบนี้ใช่หรือไม่? การกระทำนี้ไม่สามารถเรียกคืนได้
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex gap-2 justify-end">
+            <Button variant="outline" onClick={() => setConfirmDelete(null)}>
+              ยกเลิก
+            </Button>
+            <Button variant="destructive" onClick={() => confirmDelete && handleDelete(confirmDelete)}>
+              ลบข้อมูล
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
