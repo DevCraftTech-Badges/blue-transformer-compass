@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Plus, Search, Eye, Edit, Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 
 const ExcitingCurrentMeasurementTable: React.FC = () => {
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Mock data for demonstration
   const mockData = [
@@ -31,84 +44,224 @@ const ExcitingCurrentMeasurementTable: React.FC = () => {
       inspectionDate: "2024-01-17",
       workOrderNo: "WO-2024-003",
       inspector: "นาย C วิลเลียมส์"
+    },
+    {
+      id: 4,
+      transformer: "TR-004",
+      egatSN: "EGAT-2024-004", 
+      testType: "Standard Test",
+      inspectionDate: "2024-01-18",
+      workOrderNo: "WO-2024-004",
+      inspector: "นาง D สมิท"
+    },
+    {
+      id: 5,
+      transformer: "TR-005",
+      egatSN: "EGAT-2024-005", 
+      testType: "Emergency Test",
+      inspectionDate: "2024-01-19",
+      workOrderNo: "WO-2024-005",
+      inspector: "นาย E จอห์นสัน"
     }
   ];
 
+  const ITEMS_PER_PAGE = 5;
+
+  const filteredRecords = mockData.filter((record) => 
+    record.transformer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    record.egatSN.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    record.testType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    record.inspector.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    record.workOrderNo.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredRecords.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedRecords = filteredRecords.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handleCreateNew = () => {
+    console.log("Create new record");
+  };
+
+  const handleView = (record: any) => {
+    console.log("View record:", record);
+  };
+
+  const handleEdit = (record: any) => {
+    console.log("Edit record:", record);
+  };
+
+  const handleDelete = (record: any) => {
+    console.log("Delete record:", record);
+  };
+
+  const handleChangePage = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 3;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= maxVisiblePages - 1) {
+        for (let i = 1; i <= maxVisiblePages; i++) {
+          pages.push(i);
+        }
+        if (totalPages > maxVisiblePages) {
+          pages.push(null);
+          pages.push(totalPages);
+        }
+      } else if (currentPage >= totalPages - (maxVisiblePages - 2)) {
+        pages.push(1);
+        pages.push(null);
+        for (let i = totalPages - (maxVisiblePages - 1); i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push(null);
+        pages.push(currentPage - 1);
+        pages.push(currentPage);
+        pages.push(currentPage + 1);
+        pages.push(null);
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
+  };
+
   return (
-    <div className="bg-white p-6 rounded-lg shadow space-y-4">
+    <div className="space-y-4">
       {/* Header Controls */}
-      <div className="flex justify-between items-center">
-        <div className="flex-1 max-w-sm">
-          <input
-            type="text"
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        {/* Search Input */}
+        <div className="relative w-full sm:w-72">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="search"
             placeholder="ค้นหา..."
+            className="pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-          <span className="text-lg">+</span>
+        
+        {/* Create Button */}
+        <Button onClick={() => handleCreateNew()} className="w-full sm:w-auto">
+          <Plus className="mr-2 h-4 w-4" />
           สร้างรายการใหม่
-        </button>
+        </Button>
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-50">
-              <th className="border border-gray-200 px-4 py-3 text-left text-sm font-medium text-gray-700">No</th>
-              <th className="border border-gray-200 px-4 py-3 text-left text-sm font-medium text-gray-700">หม้อแปลงไฟฟ้า</th>
-              <th className="border border-gray-200 px-4 py-3 text-left text-sm font-medium text-gray-700">EGAT S/N</th>
-              <th className="border border-gray-200 px-4 py-3 text-left text-sm font-medium text-gray-700">รูปแบบการทดสอบ</th>
-              <th className="border border-gray-200 px-4 py-3 text-left text-sm font-medium text-gray-700">วันที่ตรวจสอบ</th>
-              <th className="border border-gray-200 px-4 py-3 text-left text-sm font-medium text-gray-700">เลขที่คำสั่งปฏิบัติงาน</th>
-              <th className="border border-gray-200 px-4 py-3 text-left text-sm font-medium text-gray-700">ผู้ตรวจสอบ</th>
-              <th className="border border-gray-200 px-4 py-3 text-center text-sm font-medium text-gray-700">การจัดการ</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mockData.map((item, index) => (
-              <tr key={item.id} className="hover:bg-gray-50">
-                <td className="border border-gray-200 px-4 py-3 text-sm">{index + 1}</td>
-                <td className="border border-gray-200 px-4 py-3 text-sm">{item.transformer}</td>
-                <td className="border border-gray-200 px-4 py-3 text-sm">{item.egatSN}</td>
-                <td className="border border-gray-200 px-4 py-3 text-sm">{item.testType}</td>
-                <td className="border border-gray-200 px-4 py-3 text-sm">{item.inspectionDate}</td>
-                <td className="border border-gray-200 px-4 py-3 text-sm">{item.workOrderNo}</td>
-                <td className="border border-gray-200 px-4 py-3 text-sm">{item.inspector}</td>
-                <td className="border border-gray-200 px-4 py-3 text-center">
-                  <div className="flex justify-center gap-2">
-                    <button className="text-blue-600 hover:text-blue-800 p-1" title="ดูข้อมูล">
-                      👁️
-                    </button>
-                    <button className="text-green-600 hover:text-green-800 p-1" title="แก้ไข">
-                      ✏️
-                    </button>
-                    <button className="text-red-600 hover:text-red-800 p-1" title="ลบ">
-                      🗑️
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="rounded-md border">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-12 text-center">No</TableHead>
+                <TableHead>หม้อแปลงไฟฟ้า</TableHead>
+                <TableHead>EGAT S/N</TableHead>
+                <TableHead>รูปแบบการทดสอบ</TableHead>
+                <TableHead>วันที่ตรวจสอบ</TableHead>
+                <TableHead>เลขที่คำสั่งปฏิบัติงาน</TableHead>
+                <TableHead>ผู้ตรวจสอบ</TableHead>
+                <TableHead className="text-center">การจัดการ</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {paginatedRecords.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8} className="h-24 text-center">
+                    ไม่พบข้อมูล
+                  </TableCell>
+                </TableRow>
+              ) : (
+                paginatedRecords.map((record, index) => (
+                  <TableRow key={record.id} className="hover:bg-muted/50">
+                    <TableCell className="text-center font-medium">{startIndex + index + 1}</TableCell>
+                    <TableCell>{record.transformer}</TableCell>
+                    <TableCell>{record.egatSN}</TableCell>
+                    <TableCell>{record.testType}</TableCell>
+                    <TableCell>{record.inspectionDate}</TableCell>
+                    <TableCell>{record.workOrderNo}</TableCell>
+                    <TableCell>{record.inspector}</TableCell>
+                    <TableCell>
+                      <div className="flex justify-center gap-2">
+                        <Button variant="ghost" size="sm" onClick={() => handleView(record)}>
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={() => handleEdit(record)}>
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={() => handleDelete(record)}>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center gap-2 mt-4">
-        <button className="px-3 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-          Previous
-        </button>
-        <button className="px-3 py-2 text-sm bg-blue-600 text-white rounded">
-          1
-        </button>
-        <button className="px-3 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-          Next
-        </button>
-      </div>
+      {filteredRecords.length > 0 && (
+        <Pagination className="mt-4">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage > 1) handleChangePage(currentPage - 1);
+                }}
+                className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+              />
+            </PaginationItem>
+            
+            {getPageNumbers().map((page, index) => (
+              page === null ? (
+                <PaginationItem key={`ellipsis-${index}`}>
+                  <span className="flex h-9 w-9 items-center justify-center">...</span>
+                </PaginationItem>
+              ) : (
+                <PaginationItem key={`page-${page}`}>
+                  <PaginationLink 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleChangePage(page as number);
+                    }}
+                    isActive={currentPage === page}
+                  >
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              )
+            ))}
+            
+            <PaginationItem>
+              <PaginationNext 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage < totalPages) handleChangePage(currentPage + 1);
+                }}
+                className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 };
