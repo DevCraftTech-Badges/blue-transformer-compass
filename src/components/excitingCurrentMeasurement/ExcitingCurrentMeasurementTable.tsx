@@ -300,21 +300,21 @@ const ExcitingCurrentMeasurementTable: React.FC = () => {
 
       {/* Form Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-[95vw] max-h-[95vh] overflow-hidden">
+        <DialogContent className="max-w-7xl max-h-[90vh] overflow-hidden">
           <div className="flex flex-col h-full">
-            <DialogHeader className="flex-shrink-0">
-              <DialogTitle>
+            <DialogHeader className="flex-shrink-0 pb-4 border-b">
+              <DialogTitle className="text-xl font-semibold">
                 {editRecord?.viewOnly 
                   ? "ข้อมูล Exciting Current Measurement" 
                   : editRecord 
                     ? "แก้ไข Exciting Current Measurement" 
                     : "เพิ่ม Exciting Current Measurement"}
               </DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-base">
                 กรอกข้อมูลการทดสอบกระแสกระตุ้น
               </DialogDescription>
             </DialogHeader>
-            <div className="flex-1 overflow-y-auto p-1">
+            <div className="flex-1 overflow-y-auto py-4">
               <ExcitingCurrentMeasurementForm
                 initialData={editRecord}
                 onSubmit={handleCreateOrUpdate}
