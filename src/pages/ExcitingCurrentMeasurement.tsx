@@ -2,28 +2,42 @@
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, FileType } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const ExcitingCurrentMeasurementPage: React.FC = () => {
   return (
     <Layout>
       <div className="p-6 space-y-6 animate-fade-in">
-        <div className="flex items-center text-sm text-muted-foreground mb-2">
-          <Link to="/electrical-test-results" className="hover:text-transformer-primary transition-colors">ผลทดสอบทางไฟฟ้า</Link>
-          <ChevronRight className="h-4 w-4 mx-1" />
-          <span>Exciting Current Measurement</span>
-        </div>
-        
-        <div>
-          <h1 className="text-2xl font-bold text-transformer-dark">Exciting Current Measurement</h1>
-          <p className="text-muted-foreground">ข้อมูลผลทดสอบกระแสกระตุ้น</p>
-        </div>
-        
-        <div className="bg-white p-6 rounded-lg shadow">
-          <div className="text-center text-muted-foreground py-10">
-            ข้อมูลผลทดสอบกระแสกระตุ้นจะแสดงที่นี่
+        {/* Header Section with Animation */}
+        <motion.div className="flex flex-col space-y-2">
+          {/* Breadcrumb Navigation */}
+          <div className="flex items-center text-sm text-muted-foreground mb-2">
+            <Link to="/electrical-test-results" className="hover:text-transformer-primary transition-colors">ผลทดสอบทางไฟฟ้า</Link>
+            <ChevronRight className="h-4 w-4 mx-1" />
+            <span>Exciting Current Measurement</span>
           </div>
-        </div>
+          
+          {/* Page Title with Icon */}
+          <div className="flex items-center space-x-3">
+            <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
+              <FileType className="h-6 w-6 text-blue-600" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-transformer-dark">Exciting Current Measurement</h1>
+              <p className="text-muted-foreground">ข้อมูลผลทดสอบกระแสกระตุ้น</p>
+            </div>
+          </div>
+        </motion.div>
+        
+        {/* Main Content Section */}
+        <motion.div>
+          <div className="bg-white p-6 rounded-lg shadow">
+            <div className="text-center text-muted-foreground py-10">
+              ข้อมูลผลทดสอบกระแสกระตุ้นจะแสดงที่นี่
+            </div>
+          </div>
+        </motion.div>
       </div>
     </Layout>
   );
