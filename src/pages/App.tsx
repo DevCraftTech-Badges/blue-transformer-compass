@@ -60,6 +60,7 @@ import AutoTransformerInsulationMeasurementPage from "@/pages/AutoTransformerIns
 import TwoWindingInsulationMeasurementPage from "@/pages/TwoWindingInsulationMeasurement";
 import RatioMeasurementPage from "@/pages/RatioMeasurement";
 import InsulatingOilPage from "@/pages/InsulatingOil";
+import ArresterPage from "@/pages/Arrester";
 import WeibullCalculationPage from "@/pages/WeibullCalculation";
 import OilTransformerPage from "@/pages/OilTransformer";
 import OilInventoryPage from "@/pages/OilInventory";
@@ -91,6 +92,7 @@ const App = () => (
           <Route path="/electrical-test-results/two-winding-insulation-measurement" element={<TwoWindingInsulationMeasurementPage />} />
           <Route path="/electrical-test-results/ratio-measurement" element={<RatioMeasurementPage />} />
           <Route path="/electrical-test-results/insulating-oil" element={<InsulatingOilPage />} />
+          <Route path="/electrical-test-results/arrester" element={<ArresterPage />} />
           <Route path="/dp-limit" element={<DPLimitPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/user-management" element={<UserManagementPage />} />
