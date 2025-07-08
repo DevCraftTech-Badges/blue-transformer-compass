@@ -297,9 +297,9 @@ const BushingTable: React.FC = () => {
         </Pagination>
       )}
 
-      {/* Form Modal - Placeholder */}
+      {/* Form Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editRecord?.viewOnly 
@@ -312,14 +312,151 @@ const BushingTable: React.FC = () => {
               ฟอร์มสำหรับการจัดการข้อมูลบูชชิ่ง
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <div className="text-center text-muted-foreground">
-              ฟอร์มจะถูกพัฒนาในขั้นตอนถัดไป
+          
+          <div className="space-y-6">
+            {/* General Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">ข้อมูลทั่วไป</h3>
+              
+              {/* First Row - 5 fields */}
+              <div className="grid grid-cols-5 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">หม้อแปลงไฟฟ้า</label>
+                  <select className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm">
+                    <option value="">เลือกหม้อแปลง</option>
+                    <option value="TR-001">TR-001</option>
+                    <option value="TR-002">TR-002</option>
+                    <option value="TR-003">TR-003</option>
+                  </select>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">ผู้ตรวจสอบ</label>
+                  <Input type="text" placeholder="ชื่อผู้ตรวจสอบ" />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">เลขที่คำสั่งปฏิบัติงาน</label>
+                  <select className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm">
+                    <option value="">เลือกคำสั่งงาน</option>
+                    <option value="WO-2024-001">WO-2024-001</option>
+                    <option value="WO-2024-002">WO-2024-002</option>
+                    <option value="WO-2024-003">WO-2024-003</option>
+                  </select>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">COR 20℃</label>
+                  <Input type="number" placeholder="0.0" step="0.1" />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Test (kV)</label>
+                  <Input type="number" placeholder="0.0" step="0.1" />
+                </div>
+              </div>
+              
+              {/* Second Row - 2 fields */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">รูปแบบการทดสอบ</label>
+                  <select className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm">
+                    <option value="">เลือกรูปแบบ</option>
+                    <option value="Standard Test">Standard Test</option>
+                    <option value="Emergency Test">Emergency Test</option>
+                    <option value="Routine Test">Routine Test</option>
+                  </select>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">วันที่ตรวจสอบ</label>
+                  <Input type="date" />
+                </div>
+              </div>
+            </div>
+            
+            {/* Test Results Table */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">ผลการทดสอบ</h3>
+              
+              <div className="border rounded-lg overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-muted">
+                      <tr>
+                        <th className="p-3 text-left font-medium border-r">Position</th>
+                        <th className="p-3 text-left font-medium border-r">BUSHING SERIAL NO.</th>
+                        <th className="p-3 text-center font-medium border-r" colSpan={2}>CURRENT (mA)</th>
+                        <th className="p-3 text-center font-medium border-r" colSpan={2}>WATT</th>
+                        <th className="p-3 text-center font-medium border-r" colSpan={3}>%POWER FACTOR</th>
+                        <th className="p-3 text-center font-medium" colSpan={2}>CAP(pF)</th>
+                      </tr>
+                      <tr className="bg-muted/50">
+                        <th className="p-2 border-r"></th>
+                        <th className="p-2 border-r"></th>
+                        <th className="p-2 text-center border-r">C1</th>
+                        <th className="p-2 text-center border-r">C2</th>
+                        <th className="p-2 text-center border-r">C1</th>
+                        <th className="p-2 text-center border-r">C2</th>
+                        <th className="p-2 text-center border-r">C1:AVG</th>
+                        <th className="p-2 text-center border-r">C2:AVG</th>
+                        <th className="p-2 text-center border-r">C1:COR20℃</th>
+                        <th className="p-2 text-center border-r">C1</th>
+                        <th className="p-2 text-center">C2</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {['H1', 'H2', 'H3', 'X1', 'X2', 'X3', 'Y1', 'Y2', 'Y3'].map((position, index) => (
+                        <tr key={position} className="border-t">
+                          <td className="p-3 font-medium bg-muted/20 border-r">{position}</td>
+                          <td className="p-2 border-r">
+                            <Input type="text" placeholder="Serial No." className="w-full min-w-32" />
+                          </td>
+                          <td className="p-2 border-r">
+                            <Input type="number" placeholder="0.0" step="0.1" className="w-20" />
+                          </td>
+                          <td className="p-2 border-r">
+                            <Input type="number" placeholder="0.0" step="0.1" className="w-20" />
+                          </td>
+                          <td className="p-2 border-r">
+                            <Input type="number" placeholder="0.0" step="0.1" className="w-20" />
+                          </td>
+                          <td className="p-2 border-r">
+                            <Input type="number" placeholder="0.0" step="0.1" className="w-20" />
+                          </td>
+                          <td className="p-2 border-r">
+                            <Input type="text" value="0.0" disabled className="w-20 bg-muted" />
+                          </td>
+                          <td className="p-2 border-r">
+                            <Input type="text" value="0.0" disabled className="w-20 bg-muted" />
+                          </td>
+                          <td className="p-2 border-r">
+                            <Input type="text" value="0.0" disabled className="w-20 bg-muted" />
+                          </td>
+                          <td className="p-2 border-r">
+                            <Input type="number" placeholder="0.0" step="0.1" className="w-20" />
+                          </td>
+                          <td className="p-2">
+                            <Input type="number" placeholder="0.0" step="0.1" className="w-20" />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
-          <DialogFooter>
+          
+          <DialogFooter className="flex justify-end gap-2 mt-6">
             <Button variant="outline" onClick={() => setOpenModal(false)}>
-              ปิด
+              ยกเลิก
+            </Button>
+            <Button variant="secondary">
+              คำนวณ
+            </Button>
+            <Button onClick={() => handleCreateOrUpdate({})}>
+              บันทึก
             </Button>
           </DialogFooter>
         </DialogContent>
