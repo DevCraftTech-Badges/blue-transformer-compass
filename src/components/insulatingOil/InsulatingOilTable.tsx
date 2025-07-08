@@ -297,9 +297,9 @@ const InsulatingOilTable: React.FC = () => {
         </Pagination>
       )}
 
-      {/* Form Modal - Placeholder */}
+      {/* Form Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editRecord?.viewOnly 
@@ -312,14 +312,236 @@ const InsulatingOilTable: React.FC = () => {
               ฟอร์มสำหรับการจัดการข้อมูลน้ำมันหม้อแปลง
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <div className="text-center text-muted-foreground">
-              ฟอร์มจะถูกพัฒนาในขั้นตอนถัดไป
+          
+          <div className="space-y-6 py-4">
+            {/* General Information Section */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">ข้อมูลทั่วไป</h3>
+              
+              {/* Row 1 */}
+              <div className="grid grid-cols-4 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">หม้อแปลงไฟฟ้า</label>
+                  <select className="w-full p-2 border rounded-md">
+                    <option value="">เลือกหม้อแปลง</option>
+                    <option value="TR-001">TR-001</option>
+                    <option value="TR-002">TR-002</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">ผู้ตรวจสอบ</label>
+                  <Input placeholder="ชื่อผู้ตรวจสอบ" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Ambient Temp. (°C)</label>
+                  <Input type="number" placeholder="อุณหภูมิ" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Wdg Temp. (°C)</label>
+                  <Input type="number" placeholder="อุณหภูมิ" />
+                </div>
+              </div>
+
+              {/* Row 2 */}
+              <div className="grid grid-cols-5 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">รูปแบบการทดสอบ</label>
+                  <select className="w-full p-2 border rounded-md">
+                    <option value="">เลือกรูปแบบ</option>
+                    <option value="Standard">Standard Test</option>
+                    <option value="Emergency">Emergency Test</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">วันที่ตรวจสอบ</label>
+                  <Input type="date" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Humidity (%)</label>
+                  <Input type="number" placeholder="ความชื้น" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Weather</label>
+                  <Input placeholder="สภาพอากาศ" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Oil Temp. (°C)</label>
+                  <Input type="number" placeholder="อุณหภูมิน้ำมัน" />
+                </div>
+              </div>
+
+              {/* Work Order */}
+              <div className="grid grid-cols-1 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">เลขที่คำสั่งปฏิบัติงาน</label>
+                  <select className="w-full p-2 border rounded-md">
+                    <option value="">เลือกคำสั่งงาน</option>
+                    <option value="WO-2024-001">WO-2024-001</option>
+                    <option value="WO-2024-002">WO-2024-002</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Dielectric Breakdown Voltage Test */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Dielectric Breakdown Voltage Test</h3>
+              
+              <div className="grid grid-cols-2 gap-6">
+                {/* OLTC Section */}
+                <div className="border rounded-lg p-4">
+                  <h4 className="font-medium mb-4 text-center">OLTC</h4>
+                  
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">GAP DISTANCE (ASTM-D1816)</label>
+                      <Input type="number" placeholder="ระยะห่าง" />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <h5 className="text-sm font-medium">BREAK DOWN</h5>
+                      <div className="space-y-2">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                          <div key={i} className="grid grid-cols-2 gap-2">
+                            <div>
+                              <label className="text-xs">Xi (BREAK DOWN kV) #{i}</label>
+                              <Input type="number" placeholder="0.0" />
+                            </div>
+                            <div>
+                              <label className="text-xs">(Xi - x̄)²</label>
+                              <Input disabled value="0.0" className="bg-muted" />
+                            </div>
+                          </div>
+                        ))}
+                        <div className="border-t pt-2 space-y-2">
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div>ΣXi: <span className="font-mono">0.0</span></div>
+                            <div>Σ(Xi-x̄)²: <span className="font-mono">0.0</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* MAIN TANK Section */}
+                <div className="border rounded-lg p-4">
+                  <h4 className="font-medium mb-4 text-center">MAIN TANK</h4>
+                  
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">GAP DISTANCE (ASTM-D1816)</label>
+                      <Input type="number" placeholder="ระยะห่าง" />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <h5 className="text-sm font-medium">BREAK DOWN</h5>
+                      <div className="space-y-2">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                          <div key={i} className="grid grid-cols-2 gap-2">
+                            <div>
+                              <label className="text-xs">Xi (BREAK DOWN kV) #{i}</label>
+                              <Input type="number" placeholder="0.0" />
+                            </div>
+                            <div>
+                              <label className="text-xs">(Xi - x̄)²</label>
+                              <Input disabled value="0.0" className="bg-muted" />
+                            </div>
+                          </div>
+                        ))}
+                        <div className="border-t pt-2 space-y-2">
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div>ΣXi: <span className="font-mono">0.0</span></div>
+                            <div>Σ(Xi-x̄)²: <span className="font-mono">0.0</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Insulation Power Factor Measurement */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">INSULATION POWER FACTOR MEASUREMENT</h3>
+                <div className="flex gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">CF</label>
+                    <Input type="text" className="w-20" placeholder="CF" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Test (kV)</label>
+                    <Input type="number" className="w-24" placeholder="kV" />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="border rounded-lg overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-24">Type</TableHead>
+                      <TableHead>CURRENT (mA)</TableHead>
+                      <TableHead>WATT</TableHead>
+                      <TableHead>% POWER FACTOR</TableHead>
+                      <TableHead>% POWER FACTOR (COR 20°C)</TableHead>
+                      <TableHead>REMARK</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-medium">OLTC</TableCell>
+                      <TableCell>
+                        <Input type="number" placeholder="0.0" />
+                      </TableCell>
+                      <TableCell>
+                        <Input type="number" placeholder="0.0" />
+                      </TableCell>
+                      <TableCell>
+                        <Input disabled value="0.0" className="bg-muted" />
+                      </TableCell>
+                      <TableCell>
+                        <Input disabled value="0.0" className="bg-muted" />
+                      </TableCell>
+                      <TableCell>
+                        <Input placeholder="หมายเหตุ" />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">MAIN TANK</TableCell>
+                      <TableCell>
+                        <Input type="number" placeholder="0.0" />
+                      </TableCell>
+                      <TableCell>
+                        <Input type="number" placeholder="0.0" />
+                      </TableCell>
+                      <TableCell>
+                        <Input disabled value="0.0" className="bg-muted" />
+                      </TableCell>
+                      <TableCell>
+                        <Input disabled value="0.0" className="bg-muted" />
+                      </TableCell>
+                      <TableCell>
+                        <Input placeholder="หมายเหตุ" />
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
             </div>
           </div>
-          <DialogFooter>
+
+          <DialogFooter className="flex gap-2 justify-end">
             <Button variant="outline" onClick={() => setOpenModal(false)}>
-              ปิด
+              ยกเลิก
+            </Button>
+            <Button variant="secondary">
+              คำนวณ
+            </Button>
+            <Button onClick={() => setOpenModal(false)}>
+              บันทึก
             </Button>
           </DialogFooter>
         </DialogContent>
