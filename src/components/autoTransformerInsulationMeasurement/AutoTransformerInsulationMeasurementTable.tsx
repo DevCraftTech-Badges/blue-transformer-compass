@@ -3,14 +3,15 @@ import { Plus, Search, Eye, Edit, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
+import AutoTransformerInsulationMeasurementForm from './AutoTransformerInsulationMeasurementForm';
 import {
   Pagination,
   PaginationContent,
@@ -297,31 +298,29 @@ const AutoTransformerInsulationMeasurementTable: React.FC = () => {
         </Pagination>
       )}
 
-      {/* Form Modal - Placeholder */}
+      {/* Form Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
+        <DialogContent className="max-w-[98vw] w-full xl:max-w-[1400px] h-[90vh] flex flex-col p-0">
+          <DialogHeader className="px-8 pt-6 pb-4 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <DialogTitle>
-              {editRecord?.viewOnly 
-                ? "ข้อมูล Auto Transformer Insulation Measurement" 
-                : editRecord 
-                  ? "แก้ไข Auto Transformer Insulation Measurement" 
-                  : "เพิ่ม Auto Transformer Insulation Measurement"}
+              {editRecord?.viewOnly
+                ? 'ข้อมูล Auto Transformer Insulation Measurement'
+                : editRecord
+                  ? 'แก้ไข Auto Transformer Insulation Measurement'
+                  : 'เพิ่ม Auto Transformer Insulation Measurement'}
             </DialogTitle>
             <DialogDescription>
               ฟอร์มสำหรับการจัดการข้อมูลการทดสอบฉนวนออโต้ทรานส์ฟอร์มเมอร์
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <div className="text-center text-muted-foreground">
-              ฟอร์มจะถูกพัฒนาในขั้นตอนถัดไป
-            </div>
+          <div className="flex-1 overflow-auto px-8 pb-8 pt-4 bg-gradient-to-br from-background to-muted/20">
+            <AutoTransformerInsulationMeasurementForm
+              initialData={editRecord ? { general: { transformer: editRecord.transformer, inspector: editRecord.inspector, testType: editRecord.testType, inspectionDate: editRecord.inspectionDate, workOrderNo: editRecord.workOrderNo } } : undefined}
+              onSubmit={(formData)=>{ handleCreateOrUpdate({ ...formData.general, inspectionDate: formData.general.inspectionDate }); }}
+              onCancel={()=>{ setOpenModal(false); setEditRecord(null); }}
+              viewOnly={editRecord?.viewOnly}
+            />
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setOpenModal(false)}>
-              ปิด
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 

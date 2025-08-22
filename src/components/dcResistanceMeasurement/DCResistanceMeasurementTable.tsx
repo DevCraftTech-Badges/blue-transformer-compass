@@ -19,6 +19,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import DCResistanceMeasurementForm, { DCResistanceMeasurementData } from './DCResistanceMeasurementForm';
 
 const DCResistanceMeasurementTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,6 +27,7 @@ const DCResistanceMeasurementTable: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [editRecord, setEditRecord] = useState<any>(null);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+  const [formViewOnly, setFormViewOnly] = useState(false);
   const [records, setRecords] = useState([
     {
       id: 1,
@@ -90,6 +92,19 @@ const DCResistanceMeasurementTable: React.FC = () => {
 
   const handleCreateNew = () => {
     setEditRecord(null);
+    setFormViewOnly(false);
+    setOpenModal(true);
+  };
+
+  const handleView = (record: any) => {
+    setEditRecord(record);
+    setFormViewOnly(true);
+    setOpenModal(true);
+  };
+
+  const handleEdit = (record: any) => {
+    setEditRecord(record);
+    setFormViewOnly(false);
     setOpenModal(true);
   };
 
@@ -112,16 +127,6 @@ const DCResistanceMeasurementTable: React.FC = () => {
     }
     setOpenModal(false);
     setEditRecord(null);
-  };
-
-  const handleView = (record: any) => {
-    setEditRecord({ ...record, viewOnly: true });
-    setOpenModal(true);
-  };
-
-  const handleEdit = (record: any) => {
-    setEditRecord(record);
-    setOpenModal(true);
   };
 
   const handleDelete = (id: number) => {
@@ -168,6 +173,24 @@ const DCResistanceMeasurementTable: React.FC = () => {
     }
     
     return pages;
+  };
+
+  const handleFormSubmit = (data: DCResistanceMeasurementData) => {
+    // Map form data back into flat record fields for table list
+    const base = {
+      transformer: data.general.transformer || '',
+      testType: data.general.testType || '',
+      inspectionDate: data.general.inspectionDate || '',
+      workOrderNo: data.general.workOrderNo || '',
+      inspector: data.general.inspector || ''
+    };
+    if (editRecord) {
+      setRecords(records.map(r => r.id === editRecord.id ? { ...r, ...base } : r));
+    } else {
+      setRecords([...records, { id: records.length + 1, egatSN: `EGAT-2024-${String(records.length + 1).padStart(3,'0')}`, ...base }]);
+    }
+    setOpenModal(false);
+    setEditRecord(null);
   };
 
   return (
@@ -297,31 +320,36 @@ const DCResistanceMeasurementTable: React.FC = () => {
         </Pagination>
       )}
 
-      {/* Form Modal - Placeholder */}
+      {/* Form Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
+        <DialogContent className="max-w-[98vw] w-full xl:max-w-[1600px] h-[92vh] flex flex-col p-0">
+          <DialogHeader className="px-8 pt-6 pb-4 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <DialogTitle>
-              {editRecord?.viewOnly 
-                ? "ข้อมูล DC Resistance Measurement" 
-                : editRecord 
-                  ? "แก้ไข DC Resistance Measurement" 
-                  : "เพิ่ม DC Resistance Measurement"}
+              {formViewOnly ? 'ข้อมูล DC Resistance Measurement' : editRecord ? 'แก้ไข DC Resistance Measurement' : 'เพิ่ม DC Resistance Measurement'}
             </DialogTitle>
             <DialogDescription>
               ฟอร์มสำหรับการจัดการข้อมูลการทดสอบความต้านทานกระแสตรง
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <div className="text-center text-muted-foreground">
-              ฟอร์มจะถูกพัฒนาในขั้นตอนถัดไป
-            </div>
+          <div className="flex-1 overflow-auto px-8 pb-8 pt-4 bg-gradient-to-br from-background to-muted/20">
+            <DCResistanceMeasurementForm
+              initialData={editRecord ? {
+                general: {
+                  transformer: editRecord.transformer,
+                  inspector: editRecord.inspector,
+                  testType: editRecord.testType,
+                  inspectionDate: editRecord.inspectionDate,
+                  workOrderNo: editRecord.workOrderNo
+                },
+                hv: [], // empty -> generated inside form
+                lv: [],
+                tv: []
+              } : undefined}
+              onSubmit={handleFormSubmit}
+              onCancel={() => { setOpenModal(false); setEditRecord(null); }}
+              viewOnly={formViewOnly}
+            />
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setOpenModal(false)}>
-              ปิด
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 

@@ -11,6 +11,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
+import RatioMeasurementForm, { RatioMeasurementData } from './RatioMeasurementForm';
 import {
   Pagination,
   PaginationContent,
@@ -88,41 +89,36 @@ const RatioMeasurementTable: React.FC = () => {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedRecords = filteredRecords.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  const handleCreateNew = () => {
-    setEditRecord(null);
-    setOpenModal(true);
-  };
+  const handleCreateNew = () => { setEditRecord(null); setOpenModal(true); };
 
-  const handleCreateOrUpdate = (formData: any) => {
+  const handleCreateOrUpdate = (formData: RatioMeasurementData) => {
+    const formGeneral = formData.general;
     if (editRecord) {
-      setRecords(records.map(record => 
-        record.id === editRecord.id ? { ...record, ...formData } : record
-      ));
+      setRecords(records.map(r => r.id === editRecord.id ? {
+        ...r,
+        transformer: formGeneral.transformer || r.transformer,
+        testType: formGeneral.testType || r.testType,
+        inspectionDate: formGeneral.inspectionDate || r.inspectionDate,
+        workOrderNo: formGeneral.workOrderNo || r.workOrderNo,
+        inspector: formGeneral.inspector || r.inspector,
+      }: r));
     } else {
-      const newRecord = {
-        id: records.length + 1,
-        transformer: formData.transformer || '',
-        egatSN: `EGAT-2024-${String(records.length + 1).padStart(3, '0')}`,
-        testType: formData.testType || '',
-        inspectionDate: formData.inspectionDate ? formData.inspectionDate.toISOString().split('T')[0] : '',
-        workOrderNo: formData.workOrderNo || '',
-        inspector: formData.inspector || ''
-      };
-      setRecords([...records, newRecord]);
+      setRecords(prev => [...prev, {
+        id: prev.length + 1,
+        transformer: formGeneral.transformer || '',
+        egatSN: `EGAT-2024-${String(prev.length + 1).padStart(3,'0')}`,
+        testType: formGeneral.testType || '',
+        inspectionDate: formGeneral.inspectionDate || '',
+        workOrderNo: formGeneral.workOrderNo || '',
+        inspector: formGeneral.inspector || ''
+      }]);
     }
-    setOpenModal(false);
-    setEditRecord(null);
+    setOpenModal(false); setEditRecord(null);
   };
 
-  const handleView = (record: any) => {
-    setEditRecord({ ...record, viewOnly: true });
-    setOpenModal(true);
-  };
+  const handleView = (record: any) => { setEditRecord({ ...record, viewOnly: true }); setOpenModal(true); };
 
-  const handleEdit = (record: any) => {
-    setEditRecord(record);
-    setOpenModal(true);
-  };
+  const handleEdit = (record: any) => { setEditRecord(record); setOpenModal(true); };
 
   const handleDelete = (id: number) => {
     setRecords(records.filter(record => record.id !== id));
@@ -297,31 +293,34 @@ const RatioMeasurementTable: React.FC = () => {
         </Pagination>
       )}
 
-      {/* Form Modal - Placeholder */}
-      <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>
-              {editRecord?.viewOnly 
-                ? "ข้อมูล Ratio Measurement" 
-                : editRecord 
-                  ? "แก้ไข Ratio Measurement" 
-                  : "เพิ่ม Ratio Measurement"}
+      {/* Large Modal with RatioMeasurementForm */}
+      <Dialog open={openModal} onOpenChange={(o)=>{ if(!o) { setOpenModal(false); setEditRecord(null);} }}>
+        <DialogContent className="max-w-[1500px] w-full h-[92vh] p-0 gap-0 overflow-hidden flex flex-col bg-gradient-to-br from-background/95 via-background/92 to-background/88 backdrop-blur-xl shadow-2xl border border-primary/10">
+          <DialogHeader className="px-6 pt-6 pb-2 border-b bg-background/60 backdrop-blur">
+            <DialogTitle className="text-xl font-semibold tracking-wide flex items-center gap-3">
+              <span className="inline-flex h-8 w-8 rounded-full bg-primary/10 items-center justify-center text-primary font-medium">RM</span>
+              {editRecord?.viewOnly ? 'ข้อมูล Ratio Measurement' : editRecord ? 'แก้ไข Ratio Measurement' : 'เพิ่ม Ratio Measurement'}
             </DialogTitle>
-            <DialogDescription>
-              ฟอร์มสำหรับการจัดการข้อมูลการทดสอบอัตราส่วน
+            <DialogDescription className="text-muted-foreground pl-11">
+              บันทึกและคำนวณผลการทดสอบอัตราส่วนหม้อแปลงไฟฟ้า
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <div className="text-center text-muted-foreground">
-              ฟอร์มจะถูกพัฒนาในขั้นตอนถัดไป
+          <div className="flex-1 px-6 pb-6 pt-4 overflow-hidden">
+            <div className="h-full overflow-auto pr-2">
+              <RatioMeasurementForm
+                initialData={editRecord ? { general: {
+                  transformer: editRecord.transformer,
+                  testType: editRecord.testType,
+                  inspectionDate: editRecord.inspectionDate,
+                  workOrderNo: editRecord.workOrderNo,
+                  inspector: editRecord.inspector,
+                }, viewOnly: !!editRecord.viewOnly } : undefined}
+                onSubmit={handleCreateOrUpdate}
+                onCancel={()=> { setOpenModal(false); setEditRecord(null); }}
+                viewOnly={!!editRecord?.viewOnly}
+              />
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setOpenModal(false)}>
-              ปิด
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 

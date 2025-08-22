@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import OilAgingTable from '@/components/oil-aging/oil_aging_table';
@@ -5,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, FileType } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const OilAgingPage: React.FC = () => {
+const OilTestAging: React.FC = () => {
   return (
     <Layout>
       <div className="p-6 space-y-6 animate-fade-in">
@@ -16,9 +17,7 @@ const OilAgingPage: React.FC = () => {
           className="flex flex-col space-y-2"
         >
           <div className="flex items-center text-sm text-muted-foreground mb-2">
-            <Link to="/oil-test" className="hover:text-transformer-primary transition-colors">
-              ผลทดสอบทางน้ำมัน
-            </Link>
+            <Link to="/oil-test" className="hover:text-transformer-primary transition-colors">ผลทดสอบทางน้ำมัน</Link>
             <ChevronRight className="h-4 w-4 mx-1" />
             <span>Oil Aging</span>
           </div>
@@ -44,4 +43,4 @@ const OilAgingPage: React.FC = () => {
   );
 };
 
-export default OilAgingPage;
+export default OilTestAging;
