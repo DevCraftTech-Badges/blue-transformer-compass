@@ -300,30 +300,25 @@ const ExcitingCurrentMeasurementTable: React.FC = () => {
 
       {/* Form Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-7xl max-h-[90vh] overflow-hidden">
-          <div className="flex flex-col h-full">
-            <DialogHeader className="flex-shrink-0 pb-4 border-b">
-              <DialogTitle className="text-xl font-semibold">
-                {editRecord?.viewOnly 
-                  ? "ข้อมูล Exciting Current Measurement" 
-                  : editRecord 
-                    ? "แก้ไข Exciting Current Measurement" 
-                    : "เพิ่ม Exciting Current Measurement"}
-              </DialogTitle>
-              <DialogDescription className="text-base">
-                กรอกข้อมูลการทดสอบกระแสกระตุ้น
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex-1 overflow-y-auto py-4">
-              <ExcitingCurrentMeasurementForm
-                initialData={editRecord}
-                onSubmit={handleCreateOrUpdate}
-                onCancel={() => {
-                  setOpenModal(false);
-                  setEditRecord(null);
-                }}
-              />
-            </div>
+        <DialogContent className="max-w-[98vw] w-full xl:max-w-[1600px] h-[92vh] flex flex-col p-0">
+          <DialogHeader className="px-8 pt-6 pb-4 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <DialogTitle>
+              {editRecord?.viewOnly 
+                ? 'ข้อมูล Exciting Current Measurement' 
+                : editRecord 
+                  ? 'แก้ไข Exciting Current Measurement' 
+                  : 'เพิ่ม Exciting Current Measurement'}
+            </DialogTitle>
+            <DialogDescription>
+              ฟอร์มสำหรับการจัดการข้อมูลการทดสอบ Exciting Current
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex-1 overflow-auto px-8 pb-8 pt-4 bg-gradient-to-br from-background to-muted/20">
+            <ExcitingCurrentMeasurementForm
+              initialData={editRecord}
+              onSubmit={handleCreateOrUpdate}
+              onCancel={() => { setOpenModal(false); setEditRecord(null); }}
+            />
           </div>
         </DialogContent>
       </Dialog>

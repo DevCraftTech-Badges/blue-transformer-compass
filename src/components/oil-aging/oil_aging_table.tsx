@@ -2,126 +2,129 @@ import React, { useState } from 'react';
 import { Plus, Search, Eye, Edit, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogDescription,
-  DialogFooter,
-} from '@/components/ui/dialog';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table';
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
   PaginationNext,
-  PaginationPrevious,
+  PaginationPrevious
 } from '@/components/ui/pagination';
-import DCResistanceMeasurementForm, { DCResistanceMeasurementData } from './DCResistanceMeasurementForm';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import OilAgingForm from './OilAgingForm';
 
-const DCResistanceMeasurementTable: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+interface RecordItem {
+  id: number;
+  transformer: string;
+  egatSN: string;
+  testType: string;
+  inspectionDate: string;
+  workOrderNo: string;
+  inspector: string;
+}
+
+const OilAgingTable: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [editRecord, setEditRecord] = useState<any>(null);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
-  const [formViewOnly, setFormViewOnly] = useState(false);
-  const [records, setRecords] = useState([
+  const [records, setRecords] = useState<RecordItem[]>([
     {
       id: 1,
-      transformer: "TR-001",
-      egatSN: "EGAT-2024-001",
-      testType: "Standard Test",
-      inspectionDate: "2024-01-15",
-      workOrderNo: "WO-2024-001",
-      inspector: "นาย A สมิท"
+      transformer: 'TR-001',
+      egatSN: 'EGAT-2024-001',
+      testType: 'Standard Test',
+      inspectionDate: '2024-01-15',
+      workOrderNo: 'WO-2024-001',
+      inspector: 'นาย A สมิท'
     },
     {
       id: 2,
-      transformer: "TR-002", 
-      egatSN: "EGAT-2024-002",
-      testType: "Emergency Test",
-      inspectionDate: "2024-01-16",
-      workOrderNo: "WO-2024-002",
-      inspector: "นาง B จอห์นสัน"
+      transformer: 'TR-002',
+      egatSN: 'EGAT-2024-002',
+      testType: 'Emergency Test',
+      inspectionDate: '2024-01-16',
+      workOrderNo: 'WO-2024-002',
+      inspector: 'นาง B จอห์นสัน'
     },
     {
       id: 3,
-      transformer: "TR-003",
-      egatSN: "EGAT-2024-003", 
-      testType: "Routine Test",
-      inspectionDate: "2024-01-17",
-      workOrderNo: "WO-2024-003",
-      inspector: "นาย C วิลเลียมส์"
+      transformer: 'TR-003',
+      egatSN: 'EGAT-2024-003',
+      testType: 'Routine Test',
+      inspectionDate: '2024-01-17',
+      workOrderNo: 'WO-2024-003',
+      inspector: 'นาย C วิลเลียมส์'
     },
     {
       id: 4,
-      transformer: "TR-004",
-      egatSN: "EGAT-2024-004", 
-      testType: "Standard Test",
-      inspectionDate: "2024-01-18",
-      workOrderNo: "WO-2024-004",
-      inspector: "นาง D สมิท"
+      transformer: 'TR-004',
+      egatSN: 'EGAT-2024-004',
+      testType: 'Special Test',
+      inspectionDate: '2024-01-18',
+      workOrderNo: 'WO-2024-004',
+      inspector: 'นางสาว D สมิท'
     },
     {
       id: 5,
-      transformer: "TR-005",
-      egatSN: "EGAT-2024-005", 
-      testType: "Emergency Test",
-      inspectionDate: "2024-01-19",
-      workOrderNo: "WO-2024-005",
-      inspector: "นาย E จอห์นสัน"
+      transformer: 'TR-005',
+      egatSN: 'EGAT-2024-005',
+      testType: 'Standard Test',
+      inspectionDate: '2024-01-19',
+      workOrderNo: 'WO-2024-005',
+      inspector: 'นาย E สมิท'
     }
   ]);
 
+
   const ITEMS_PER_PAGE = 5;
-
-  const filteredRecords = records.filter((record) => 
-    record.transformer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    record.egatSN.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    record.testType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    record.inspector.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    record.workOrderNo.toLowerCase().includes(searchTerm.toLowerCase())
+  const [currentPage, setCurrentPage] = useState(1);
+  const filteredRecords = records.filter((record) =>
+    [record.transformer, record.egatSN, record.testType, record.inspector, record.workOrderNo]
+      .some(field => field.toLowerCase().includes(searchTerm.toLowerCase()))
   );
-
   const totalPages = Math.ceil(filteredRecords.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedRecords = filteredRecords.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  const handleCreateNew = () => {
-    setEditRecord(null);
-    setFormViewOnly(false);
-    setOpenModal(true);
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 3;
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      if (currentPage <= maxVisiblePages - 1) {
+        for (let i = 1; i <= maxVisiblePages; i++) pages.push(i);
+        if (totalPages > maxVisiblePages) { pages.push(null); pages.push(totalPages); }
+      } else if (currentPage >= totalPages - (maxVisiblePages - 2)) {
+        pages.push(1); pages.push(null);
+        for (let i = totalPages - (maxVisiblePages - 1); i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1); pages.push(null);
+        pages.push(currentPage - 1); pages.push(currentPage); pages.push(currentPage + 1);
+        pages.push(null); pages.push(totalPages);
+      }
+    }
+    return pages;
   };
 
-  const handleView = (record: any) => {
-    setEditRecord(record);
-    setFormViewOnly(true);
-    setOpenModal(true);
-  };
-
-  const handleEdit = (record: any) => {
-    setEditRecord(record);
-    setFormViewOnly(false);
-    setOpenModal(true);
-  };
+  const handleChangePage = (page: number) => setCurrentPage(page);
 
   const handleCreateOrUpdate = (formData: any) => {
     if (editRecord) {
-      setRecords(records.map(record => 
-        record.id === editRecord.id ? { ...record, ...formData } : record
-      ));
+      setRecords(records.map(record => record.id === editRecord.id ? { ...record, ...formData } : record));
     } else {
       const newRecord = {
         id: records.length + 1,
-        transformer: formData.transformer || '',
-        egatSN: `EGAT-2024-${String(records.length + 1).padStart(3, '0')}`,
-        testType: formData.testType || '',
-        inspectionDate: formData.inspectionDate ? formData.inspectionDate.toISOString().split('T')[0] : '',
-        workOrderNo: formData.workOrderNo || '',
-        inspector: formData.inspector || ''
+        ...formData
       };
       setRecords([...records, newRecord]);
     }
@@ -129,75 +132,25 @@ const DCResistanceMeasurementTable: React.FC = () => {
     setEditRecord(null);
   };
 
+  const handleOpenEdit = (record: any) => {
+    setEditRecord(record);
+    setOpenModal(true);
+  };
+
   const handleDelete = (id: number) => {
     setRecords(records.filter(record => record.id !== id));
     setConfirmDelete(null);
   };
 
-  const handleChangePage = (page: number) => {
-    setCurrentPage(page);
+  const handleView = (record: any) => {
+    setEditRecord({ ...record, viewOnly: true });
+    setOpenModal(true);
   };
 
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 3;
-    
-    if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= maxVisiblePages - 1) {
-        for (let i = 1; i <= maxVisiblePages; i++) {
-          pages.push(i);
-        }
-        if (totalPages > maxVisiblePages) {
-          pages.push(null);
-          pages.push(totalPages);
-        }
-      } else if (currentPage >= totalPages - (maxVisiblePages - 2)) {
-        pages.push(1);
-        pages.push(null);
-        for (let i = totalPages - (maxVisiblePages - 1); i <= totalPages; i++) {
-          pages.push(i);
-        }
-      } else {
-        pages.push(1);
-        pages.push(null);
-        pages.push(currentPage - 1);
-        pages.push(currentPage);
-        pages.push(currentPage + 1);
-        pages.push(null);
-        pages.push(totalPages);
-      }
-    }
-    
-    return pages;
-  };
-
-  const handleFormSubmit = (data: DCResistanceMeasurementData) => {
-    // Map form data back into flat record fields for table list
-    const base = {
-      transformer: data.general.transformer || '',
-      testType: data.general.testType || '',
-      inspectionDate: data.general.inspectionDate || '',
-      workOrderNo: data.general.workOrderNo || '',
-      inspector: data.general.inspector || ''
-    };
-    if (editRecord) {
-      setRecords(records.map(r => r.id === editRecord.id ? { ...r, ...base } : r));
-    } else {
-      setRecords([...records, { id: records.length + 1, egatSN: `EGAT-2024-${String(records.length + 1).padStart(3,'0')}`, ...base }]);
-    }
-    setOpenModal(false);
-    setEditRecord(null);
-  };
 
   return (
     <div className="space-y-4">
-      {/* Header Controls */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        {/* Search Input */}
         <div className="relative w-full sm:w-72">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
@@ -208,15 +161,18 @@ const DCResistanceMeasurementTable: React.FC = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        
-        {/* Create Button */}
-        <Button onClick={handleCreateNew} className="w-full sm:w-auto">
+        <Button 
+          onClick={() => {
+            setEditRecord(null);
+            setOpenModal(true);
+          }}
+          className="w-full sm:w-auto"
+        >
           <Plus className="mr-2 h-4 w-4" />
           สร้างรายการใหม่
         </Button>
       </div>
 
-      {/* Table */}
       <div className="rounded-md border">
         <div className="overflow-x-auto">
           <Table>
@@ -254,7 +210,7 @@ const DCResistanceMeasurementTable: React.FC = () => {
                         <Button variant="ghost" size="sm" onClick={() => handleView(record)}>
                           <Eye className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="sm" onClick={() => handleEdit(record)}>
+                        <Button variant="ghost" size="sm" onClick={() => handleOpenEdit(record)}>
                           <Edit className="h-4 w-4" />
                         </Button>
                         <Button variant="ghost" size="sm" onClick={() => setConfirmDelete(record.id)}>
@@ -270,7 +226,6 @@ const DCResistanceMeasurementTable: React.FC = () => {
         </div>
       </div>
 
-      {/* Pagination */}
       {filteredRecords.length > 0 && (
         <Pagination className="mt-4">
           <PaginationContent>
@@ -284,7 +239,6 @@ const DCResistanceMeasurementTable: React.FC = () => {
                 className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
               />
             </PaginationItem>
-            
             {getPageNumbers().map((page, index) => (
               page === null ? (
                 <PaginationItem key={`ellipsis-${index}`}>
@@ -305,7 +259,6 @@ const DCResistanceMeasurementTable: React.FC = () => {
                 </PaginationItem>
               )
             ))}
-            
             <PaginationItem>
               <PaginationNext 
                 href="#" 
@@ -320,40 +273,33 @@ const DCResistanceMeasurementTable: React.FC = () => {
         </Pagination>
       )}
 
-      {/* Form Modal */}
+      {/* Modal for create/edit/view */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-[98vw] w-full xl:max-w-[1600px] h-[92vh] flex flex-col p-0">
-          <DialogHeader className="px-8 pt-6 pb-4 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
             <DialogTitle>
-              {formViewOnly ? 'ข้อมูล DC Resistance Measurement' : editRecord ? 'แก้ไข DC Resistance Measurement' : 'เพิ่ม DC Resistance Measurement'}
+              {editRecord?.viewOnly
+                ? "ข้อมูล Oil Aging"
+                : editRecord
+                  ? "แก้ไข Oil Aging"
+                  : "เพิ่ม Oil Aging"}
             </DialogTitle>
             <DialogDescription>
-              ฟอร์มสำหรับการจัดการข้อมูลการทดสอบความต้านทานกระแสตรง
+              กรอกข้อมูลการทดสอบอายุน้ำมัน
             </DialogDescription>
           </DialogHeader>
-          <div className="flex-1 overflow-auto px-8 pb-8 pt-4 bg-gradient-to-br from-background to-muted/20">
-            <DCResistanceMeasurementForm
-              initialData={editRecord ? {
-                general: {
-                  transformer: editRecord.transformer,
-                  inspector: editRecord.inspector,
-                  testType: editRecord.testType,
-                  inspectionDate: editRecord.inspectionDate,
-                  workOrderNo: editRecord.workOrderNo
-                },
-                hv: [], // empty -> generated inside form
-                lv: [],
-                tv: []
-              } : undefined}
-              onSubmit={handleFormSubmit}
-              onCancel={() => { setOpenModal(false); setEditRecord(null); }}
-              viewOnly={formViewOnly}
-            />
-          </div>
+          <OilAgingForm
+            initialData={editRecord}
+            onSubmit={handleCreateOrUpdate}
+            onCancel={() => {
+              setOpenModal(false);
+              setEditRecord(null);
+            }}
+          />
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
+      {/* Confirm Delete Dialog */}
       <Dialog open={confirmDelete !== null} onOpenChange={() => setConfirmDelete(null)}>
         <DialogContent className="max-w-md">
           <DialogHeader>
@@ -374,6 +320,8 @@ const DCResistanceMeasurementTable: React.FC = () => {
       </Dialog>
     </div>
   );
+
+// (Removed duplicate table and pagination rendering)
 };
 
-export default DCResistanceMeasurementTable;
+export default OilAgingTable;

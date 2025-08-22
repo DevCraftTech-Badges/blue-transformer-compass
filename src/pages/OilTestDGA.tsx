@@ -1,11 +1,11 @@
 import React from 'react';
+import OilDGATable from '@/components/oilDGA/OilDGATable';
 import Layout from '@/components/layout/Layout';
-import OilAgingTable from '@/components/oil-aging/oil_aging_table';
 import { Link } from 'react-router-dom';
-import { ChevronRight, FileType } from 'lucide-react';
+import { ChevronRight, TestTube } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const OilAgingPage: React.FC = () => {
+const OilTestDGA: React.FC = () => {
   return (
     <Layout>
       <div className="p-6 space-y-6 animate-fade-in">
@@ -16,19 +16,17 @@ const OilAgingPage: React.FC = () => {
           className="flex flex-col space-y-2"
         >
           <div className="flex items-center text-sm text-muted-foreground mb-2">
-            <Link to="/oil-test" className="hover:text-transformer-primary transition-colors">
-              ผลทดสอบทางน้ำมัน
-            </Link>
+            <Link to="/oil-test" className="hover:text-transformer-primary transition-colors">ผลทดสอบทางน้ำมัน</Link>
             <ChevronRight className="h-4 w-4 mx-1" />
-            <span>Oil Aging</span>
+            <span>Oil DGA</span>
           </div>
           <div className="flex items-center space-x-3">
-            <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-              <FileType className="h-6 w-6 text-green-600" />
+            <div className="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center">
+              <TestTube className="h-6 w-6 text-indigo-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-transformer-dark">Oil Aging</h1>
-              <p className="text-muted-foreground">ข้อมูลผลการทดสอบอายุน้ำมัน</p>
+              <h1 className="text-2xl font-bold text-transformer-dark">Oil DGA</h1>
+              <p className="text-muted-foreground">ข้อมูลผลวิเคราะห์ก๊าซละลายในน้ำมัน</p>
             </div>
           </div>
         </motion.div>
@@ -37,11 +35,11 @@ const OilAgingPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <OilAgingTable />
+          <OilDGATable />
         </motion.div>
       </div>
     </Layout>
   );
 };
 
-export default OilAgingPage;
+export default OilTestDGA;
