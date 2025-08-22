@@ -3,14 +3,8 @@ import { Plus, Search, Eye, Edit, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogDescription,
-  DialogFooter,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import TwoWindingInsulationMeasurementForm from './TwoWindingInsulationMeasurementForm';
 import {
   Pagination,
   PaginationContent,
@@ -299,218 +293,27 @@ const TwoWindingInsulationMeasurementTable: React.FC = () => {
 
       {/* Form Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="max-w-[98vw] w-full xl:max-w-[1400px] h-[90vh] flex flex-col p-0">
+          <DialogHeader className="px-8 pt-6 pb-4 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <DialogTitle>
-              {editRecord?.viewOnly 
-                ? "ข้อมูล Two Winding Insulation Measurement" 
-                : editRecord 
-                  ? "แก้ไข Two Winding Insulation Measurement" 
-                  : "เพิ่ม Two Winding Insulation Measurement"}
+              {editRecord?.viewOnly
+                ? 'ข้อมูล Two Winding Insulation Measurement'
+                : editRecord
+                  ? 'แก้ไข Two Winding Insulation Measurement'
+                  : 'เพิ่ม Two Winding Insulation Measurement'}
             </DialogTitle>
             <DialogDescription>
               ฟอร์มสำหรับการจัดการข้อมูลการทดสอบฉนวนหม้อแปลงสองขดลวด
             </DialogDescription>
           </DialogHeader>
-
-          <div className="space-y-6 py-4">
-            {/* Zone 1: General Information */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">ข้อมูลทั่วไป</h3>
-              
-              <div className="grid grid-cols-2 gap-6">
-                {/* Left Column */}
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">หม้อแปลงไฟฟ้า</label>
-                    <select className="w-full p-2 border rounded-md">
-                      <option value="">เลือกหม้อแปลง</option>
-                      <option value="TR-001">TR-001</option>
-                      <option value="TR-002">TR-002</option>
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">รูปแบบการทดสอบ</label>
-                    <select className="w-full p-2 border rounded-md">
-                      <option value="">เลือกรูปแบบ</option>
-                      <option value="Standard">Standard Test</option>
-                      <option value="Emergency">Emergency Test</option>
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">เลขที่คำสั่งปฏิบัติงาน</label>
-                    <select className="w-full p-2 border rounded-md">
-                      <option value="">เลือกคำสั่งงาน</option>
-                      <option value="WO-2024-001">WO-2024-001</option>
-                      <option value="WO-2024-002">WO-2024-002</option>
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Ambient Temp. (°C)</label>
-                    <Input type="number" placeholder="อุณหภูมิ" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Humidity (%)</label>
-                    <Input type="number" placeholder="ความชื้น" />
-                  </div>
-                </div>
-
-                {/* Right Column */}
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">ผู้ตรวจสอบ</label>
-                    <Input placeholder="ชื่อผู้ตรวจสอบ" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">วันที่ตรวจสอบ</label>
-                    <Input type="date" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Oil Temp. (°C)</label>
-                    <Input type="number" placeholder="อุณหภูมิน้ำมัน" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Wdg Temp. (°C)</label>
-                    <Input type="number" placeholder="อุณหภูมิ" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Weather</label>
-                    <Input placeholder="สภาพอากาศ" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Zone 2: INSULATION RESISTANCE MEASUREMENT */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">INSULATION RESISTANCE MEASUREMENT</h3>
-              
-              <div className="border rounded-lg overflow-hidden">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Vdc.</TableHead>
-                      <TableHead>at 1st Min</TableHead>
-                      <TableHead>at 10th Min</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
-
-            {/* Zone 3: INSULATION POWER FACTOR AND CAPACITANCE MEASUREMENT */}
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">INSULATION POWER FACTOR AND CAPACITANCE MEASUREMENT</h3>
-                <div className="flex gap-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">COR 20°C</label>
-                    <Input type="number" className="w-24" placeholder="0.0" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">TEST (kV)</label>
-                    <Input type="number" className="w-24" placeholder="0.0" />
-                  </div>
-                </div>
-              </div>
-              
-              <div className="border rounded-lg overflow-hidden">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Type</TableHead>
-                      <TableHead>CURRENT (mA) AVG.</TableHead>
-                      <TableHead>WATT AVG.</TableHead>
-                      <TableHead>% POWER FACTOR AVG.</TableHead>
-                      <TableHead>COR 20°C</TableHead>
-                      <TableHead>CAP (pF) AVG.</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {['H.V.-L.V.', 'H.V.-G', 'L.V.-G', 'L.V.-H.V.'].map((type, index) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-medium">{type}</TableCell>
-                        <TableCell>
-                          <Input type="number" placeholder="0.0" />
-                        </TableCell>
-                        <TableCell>
-                          <Input type="number" placeholder="0.0" />
-                        </TableCell>
-                        <TableCell>
-                          <Input type="number" placeholder="0.0" />
-                        </TableCell>
-                        <TableCell>
-                          <Input type="number" placeholder="0.0" />
-                        </TableCell>
-                        <TableCell>
-                          <Input type="number" placeholder="0.0" />
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                    <TableRow className="bg-muted/50">
-                      <TableCell className="font-medium">CALCULATED RESULT</TableCell>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                      <TableCell>
-                        <Input type="number" placeholder="0.0" />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
+          <div className="flex-1 overflow-auto px-8 pb-8 pt-4 bg-gradient-to-br from-background to-muted/20">
+            <TwoWindingInsulationMeasurementForm
+              initialData={editRecord ? { general: { transformer: editRecord.transformer, inspector: editRecord.inspector, testType: editRecord.testType, inspectionDate: editRecord.inspectionDate, workOrderNo: editRecord.workOrderNo } } : undefined}
+              onSubmit={(formData)=>{ handleCreateOrUpdate({ ...formData.general, inspectionDate: formData.general.inspectionDate }); }}
+              onCancel={()=>{ setOpenModal(false); setEditRecord(null); }}
+              viewOnly={editRecord?.viewOnly}
+            />
           </div>
-
-          <DialogFooter className="flex gap-2 justify-end">
-            <Button variant="outline" onClick={() => setOpenModal(false)}>
-              ยกเลิก
-            </Button>
-            <Button onClick={() => setOpenModal(false)}>
-              บันทึก
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 

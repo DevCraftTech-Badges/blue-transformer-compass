@@ -8,37 +8,37 @@ import { motion } from 'framer-motion';
 const oilTestTypes = [
   {
     title: 'Oil Aging',
-    path: '/oil-aging',
+    path: '/oil-test/oil-aging',
     icon: <Droplets className="w-10 h-10 text-blue-500 mb-4" />,
     description: 'ตรวจสอบการเสื่อมสภาพของน้ำมัน'
   },
   {
     title: 'Oil DGA',
-    path: '/oil-dga',
+    path: '/oil-test/oil-dga',
     icon: <TestTube className="w-10 h-10 text-indigo-500 mb-4" />,
     description: 'วิเคราะห์ก๊าซละลายในน้ำมัน'
   },
   {
     title: 'Oil Furan',
-    path: '/oil-furan',
+    path: '/oil-test/oil-furan',
     icon: <Activity className="w-10 h-10 text-purple-500 mb-4" />,
     description: 'ตรวจสอบสารประกอบฟูราน'
   },
   {
     title: 'Oil Contamination',
-    path: '/oil-contamination',
+    path: '/oil-test/oil-contamination',
     icon: <FileText className="w-10 h-10 text-orange-500 mb-4" />,
     description: 'วิเคราะห์การปนเปื้อนในน้ำมัน'
   },
   {
     title: 'OLTC DGA',
-    path: '/oltc-dga',
+    path: '/oil-test/oltc-dga',
     icon: <Gauge className="w-10 h-10 text-green-500 mb-4" />,
     description: 'วิเคราะห์ก๊าซละลายใน OLTC'
   },
   {
     title: 'OLTC Oil Contamination',
-    path: '/oltc-oil-contamination',
+    path: '/oil-test/oltc-oil-contamination',
     icon: <Settings className="w-10 h-10 text-red-500 mb-4" />,
     description: 'ตรวจสอบการปนเปื้อนใน OLTC'
   }

@@ -1,3 +1,13 @@
+import OilDGA from "@/pages/OilDGA";
+import OilFuran from "@/pages/OilFuran";
+import OilContamination from "@/pages/OilContamination";
+import OltcDGA from "@/pages/OltcDGA";
+import OltcOilContamination from "@/pages/OltcOilContamination";
+import OilTestDGA from "@/pages/OilTestDGA";
+import OilTestFuranPage from "@/pages/OilTestFuran";
+import OilTestContaminationPage from "@/pages/OilTestContamination";
+import OilAgingPage from "@/pages/OilAging";
+import OilTestAging from "@/pages/OilTestAging";
 
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -72,6 +82,8 @@ import CalculationResultsPage from "@/pages/CalculationResults";
 import OilDeliveryTimePage from "@/pages/OilDeliveryTime";
 import DesignPage from "@/pages/Design";
 import EconomicConsiderationPage from "@/pages/EconomicConsideration";
+import TransformerInspectionPage from "@/pages/TransformerInspection";
+import LoginPage from "@/pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -132,9 +144,20 @@ const App = () => (
           <Route path="/factor-setting" element={<FactorSettingPage />} />
           <Route path="/transformer-price-and-loss" element={<TransformerPriceAndLossPage />} />
           <Route path="/transformer-information" element={<TransformerInformationPage />} />
+          <Route path="/transformer-inspection" element={<TransformerInspectionPage />} />
           <Route path="/transformer-relocation" element={<TransformerRelocation />} />
           <Route path="/transformer-abnormality" element={<TransformerAbnormality />} />
           <Route path="/oil-test" element={<OilTest />} />
+          <Route path="/oil-test/oil-aging" element={<OilTestAging />} />
+          <Route path="/oil-test/oil-dga" element={<OilTestDGA />} />
+          <Route path="/oil-furan" element={<OilFuran />} />
+          <Route path="/oil-test/oil-furan" element={<OilTestFuranPage />} />
+          <Route path="/oil-contamination" element={<OilContamination />} />
+          <Route path="/oil-test/oil-contamination" element={<OilTestContaminationPage />} />
+          <Route path="/oltc-dga" element={<OltcDGA />} />
+          <Route path="/oil-test/oltc-dga" element={<OltcDGA />} />
+          <Route path="/oltc-oil-contamination" element={<OltcOilContamination />} />
+          <Route path="/oil-test/oltc-oil-contamination" element={<OltcOilContamination />} />
           <Route path="/oltc-maintenance" element={<OltcMaintenance />} />
           <Route path="/oil-contact" element={<OilContact />} />
           <Route path="/view-all-test-results" element={<ViewAllTestResults />} />
@@ -148,6 +171,7 @@ const App = () => (
           <Route path="/oil-delivery-time" element={<OilDeliveryTimePage />} />
           <Route path="/design" element={<DesignPage />} />
           <Route path="/economic-consideration" element={<EconomicConsiderationPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

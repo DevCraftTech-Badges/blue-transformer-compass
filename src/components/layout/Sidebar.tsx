@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Home, BarChart, Database, Settings, Upload, Star, TrendingUp, Package, User, Book, Clock, LogOut, Search, Wrench, FileText, Timer, Zap } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 interface DropdownItem {
   title: string;
@@ -21,6 +21,11 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ open }) => {
   const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({});
   const location = useLocation();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('employeeNo');
+    navigate('/login');
+  };
 
   const toggleDropdown = (title: string) => {
     setExpandedItems(prev => ({
@@ -233,18 +238,32 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
 
       <div className="mt-auto py-2 border-t border-sidebar-border/30">
         <div className="space-y-1 px-3">
-          {bottomNavItems.map((item, index) => (
-            <Link 
-              to={item.link || '#'} 
-              key={index}
-              className={`sidebar-nav-item ${
-                isActiveLink(item.link || '') ? 'bg-white/10' : ''
-              }`}
-            >
-              {item.icon}
-              {open && <span>{item.title}</span>}
-            </Link>
-          ))}
+          {bottomNavItems.map((item, index) => {
+            if (item.title === 'ออกจากระบบ') {
+              return (
+                <button
+                  key={index}
+                  onClick={handleLogout}
+                  className="sidebar-nav-item w-full text-left hover:bg-white/10"
+                >
+                  {item.icon}
+                  {open && <span>{item.title}</span>}
+                </button>
+              );
+            }
+            return (
+              <Link
+                to={item.link || '#'}
+                key={index}
+                className={`sidebar-nav-item ${
+                  isActiveLink(item.link || '') ? 'bg-white/10' : ''
+                }`}
+              >
+                {item.icon}
+                {open && <span>{item.title}</span>}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </aside>
