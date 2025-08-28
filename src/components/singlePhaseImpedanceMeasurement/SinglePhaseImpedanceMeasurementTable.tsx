@@ -19,14 +19,35 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import SPIForm from '@/components/singlePhaseImpedanceMeasurement/SPIForm';
+
+type SPIListRecord = {
+  id: number;
+  transformer: string;
+  egatSN: string;
+  testType: string;
+  inspectionDate: string; // YYYY-MM-DD
+  workOrderNo: string;
+  inspector: string;
+};
+
+type CreateUpdatePayload = {
+  transformer?: string;
+  testType?: string;
+  inspectionDate?: string | Date;
+  workOrderNo?: string;
+  inspector?: string;
+};
+
+type EditState = (SPIListRecord & { viewOnly?: boolean }) | null;
 
 const SinglePhaseImpedanceMeasurementTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
-  const [editRecord, setEditRecord] = useState<any>(null);
+  const [editRecord, setEditRecord] = useState<EditState>(null);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
-  const [records, setRecords] = useState([
+  const [records, setRecords] = useState<SPIListRecord[]>([
     {
       id: 1,
       transformer: "TR-001",
@@ -93,18 +114,33 @@ const SinglePhaseImpedanceMeasurementTable: React.FC = () => {
     setOpenModal(true);
   };
 
-  const handleCreateOrUpdate = (formData: any) => {
+  const handleCreateOrUpdate = (formData: CreateUpdatePayload) => {
+    const normalizeDate = (val: string | Date | undefined): string => {
+      if (!val) return "";
+      if (val instanceof Date) return val.toISOString().split('T')[0];
+      return val; // assume already YYYY-MM-DD
+    };
+
     if (editRecord) {
-      setRecords(records.map(record => 
-        record.id === editRecord.id ? { ...record, ...formData } : record
-      ));
+      setRecords(records.map((record) => {
+        if (record.id !== editRecord.id) return record;
+        return {
+          ...record,
+          transformer: formData.transformer ?? record.transformer,
+          testType: formData.testType ?? record.testType,
+          inspectionDate: normalizeDate(formData.inspectionDate) || record.inspectionDate,
+          workOrderNo: formData.workOrderNo ?? record.workOrderNo,
+          inspector: formData.inspector ?? record.inspector,
+        };
+      }));
     } else {
+      const normalizedDate = normalizeDate(formData.inspectionDate);
       const newRecord = {
         id: records.length + 1,
         transformer: formData.transformer || '',
         egatSN: `EGAT-2024-${String(records.length + 1).padStart(3, '0')}`,
         testType: formData.testType || '',
-        inspectionDate: formData.inspectionDate ? formData.inspectionDate.toISOString().split('T')[0] : '',
+        inspectionDate: normalizedDate,
         workOrderNo: formData.workOrderNo || '',
         inspector: formData.inspector || ''
       };
@@ -114,12 +150,12 @@ const SinglePhaseImpedanceMeasurementTable: React.FC = () => {
     setEditRecord(null);
   };
 
-  const handleView = (record: any) => {
+  const handleView = (record: SPIListRecord) => {
     setEditRecord({ ...record, viewOnly: true });
     setOpenModal(true);
   };
 
-  const handleEdit = (record: any) => {
+  const handleEdit = (record: SPIListRecord) => {
     setEditRecord(record);
     setOpenModal(true);
   };
@@ -297,31 +333,36 @@ const SinglePhaseImpedanceMeasurementTable: React.FC = () => {
         </Pagination>
       )}
 
-      {/* Form Modal - Placeholder */}
+      {/* Form Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-6xl sm:max-w-[95vw] md:max-w-[90vw] w-full max-h-[85vh]">
           <DialogHeader>
             <DialogTitle>
-              {editRecord?.viewOnly 
-                ? "ข้อมูล Single Phase Impedance Measurement" 
-                : editRecord 
-                  ? "แก้ไข Single Phase Impedance Measurement" 
-                  : "เพิ่ม Single Phase Impedance Measurement"}
+              {editRecord?.viewOnly
+                ? 'ข้อมูล Single Phase Impedance Measurement'
+                : editRecord
+                ? 'แก้ไข Single Phase Impedance Measurement'
+                : 'เพิ่ม Single Phase Impedance Measurement'}
             </DialogTitle>
             <DialogDescription>
-              ฟอร์มสำหรับการจัดการข้อมูลการทดสอบความต้านทานเฟสเดียว
+              ฟอร์มสำหรับการจัดการข้อมูลผลทดสอบความต้านทานเฟสเดียว
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <div className="text-center text-muted-foreground">
-              ฟอร์มจะถูกพัฒนาในขั้นตอนถัดไป
-            </div>
+          <div className="overflow-y-auto max-h-[70vh] pr-1">
+            <SPIForm
+              onCancel={() => setOpenModal(false)}
+              onSave={(data) => {
+                // For now, map minimal fields to list record
+                handleCreateOrUpdate({
+                  transformer: data.general.transformer,
+                  testType: data.general.testType,
+                  inspectionDate: data.general.inspectionDate,
+                  workOrderNo: data.general.workOrderNo,
+                  inspector: data.general.inspector,
+                });
+              }}
+            />
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setOpenModal(false)}>
-              ปิด
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 
