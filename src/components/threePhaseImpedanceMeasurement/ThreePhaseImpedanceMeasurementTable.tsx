@@ -19,14 +19,26 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import TPIMForm from './TPIMForm';
+
+type TPIMListRecord = {
+  id: number;
+  transformer: string;
+  egatSN: string;
+  testType: string;
+  inspectionDate: string;
+  workOrderNo: string;
+  inspector: string;
+  viewOnly?: boolean;
+};
 
 const ThreePhaseImpedanceMeasurementTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
-  const [editRecord, setEditRecord] = useState<any>(null);
+  const [editRecord, setEditRecord] = useState<TPIMListRecord | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
-  const [records, setRecords] = useState([
+  const [records, setRecords] = useState<TPIMListRecord[]>([
     {
       id: 1,
       transformer: "TR-001",
@@ -93,13 +105,30 @@ const ThreePhaseImpedanceMeasurementTable: React.FC = () => {
     setOpenModal(true);
   };
 
-  const handleCreateOrUpdate = (formData: any) => {
+  const handleCreateOrUpdate = (
+    formData: Partial<Pick<TPIMListRecord, "transformer" | "testType" | "workOrderNo" | "inspector">> & {
+      inspectionDate?: Date;
+    }
+  ) => {
     if (editRecord) {
-      setRecords(records.map(record => 
-        record.id === editRecord.id ? { ...record, ...formData } : record
-      ));
+      setRecords(
+        records.map((record) => {
+          if (record.id !== editRecord.id) return record;
+          const dateStr = formData.inspectionDate
+            ? formData.inspectionDate.toISOString().split('T')[0]
+            : record.inspectionDate;
+          return {
+            ...record,
+            transformer: formData.transformer ?? record.transformer,
+            testType: formData.testType ?? record.testType,
+            inspectionDate: dateStr,
+            workOrderNo: formData.workOrderNo ?? record.workOrderNo,
+            inspector: formData.inspector ?? record.inspector,
+          };
+        })
+      );
     } else {
-      const newRecord = {
+      const newRecord: TPIMListRecord = {
         id: records.length + 1,
         transformer: formData.transformer || '',
         egatSN: `EGAT-2024-${String(records.length + 1).padStart(3, '0')}`,
@@ -114,12 +143,12 @@ const ThreePhaseImpedanceMeasurementTable: React.FC = () => {
     setEditRecord(null);
   };
 
-  const handleView = (record: any) => {
+  const handleView = (record: TPIMListRecord) => {
     setEditRecord({ ...record, viewOnly: true });
     setOpenModal(true);
   };
 
-  const handleEdit = (record: any) => {
+  const handleEdit = (record: TPIMListRecord) => {
     setEditRecord(record);
     setOpenModal(true);
   };
@@ -297,10 +326,10 @@ const ThreePhaseImpedanceMeasurementTable: React.FC = () => {
         </Pagination>
       )}
 
-      {/* Form Modal - Placeholder */}
+      {/* Form Modal */}
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
+        <DialogContent className="max-w-[98vw] w-full xl:max-w-[1600px] h-[92vh] flex flex-col p-0">
+          <DialogHeader className="px-8 pt-6 pb-4 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <DialogTitle>
               {editRecord?.viewOnly 
                 ? "ข้อมูล Three Phase Impedance Measurement" 
@@ -309,19 +338,26 @@ const ThreePhaseImpedanceMeasurementTable: React.FC = () => {
                   : "เพิ่ม Three Phase Impedance Measurement"}
             </DialogTitle>
             <DialogDescription>
-              ฟอร์มสำหรับการจัดการข้อมูลการทดสอบความต้านทานสามเฟส
+              ฟอร์มสำหรับการจัดการข้อมูลผลทดสอบความต้านทานสามเฟส
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <div className="text-center text-muted-foreground">
-              ฟอร์มจะถูกพัฒนาในขั้นตอนถัดไป
-            </div>
+          <div className="flex-1 overflow-auto px-8 pb-8 pt-4 bg-gradient-to-br from-background to-muted/20"> 
+            <TPIMForm
+              onSave={(data) => {
+                // Map a few general fields for table display
+                const dateStr = data.general.inspectionDate;
+                const dateVal = dateStr ? new Date(dateStr) : undefined;
+                handleCreateOrUpdate({
+                  transformer: data.general.transformer,
+                  testType: data.general.testType,
+                  inspectionDate: dateVal,
+                  workOrderNo: data.general.workOrderNo,
+                  inspector: data.general.inspector,
+                });
+              }}
+              onCancel={() => setOpenModal(false)}
+            />
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setOpenModal(false)}>
-              ปิด
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 
